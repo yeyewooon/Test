@@ -2,15 +2,17 @@ package com.hype.dto;
 
 public class ProductDTO {
 	private int product_seq;
+	private String product_code;
 	private String product_name;
 	private int product_price;
 	private String category;
 	private String product_content;
 	
 	public ProductDTO() {}
-	public ProductDTO(int product_seq, String product_name, int product_price, String categoy, String product_content) {
+	public ProductDTO(int product_seq,String product_code, String product_name, int product_price, String categoy, String product_content) {
 		super();
 		this.product_seq = product_seq;
+		this.product_code = product_code;
 		this.product_name = product_name;
 		this.product_price = product_price;
 		this.category = categoy;
@@ -21,6 +23,12 @@ public class ProductDTO {
 	}
 	public void setProduct_seq(int product_seq) {
 		this.product_seq = product_seq;
+	}
+	public String getProduct_code() {
+		return product_code;
+	}
+	public void setProduct_code(String product_code) {
+		this.product_code = product_code;
 	}
 	public String getProduct_name() {
 		return product_name;
@@ -48,7 +56,7 @@ public class ProductDTO {
 	}
 	@Override
 	public String toString() {
-		return product_seq + " : " + product_name + " : "
+		return product_seq + " : " + product_code+ " : " + product_name + " : "
 				+ product_price + " : " + category + " : " + product_content;
 	}
 	
