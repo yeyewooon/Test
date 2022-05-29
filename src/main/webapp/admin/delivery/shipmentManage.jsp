@@ -21,7 +21,7 @@
 	integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
 	crossorigin="anonymous"></script>
 
-<link href="<%=request.getContextPath()%>/css/style.css" rel="stylesheet"/>
+<link href="<%=request.getContextPath()%>css/shipmentManage.css" rel="stylesheet"/>
 </head>
 <body>
 	<div class="adminContainer">
@@ -186,7 +186,7 @@
 
 
 
-<script src="<%=request.getContextPath()%>/js/index.js"></script>
+<script src="<%=request.getContextPath()%>script/shipmentManage.js"></script>
 
 
 
