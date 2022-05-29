@@ -26,7 +26,7 @@
       crossorigin="anonymous"
     ></script>
  <link href="<%=request.getContextPath()%>css/productInsert.css" rel="stylesheet"/>
-</head>
+</head> 
 <body>
 	  <div class="adminContainer">
       <div class="row adminNavbar d-flex align-items-center">
