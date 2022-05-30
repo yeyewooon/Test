@@ -24,6 +24,8 @@ public class PageController extends HttpServlet {
 		//옷 나열 페이지로 이동
 		if(uri.equals("/ToPage.page")){ 
 			response.sendRedirect("page.jsp");
+		}else if(uri.equals("/toReview.page")) {
+			response.sendRedirect("user/board/review.jsp");
 		}
 	}
 }
