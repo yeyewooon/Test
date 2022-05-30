@@ -22,142 +22,9 @@
      integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <!-- fontAwessome-->
     <script src="https://kit.fontawesome.com/241134516c.js" crossorigin="anonymous"></script>
-    
+    <link href="<%=request.getContextPath()%>css/page.css" rel="stylesheet"/>
     <title>Document</title>
 
-    <style>
-        i{
-            margin: 5px;
-        }
-        .navbar-light{
-            width: 100%;
-            position: fixed;
-            top: 0;
-            z-index: 1;
-            left: 0%;
-        }
-        /*네비바 속성*/
-        .navbar-anchor a{
-            text-decoration: none;
-            color: black;
-            font-weight: bold;
-        }
-        #userIcon {
-            text-align: right;
-            font-size: 25px;
-            padding: 5px;
-        }
-        #navbar-search{
-            text-align: right;
-        }
-        #searchIcon{
-            color: lightgrey;
-        }
-        /* 네비바 드롭다운 */
-        .dropdown-toggle:hover{color: #83bf7b; border-color: aliceblue;}
-        .dropdown:hover .dropdown-menu {
-        display: block;
-        margin-top: 0;
-        font-weight: bold;
-        }
-        /*헤더 메인 사진*/
-        body{padding-top: 100px;}
-        .header_img{
-            background-color: gainsboro;
-            border:2px solid black;
-            height:400px;
-        }
-
-        /* 상품 캐러셀 */
-        .content1{ 
-            border:2px solid black;
-            width:100%;
-            height:600px;
-        }
-        p{
-            font-size: 30px;
-            font-weight: 800;
-        }
-        a{
-            text-decoration: none;
-            color:black;
-        }
-        .productName{
-            text-align: center;
-            padding: 20px;
-        }
-        #carouselTop{
-            width: 1000px;
-        }
-
-        /*상품 캐러셀 (카드)*/
-        .card{
-            width:100%;
-            height:400px;
-            border: none;
-            padding:10px;
-        }
-        .cardimg{
-            width:100%;
-            height:300px;
-        }
-        .productName{
-            text-align: center;
-        }
-        /*상품 캐러셀(버튼)*/
-        .carousel-c-next {
-            padding: 0;
-            background: 0 0;
-            border: 0;
-            opacity: .5;
-            transition: opacity .15s ease;
-            float:right;
-        }
-        .carousel-c-prev{
-            padding: 0;
-            background: 0 0;
-            border: 0;
-            opacity: .5;
-            transition: opacity .15s ease;
-        }
-        img{width: 60px;}
-        /*content1*/
-        .imgBox #Cimg{
-            width: 400px;
-            height: 400px;
-            border: 1px solid lightgrey;
-        }
-        .imgBox:hover{
-            transform: scale(1.1);
-            background-color: lightgrey;
-        }
-        .imgBox{
-            padding-top: 30px;
-        }
-        .imgText{
-            font-size: 18px;
-        }
-        /* 3열 */
-        .clothes{padding-top: 60px;}
-        .imgContainer {
-            text-align: center;
-        }
-        /*풋터 영역*/
-        .footerBox{
-            height: 200px;
-
-        }
-        footer.footer {
-             padding-top: 4rem;
-             padding-bottom: 4rem;
-        }
-        .footer a{
-            text-decoration: none;
-            color: black;
-            font-weight: 40px;
-            font-weight: bold;
-        }
-    </style>
 </head>
 <body>
     <div class="container-fluid">
@@ -209,7 +76,7 @@
     <div class="content1">
         <div class="row">
             <div class="col productName">
-                <p>하의1</p>
+                <p>랭킹</p>
             </div>
         </div>
     
@@ -244,7 +111,7 @@
                                     <div class="row">
                                         <div class="col">
                                             <div class="cardimg">
-                                                <img src="images/mztiger1.PNG" class="cardimg">
+                                                <img src="resources/mztiger1.PNG" class="cardimg">
                                             </div>
                                         </div>
                                     </div>
