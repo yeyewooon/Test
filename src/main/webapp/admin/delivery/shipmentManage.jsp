@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>상품 등록</title>
+<title>Insert title here</title>
 <script src="https://kit.fontawesome.com/f9358a6ceb.js"
 	crossorigin="anonymous"></script>
 <link
@@ -19,8 +19,8 @@
 <script src="https://code.jquery.com/jquery-3.6.0.js"
 	integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
 	crossorigin="anonymous"></script>
-<link href="<%=request.getContextPath()%>css/productInsert.css"
-	rel="stylesheet" />
+
+<link href="<%=request.getContextPath()%>css/shipmentManage.css" rel="stylesheet"/>
 </head>
 <body>
 	<div class="adminContainer">
@@ -107,95 +107,87 @@
 			</div>
 			<div class="col-md-10 adminMainContainer">
 				<div class="table firstTable">
-					<div class="col-md-10 adminMainContainer content-wrapper">
-						<form action="/insert.pc" method="post" id="insertForm">
-							<div class="content-header">
-								<h2>새 상품 등록</h2>
-							</div>
-							<div class="col d-none">
-								<input type="text" value="${dto.product_seq}" name="product_seq">
-							</div>
-							<div class="row content-body">
-								<div class="col-md-3 d-flex justify-content-start mb-5">
-									<h4>상품 카테고리</h4>
-								</div>
-								<div class="col-md-9 d-flex justify-content-start">
-									<select class="form-select" aria-label="Default select example">
-										<option selected>카테고리 설정</option>
-										<option value="1" name="category">맨투맨</option>
-										<option value="2" name="category">후드티</option>
-										<option value="3" name="category">셔츠</option>
-									</select>
-								</div>
-							</div>
-							<div class="row content-body">
-								<div class="col-md-3 d-flex justify-content-start mb-5">
-									<h4>상품 이름</h4>
-								</div>
-								<div class="col-md-9 d-flex justify-content-start">
-									<input type="text" id="product_name" name="product_name"
-										class="form-control" />
-								</div>
-							</div>
-							<div class="row content-body">
-								<div class="col-md-3 d-flex justify-content-start mb-5">
-									<h4>상품 가격</h4>
-								</div>
-								<div class="col-md-8 d-flex justify-content-start">
-									<input type="text" id="product_price" name="product_price"
-										onkeyup="inputNumberFormat(this) " class="form-control" />
-								</div>
-								<div class="col-md-1 d-flex justify-content-end price_text">
-									<h4>원</h4>
-								</div>
-							</div>
-							<div class="row content-body">
-								<div class="col-md-3 d-flex justify-content-start mb-5">
-									<h4>상품 코드</h4>
-								</div>
-								<div class="col-md-9 d-flex justify-content-start">
-									<input type="text" id="product_code" name="product_code"
-										class="form-control" />
-								</div>
-							</div>
-							<div class="row content-body">
-								<div class="col-md-3 d-flex justify-content-start mb-5">
-									<h4>상품 사이즈</h4>
-								</div>
-								<div class="col-md-9 d-flex justify-content-start">
-									<input type="text" id="product_size" name="product_size"
-										class="form-control" value="FREE" readonly />
-								</div>
-							</div>
-							<div class="row content-body">
-								<div class="col-md-3 d-flex justify-content-start mb-5">
-									<h4>상품 설명</h4>
-								</div>
-								<div class="col-md-9 d-flex justify-content-start">
-									<textarea type="text" id="product_content" name="product_content"
-										class="form-control"></textarea>
-								</div>
-							</div>
-							<div class="row content-body">
-								<div class="col-md-3 d-flex justify-content-start mb-5 mt-4">
-									<h4>이미지</h4>
-								</div>
-								<div class="col-md-9 d-flex justify-content-start">
-									<input class="form-control" type="file" name="product_file" id="product_file" multiple />
-								</div>
-							</div>
-							<div class="row content-body">
-								<div class="col-md-12 d-flex justify-content-end">
-									<button type="button" id="submitBtn"
-										class="btn btn-secondary btn-lg">등록</button>
-								</div>
-							</div>
-						</form>
+					<h3 class="text-center mt-3 firstTableTitle">배송 정보</h3>
+					
+					<!-- 검색 버튼 -->
+					<form action="" method="get">
+					<div class="input-group rounded w-25 searchMemberInput mt-2 mb-3">
+						<input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" /> 
+						<span class="input-group-text border-0" id="search-addon"> 
+							<i class="fas fa-search" id="searchIcon"></i>
+						</span>
 					</div>
+					</form>
+					
+					<div class="MemberContainer" style="border-top-width: 0px">
+						<table class="table table-striped memberTable text-center mt-3"
+							id="tableBox">
+							<thead>
+								<tr>
+									<th scope="col">주문번호</th>
+									<th scope="col">회원ID</th>
+									<th scope="col">배송지</th>
+									<th scope="col">주문 금액</th>
+									<th scope="col">배송 상태</th>
+									<th scope="col">주문일</th>
+									<th scope="col">수정</th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:choose>
+									<c:when test="${list.size() == 0}">
+										<tr>
+											<td colspan=7>등록된 정보가 없습니다.</td>
+										</tr>
+									</c:when>
+									<c:otherwise>
+										<c:forEach items="${list}" var="dto">
+											<tr>
+												<td class="align-middle">d42015</td>
+												<td class="align-middle">kh123</td>
+												<td class="align-middle">
+													<div class="d-flex align-self-center">
+														<input type="text" id="shipmentAddressInput"
+															class="form-control" value="파주시 파주읍 파주면 583-6"
+															aria-label="Username" aria-describedby="basic-addon1"
+															readonly />
+													</div>
+												</td>
+												<td class="align-middle">150000원</td>
+												<td class="align-middle"><span>상품준비중</span></td>
+												<td class="align-middle">2022년 05월 21일 18시 42분</td>
+												<td class="align-middle"><i
+													class="fa-solid fa-pencil shipmentModify"></i></td>
+											</tr>
+										</c:forEach>
+									</c:otherwise>
+								</c:choose>
+							</tbody>
+						</table>
+					</div>
+					<nav aria-label="Page navigation example">
+						<ul class="pagination justify-content-center">
+							<li class="page-item"><a class="page-link" href="#"
+								aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+							</a></li>
+							<li class="page-item"><a class="page-link" href="#">1</a></li>
+							<li class="page-item"><a class="page-link" href="#">2</a></li>
+							<li class="page-item"><a class="page-link" href="#">3</a></li>
+							<li class="page-item"><a class="page-link" href="#"
+								aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+							</a></li>
+						</ul>
+					</nav>
 				</div>
 			</div>
 		</div>
 	</div>
-	<script src="<%=request.getContextPath()%>script/productInsert.js"></script>
+
+
+
+<script src="<%=request.getContextPath()%>script/shipmentManage.js"></script>
+
+
+
 </body>
 </html>

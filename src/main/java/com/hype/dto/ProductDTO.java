@@ -9,7 +9,7 @@ public class ProductDTO {
 	private String product_content;
 	
 	public ProductDTO() {}
-	public ProductDTO(int product_seq, String product_name, String product_code, int product_price, String categoy, String product_content) {
+	public ProductDTO(int product_seq, String categoy, String product_name, int product_price, String product_code, String product_content) {
 		super();
 		this.product_seq = product_seq;
 		this.product_name = product_name;
