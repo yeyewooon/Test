@@ -306,7 +306,7 @@ a{
 					
 					<!-- 검색 버튼 -->				
 					<div class="input-group rounded w-25 searchMemberInput mt-2 mb-3">
-						<input type="search" class="form-control rounded" placeholder="Search" id="searchKeyword" /> 
+						<input type="search" class="form-control rounded" placeholder="배송 상태를 입력하세요" id="searchKeyword" /> 
 						<span class="input-group-text border-0" id="search-addon"> 
 							<i class="fas fa-search" id="searchIcon"></i>
 						</span>

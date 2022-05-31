@@ -29,7 +29,6 @@ public class ShipmentDAO {
 		}
 	}
 	
-	
 	// 배송 정보 화면 보여주기 
 	public ArrayList<OrderDTO> selectAll(int start, int end) throws Exception {
 		String sql = "select * from (select tbl_order.*, row_number() over(order by seq_order desc) as num from tbl_order)"
@@ -59,9 +58,8 @@ public class ShipmentDAO {
 		}
 	}
 	
-	// 배송 정보 수정페이지에서 뿌려줄 데이터들  
+	// 배송 정보 수정페이지에 뿌려줄 데이터들  
 	public ArrayList<OrderDTO> selectAllBySeq(int seq_order) throws Exception {
-	
 		String sql = "select * from tbl_order where seq_order = ?";
 		
 		try(Connection con = bds.getConnection();
@@ -89,8 +87,9 @@ public class ShipmentDAO {
 	// 배송 정보 데이터 수정
 	public int modify(OrderDTO dto) throws Exception{
 		String sql = "update tbl_order set order_name = ?, order_phone = ?, order_postCode = ?, order_address = ?, order_status = ? where seq_order=?";
+		
 		try(Connection con = bds.getConnection();
-				PreparedStatement pstmt = con.prepareStatement(sql)){
+			PreparedStatement pstmt = con.prepareStatement(sql)){
 
 			pstmt.setString(1, dto.getOrder_name());
 			pstmt.setString(2, dto.getOrder_phone());
@@ -128,16 +127,8 @@ public class ShipmentDAO {
 		}
 	}
 	
-	
-	// 날짜 변경
-	public String getStringDate(Date date) {
-		// 1900년 02월 02일 00시 00분 00초
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일 HH시 mm분 ss초");
-		return sdf.format(date);
-	}
-	
-	
-	// 페이지네이션 
+
+	// 페이지네이션 Map
 	public HashMap<String, Object> getPageNavi(int curPage) throws Exception{
 		String sql = "select count(*) as totalCnt from tbl_order";
 		
@@ -147,38 +138,36 @@ public class ShipmentDAO {
 			ResultSet rs = pstmt.executeQuery();
 			rs.next();
 			
-			int totalCnt = rs.getInt("totalCnt"); // 전체 게시글의 개수
-			int recordCntPerPage = 10; // 한 페이지에 몇개의 데이터(게시글)을 띄워줄지
-			int naviCntPerPage = 5; // 네비바에 몇개 단위로 페이징을 구성할지
-			int pageTotalCnt = 0; // 총 몇 페이지가 나올지
+			int totalCnt = rs.getInt("totalCnt"); 
+			int recordCntPerPage = 10; 
+			int naviCntPerPage = 5; 
+			int pageTotalCnt = 0; 
 			
 			
-			if(totalCnt % recordCntPerPage > 0) { // 나머지가 생김(10의 배수가 아님x)
+			if(totalCnt % recordCntPerPage > 0) { 
 				pageTotalCnt = totalCnt / recordCntPerPage + 1;
 			}else {
 				pageTotalCnt = totalCnt / recordCntPerPage;
 			}
 			
-			/* 현재 페이지는 반드시 1 이상
-			 * 현재 페이지는 총 페이지의 개수를 넘어갈 수 없음  */
-			if(curPage < 1) { // 현재 페이지가 0이거나 혹은 음수일때
-				curPage = 1; // 무조건 첫페이지로 맞춰주기
-			}else if(curPage > pageTotalCnt) { // 현재 페이지가 총 페이지 수보다 크다면
-				curPage = pageTotalCnt; // 무조건 마지막 페이지로 맞춰주기 
+			if(curPage < 1) { 
+				curPage = 1; 
+			}else if(curPage > pageTotalCnt) { 
+				curPage = pageTotalCnt; 
 			}					
 			
 			
 			int startNavi = ((curPage-1) / naviCntPerPage) * naviCntPerPage + 1;
 			int endNavi = startNavi + naviCntPerPage - 1;
 			
-			// endNavi가 전체페이지를 넘어갈 수 없음
-			if(pageTotalCnt < endNavi) { // endNavi가 전체 페이지수보다 크다면
-				endNavi = pageTotalCnt; // endNavi를 마지막 페이지로 수정해주겠다. 
+			
+			if(pageTotalCnt < endNavi) { 
+				endNavi = pageTotalCnt; 
 			}
 			
-			// < > 모양을 넣어줄지 여부에 대한 검사
-			boolean needPrev = true; // startNavi가 1일때 needPrev가 false
-			boolean needNext = true; // endNavi가 마지막 페이지(전체 페이지)와 같을때 needNext가 false
+			
+			boolean needPrev = true; 
+			boolean needNext = true; 
 			
 			if(startNavi == 1) {
 				needPrev = false;
