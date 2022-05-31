@@ -106,7 +106,7 @@ $('#checkId').on('click', function () {
   }
 
   $.ajax({
-    url: '/checkId.mem',
+    url: '/ToCheckId.mem',
     type: 'post',
     data: { user_id: $('#user_id').val() },
     dataType: 'text',

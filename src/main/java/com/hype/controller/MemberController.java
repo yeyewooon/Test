@@ -1,14 +1,17 @@
 package com.hype.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.hype.dao.MemberDAO;
+import com.hype.dto.CartDTO;
 import com.hype.dto.MemberDTO;
 import com.hype.utills.EncryptionUtils;
 
@@ -29,9 +32,9 @@ public class MemberController extends HttpServlet {
 		String uri = request.getRequestURI();
 		System.out.println("요청 uri : " + uri);
 		
-		if(uri.equals("/toSignup.mem")) {
+		if(uri.equals("/ToSignup.mem")) {
 			response.sendRedirect("/member/signup.jsp");
-		}else if(uri.equals("/checkId.mem")) {
+		}else if(uri.equals("/ToCheckId.mem")) {
 			String user_id = request.getParameter("user_id");
 			System.out.println("user_id : " + user_id);
 			
@@ -50,7 +53,7 @@ public class MemberController extends HttpServlet {
 				e.printStackTrace();
 			}
 			
-		}else if(uri.equals("/signupProc.mem")) {
+		}else if(uri.equals("/ToSignupProc.mem")) {
 			String user_id = request.getParameter("user_id");
 			String user_password = request.getParameter("user_password");
 			String user_name = request.getParameter("user_name");
@@ -58,7 +61,7 @@ public class MemberController extends HttpServlet {
 			int user_postCode = Integer.parseInt(request.getParameter("user_postCode"));
 			String user_roadAddr = request.getParameter("user_roadAddr");
 			String user_detailAddr = request.getParameter("user_detailAddr");
-			int user_phone = Integer.parseInt(request.getParameter("user_phone"));
+			String user_phone = request.getParameter("user_phone");
 			String user_email = request.getParameter("user_email");
 			
 			System.out.println(user_id + user_password + user_name + user_date
@@ -77,6 +80,21 @@ public class MemberController extends HttpServlet {
 					System.out.println("회원가입실패");
 				}
 			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}else if(uri.equals("/ToCart.mem")) {
+			HttpSession session = request.getSession();
+			
+			MemberDTO dto = ((MemberDTO)request.getSession().getAttribute("loginSession"));
+			MemberDAO dao = new MemberDAO();
+			
+			try {
+				ArrayList<CartDTO> list = dao.selectAllCart(dto.getUser_id());
+				
+				request.setAttribute("list", list);
+				request.getRequestDispatcher("/member/cart.jsp").forward(request, response);
+				
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}

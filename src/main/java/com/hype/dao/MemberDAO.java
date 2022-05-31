@@ -3,12 +3,14 @@ package com.hype.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 
 import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 
+import com.hype.dto.CartDTO;
 import com.hype.dto.MemberDTO;
 
 public class MemberDAO {
@@ -37,7 +39,7 @@ private BasicDataSource bds;
 			pstmt.setInt(5, dto.getUser_postCode());
 			pstmt.setString(6, dto.getUser_roadAddr());
 			pstmt.setString(7, dto.getUser_detailAddr());
-			pstmt.setInt(8, dto.getUser_phone());
+			pstmt.setString(8, dto.getUser_phone());
 			pstmt.setString(9, dto.getUser_email());
 			
 			int rs = pstmt.executeUpdate();
@@ -66,4 +68,6 @@ private BasicDataSource bds;
 			}
 		}
 	}
+	
+	
 }
