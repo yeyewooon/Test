@@ -26,7 +26,7 @@ private BasicDataSource bds;
 		}
 	}
 	
-	public int signup(MemberDTO dto) throws Exception{
+	public int signup(MemberDTO dto) throws Exception{ // 회원가입 메소드
 		String sql = "insert into tbl_member values(?, ?, ?, ?, ?, ?, ?, ?, ?, default)";
 		
 		try(Connection con = bds.getConnection();
@@ -48,7 +48,7 @@ private BasicDataSource bds;
 		
 	}
 	
-	public boolean checkId(String id) throws Exception{
+	public boolean checkId(String id) throws Exception{ //중복검사 메소드
 		String sql = "select count(*) from tbl_member where user_id = ?";
 		
 		try(Connection con = bds.getConnection();
@@ -69,5 +69,81 @@ private BasicDataSource bds;
 		}
 	}
 	
+<<<<<<< HEAD
+=======
+	public MemberDTO login(String id, String pw) throws Exception{ //로그인 메소드
+		String sql = "select * from tbl_member where user_id = ? and user_password = ?";
+		
+		try(Connection con = bds.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql)){
+			
+			pstmt.setString(1, id);
+			pstmt.setString(2, pw);
+			
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next()) {
+				String user_name = rs.getString("user_name");
+				String user_date = rs.getString("user_date");
+				int user_postCode = rs.getInt("user_postCode");
+				String user_rodAddr = rs.getString("user_roadAddr");
+				String user_detailAddr = rs.getString("user_detailAddr");
+				String user_phone = rs.getString("user_phone");
+				String user_email = rs.getString("user_email");
+				String user_blacklist = rs.getString("user_blacklist");
+				
+				return new MemberDTO(id, null, user_name, user_date, user_postCode, user_rodAddr, user_detailAddr,
+						user_phone, user_email, user_blacklist);
+			}else {
+				return null;
+			}
+			
+		}
+	}
+	
+	public ArrayList<MemberDTO> findId(String name, String phone) throws Exception{ // 아이디 찾기 메소드
+		String sql = "select user_id from tbl_member where user_name = ? and user_phone = ?";
+		
+		try(Connection con = bds.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql)){
+			
+			pstmt.setString(1, name);
+			pstmt.setString(2, phone);
+			
+			ResultSet rs = pstmt.executeQuery();
+			ArrayList<MemberDTO> list = new ArrayList<>();
+			
+			while(rs.next()) {
+				String user_id = rs.getString("user_id");
+				list.add(new MemberDTO(user_id, null,null,null,0,null,null,null,null,null));
+			}
+			return list;
+			
+		}
+	}
+	
+	public int findPw(String user_id, String user_name) throws Exception{
+		String sql = "select count(*) from tbl_member where user_id = ? and user_name = ?";
+		
+		try(Connection con = bds.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql)){
+			
+			pstmt.setString(1, user_id);
+			pstmt.setString(2, user_name);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				return 1;
+			}else {
+				return 0;
+			}
+			
+		}
+		
+	}
+	
+	
+	
+>>>>>>> 007d2cc52215b55f23a572e6e30ae7be755f187b
 	
 }
