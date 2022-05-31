@@ -112,38 +112,38 @@ $(document).ready(function(){
 	});//findId 끝
 
 	
-	$("#btnFindPW").on("click", function() { //비밀번호찾기
-		if($("#findPw_name").val() === "" || ($("#findPw_id").val() === ""){
-			alert("이름 혹은 아이디를 입력해주세요");
-			return;
-		}
+// 	$("#btnFindPW").on("click", function() { //비밀번호찾기
+// 		if($("#findPw_name").val() === "" || ($("#findPw_id").val() === ""){
+// 			alert("이름 혹은 아이디를 입력해주세요");
+// 			return;
+// 		}
 		
-		let data = $("#findPwForm").serialize();
+// 		let data = $("#findPwForm").serialize();
 		
-		$.ajax({
-			url : "/findPw.mem"
-			, type : "post"
-			, data : data
-			, success : function(rs){
-				console.log("받아온 rs",rs);
-				if(rs == "exist"){	
-					$(".findPw_body").empty();
-					//prop("type", "password");
-					let input = $("<input>").addClass("form-control")
+// 		$.ajax({
+// 			url : "/findPw.mem"
+// 			, type : "post"
+// 			, data : data
+// 			, success : function(rs){
+// 				console.log("받아온 rs",rs);
+// 				if(rs == "exist"){	
+// 					$(".findPw_body").empty();
 					
+// 					let Pw = $("<input>").addClass("form-control").prop("type", "password").attr("name","pw").attr("id","pw");
+// 					let chekPw = $("<input>").addClass("form-control").prop("type", "password").attr("name","chekPw").attr("id","chekpw");
 					
-				}else if(rs === "no"){
-					alert("가입된 아이디가 없습니다.");
-				}
+// 				}else if(rs === "no"){
+// 					alert("가입된 아이디가 없습니다.");
+// 				}
 				
 				
-			}, error : function(e){
-				console.log(e);
-			}
+// 			}, error : function(e){
+// 				console.log(e);
+// 			}
 			
-		})
+// 		})
 		
-	});//findPw 끝
+// 	});//findPw 끝
 	
 	
 	
@@ -286,12 +286,12 @@ $(document).ready(function(){
           <h5 class="modal-title" id="staticBackdropLabel">비밀번호 찾기</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body findPw_body">   
+        <div class="modal-body findPw_body">
+       	 <form id="findPwForm" action="/findPw.mem" method="post">   
             <div class="row nameBox m-2">
                 <div class="col-3 d-flex justify-content-center">
                     <label for="name" class="form-label">이름</label>
                 </div>
-        <form id="findPwForm" action="/findPw.mem" method="post">
                 <div class="col-9 d-flex justify-content-center">
                     <input type="text" class="form-control" placeholder="ex)홍길동" name="findPw_name" id="findPW_name">
                 </div>
