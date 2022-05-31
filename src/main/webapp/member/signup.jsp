@@ -149,7 +149,7 @@
         </div>
       </div>
 
-      <form action="/ToSignupProc.mem" id="signupForm" method="post">
+      <form action="/signupProc.mem" id="signupForm" method="post">
       <table class="join_table">
         <colgroup>
           <col width="20%">

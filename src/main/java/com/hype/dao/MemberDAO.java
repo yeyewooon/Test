@@ -69,8 +69,6 @@ private BasicDataSource bds;
 		}
 	}
 	
-<<<<<<< HEAD
-=======
 	public MemberDTO login(String id, String pw) throws Exception{ //로그인 메소드
 		String sql = "select * from tbl_member where user_id = ? and user_password = ?";
 		
@@ -143,7 +141,34 @@ private BasicDataSource bds;
 	}
 	
 	
+	public ArrayList<CartDTO> selectAllCart(String id) throws Exception{
+		String sql = "select * from tbl_cart where user_id = ?";
+		
+		try(Connection con = bds.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql)){
+			
+			pstmt.setString(1, id);
+			ResultSet rs = pstmt.executeQuery();
+			
+			ArrayList<CartDTO> list = new ArrayList<>();
+			
+			while(rs.next()) {
+				int seq_cart = rs.getInt(1); 
+				int seq_product = rs.getInt(2);
+				String user_id = rs.getString(3);
+				String cart_name = rs.getString(4);
+				int cart_quantity = rs.getInt(5);
+				int cart_price = rs.getInt(6);
+				
+				list.add(new CartDTO(seq_cart, seq_product, user_id, cart_name, cart_quantity, cart_price));
+			}
+			return list;
+			
+		}
+	}
 	
->>>>>>> 007d2cc52215b55f23a572e6e30ae7be755f187b
+	
+	
+
 	
 }

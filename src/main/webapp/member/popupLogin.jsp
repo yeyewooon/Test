@@ -113,7 +113,7 @@ $(document).ready(function(){
 
 	
 	$("#btnFindPW").on("click", function() { //비밀번호찾기
-		if($("#findPw_name").val() === "" || ($("#findPw_id").val() === ""){
+		if( $("#findPw_name").val() === "" || ( $("#findPw_id").val() === "")){
 			alert("이름 혹은 아이디를 입력해주세요");
 			return;
 		}
@@ -145,6 +145,10 @@ $(document).ready(function(){
 		
 	});//findPw 끝
 	
+	$('#btnSignup').on("click", function() {
+		window.opener.location.href = "/toSignup.mem";
+		self.close();
+	})
 	
 	
 	
@@ -184,6 +188,14 @@ $(document).ready(function(){
                 <button type = "button" class = "btn btn-primary" id = "btnLogin">로그인</button>
             </div>
         </div>
+
+				<!-- 회원가입 버튼 -->
+				<div class = "row p-4">
+            <div class="col-12  d-flex justify-content-center">
+                <button type = "button" class = "btn btn-danger" id = "btnSignup">회원가입</button>
+            </div>
+        </div>
+
         <!-- 카카오 로그인 -->
         <div class = "row">
             <div class="col-12  d-flex justify-content-center kakaoLogin">

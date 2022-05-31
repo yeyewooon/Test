@@ -28,7 +28,7 @@
                 crossorigin="anonymous">
             <!-- fontAwessome-->
             <script src="https://kit.fontawesome.com/241134516c.js" crossorigin="anonymous"></script>
-            <link rel="stylesheet" href="<%=request.getContextPath()%>css/cart.css">
+            <link rel="stylesheet" href="<%=request.getContextPath()%>/member/css/cart.css">
             <title>장바구니</title>
 
         </head>
@@ -101,7 +101,7 @@
                         <c:choose>
                             <c:when test="${list.size() == 0}">
                                 <tr>
-                                    <td colspan="7">등록 된 게시물이 없습니다.</td>
+                                    <td colspan="8">장바구니에 담긴 물건이 없습니다.</td>
                                 </tr>
                             </c:when>
                             <c:otherwise>
@@ -109,7 +109,7 @@
                                     <tr>
                                         <th scope="row">${status.count}</th>
                                         <td><input type="checkbox"></td>
-                                        <td class="col-1"><a href=""><img class="productImg" src=" " alt=""></a></td>
+                                        <td class="col-1"><a href=""><img class="productImg" src="" alt=""></a></td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-12">
@@ -202,6 +202,6 @@
 
         </body>
 
-        <script src="<%=request.getContextPath()%>script/cart.js"></script>
+        <script src="<%=request.getContextPath()%>/member/script/cart.js"></script>
 
         </html>
