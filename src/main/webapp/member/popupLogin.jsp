@@ -23,30 +23,19 @@ integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52n
 <!-- fontAwessome-->
 <script src="https://kit.fontawesome.com/241134516c.js" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
- <style>
-	.container{width: 500px; height: 500px;}
-	.bi-x-lg{font-size: 30px;}
-	.inputBox{width: 400px; margin:auto;}
-	.btn{width: 300px;}
-	p{text-decoration-line: none; color:lightslategrey; cursor: pointer;}
-	  #btnFindID{
-            width:90%;
-        }
-        #findPw{
-            color:grey;
-        }
-</style>
+<!-- css -->
+<link rel="stylesheet" href="<%=request.getContextPath()%>/member/css/popupLogin.css">
 <script>
 $(document).ready(function(){
 	$("#btnCanlcel").on("click",function(){
 		self.close(); // 취소버튼 클릭 시 팝업 창닫기
 	});
-	
-	
+
+
 	$("#btnLogin").on("click", function() {
 		let id = $("#id").val();
 		let pw = $("#pw").val();
-		
+
 		if ($("#id").val() === "" || $("#pw").val() === "") {
 			alert("아이디 혹은 비밀번호를 정확히 입력하세요.");
 			return;
@@ -56,43 +45,43 @@ $(document).ready(function(){
 		$("#loginForm").submit();
 
 	});
-	
+
 	console.log("${rs}");
 	if("${rs}" === "ok"){
 		console.log("${rs}");
 		alert("로그인 성공!");
-		opener.document.location.href ="/index";
+		opener.document.location.href ="/Tohome";
 		self.close();	
-		
-		
+
+
 	}else if("${rs}" === "no"){
 		console.log("${rs}");
 		alert("로그인 실패!");
 	}
-	 
-	
+
+
 
 	$("#btnFindID").on("click", function() {
 		if( $("#find_name").val() === "" || $("#find_phone2").val() === "" || $("#find_phone3").val() === "" ){
 			alert("이름과 전화번호를 입력해주세요.");
 			return;
 		}
-		
+
 		let phone = $("#find_phone1 option:selected").val() + $("#find_phone2").val() + $("#find_phone3").val();
 		$("#find_phone").val(phone);
-		
+
 		let regexPhone = /[0-9]{11}/;
-		
+
 		if(!regexPhone.test(phone)){
 			alert("올바르지 않은 형식의 전화번호 입니다.");
 			return;
 		}
-		
+
 		let data = $("#findIdForm").serialize();
-		
-		
+
+
 		$.ajax({
-			
+	
 			url : "/findId.mem"
 			, type : "post"
 			, data : data
@@ -102,33 +91,64 @@ $(document).ready(function(){
 				if(id != "fail"){
 					$(".findId_body").css("display", "none");
 					$(".findId_hiddenbody").css("display", "block");
-					
+			
 					for(let data of id){
 						let rs = $("<p>").html(data.user_id);
 						let col = $("<div>").addClass("col d-flex justify-content-center").append(rs);
 						let row = $("<div>").addClass("row").append(col);
 						$("#findId_result").append(row);
 					}
-					
+			
 				}else{
 					alert("가입된 아이디가 없습니다.");
 				}
+		
+			}, error : function(e){
+				console.log(e);
+			}
+
+		})
+
+	});//findId 끝
+
+	
+	$("#btnFindPW").on("click", function() { //비밀번호찾기
+		if($("#findPw_name").val() === "" || ($("#findPw_id").val() === ""){
+			alert("이름 혹은 아이디를 입력해주세요");
+			return;
+		}
+		
+		let data = $("#findPwForm").serialize();
+		
+		$.ajax({
+			url : "/findPw.mem"
+			, type : "post"
+			, data : data
+			, success : function(rs){
+				console.log("받아온 rs",rs);
+				if(rs == "exist"){	
+					$(".findPw_body").empty();
+					//prop("type", "password");
+					let input = $("<input>").addClass("form-control")
+					
+					
+				}else if(rs === "no"){
+					alert("가입된 아이디가 없습니다.");
+				}
+				
 				
 			}, error : function(e){
 				console.log(e);
 			}
-		
-			
 			
 		})
 		
-	});//findId 끝지점
+	});//findPw 끝
+	
 	
 	
 	
 });//document.ready 종료
-
-	
 	
 </script>
 </head>
@@ -258,7 +278,7 @@ $(document).ready(function(){
   </div>
 
 <!-- 비밀번호찾기-->
-<form action="/findPw.mem" method="post">
+
 <div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -271,8 +291,9 @@ $(document).ready(function(){
                 <div class="col-3 d-flex justify-content-center">
                     <label for="name" class="form-label">이름</label>
                 </div>
+        <form id="findPwForm" action="/findPw.mem" method="post">
                 <div class="col-9 d-flex justify-content-center">
-                    <input type="text" class="form-control" placeholder="ex)홍길동" name="name" id="name">
+                    <input type="text" class="form-control" placeholder="ex)홍길동" name="findPw_name" id="findPW_name">
                 </div>
             </div>
             <div class="row phoneBox m-2 mt-4">
@@ -280,7 +301,7 @@ $(document).ready(function(){
                     <label for="id" class="form-label">아이디</label>
                 </div>
                 <div class="col-9 d-flex justify-content-center">
-                    <input type="text" class="form-control" name="find_id" id="find_id">
+                    <input type="text" class="form-control" name="findPw_id" id="findPw_id">
                 </div>
             </div> 
             <div class="row btns mt-4">
@@ -288,6 +309,7 @@ $(document).ready(function(){
                     <button type="button" class="btn btn-primary" id="btnFindPW">비밀번호 찾기</button>
                 </div>
             </div>
+        </form>
             <div class="row anchor mt-4">
                 <div class="col-12 d-flex justify-content-center">
                     <a href="" id="findID" data-bs-toggle="modal" data-bs-target="#staticBackdrop1" >아이디 찾기</a>
@@ -297,7 +319,7 @@ $(document).ready(function(){
       </div>
     </div>
   </div>
-  </form>
+ 
 </body>
-
+<%-- <script src="<%=request.getContextPath()%>script/popupLogin.js"></script> --%>
 </html>

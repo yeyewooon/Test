@@ -22,164 +22,15 @@ integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52n
  integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 <!-- fontAwessome-->
 <script src="https://kit.fontawesome.com/241134516c.js" crossorigin="anonymous"></script>
+<!-- css -->
+<link rel="stylesheet" href="<%=request.getContextPath()%>/home.css">
 </head>
-<style>
-/*네비바 속성*/
-i{	cursor: pointer;
-    margin: 5px;
-}
-.navbar-light{
-    width: 100%;
-    position: fixed;
-    top: 0;
-    z-index: 99;
-    left: 0%;
-}
-.navbar-anchor a{
-    text-decoration: none;
-    color: black;
-    font-weight: bold;
-}
-#userIcon {
-    text-align: center;
-    font-size: 25px;
-    padding: 5px;
-}
-#navbar-search{
-    text-align: right;
-}
-#searchIcon{
-    color: lightgrey;
-}
-/* 네비바 드롭다운 */
-.dropdown-toggle:hover{color: #83bf7b; border-color: aliceblue;}
-.dropdown:hover .nav-category {
-display: block;
-margin-top: 0;
-font-weight: bold;
-}
-
-/* 캐러셀*/
-.carousel-C {
-     position: absolute;
-     right: 15%;
-     bottom: 1.25rem;
-     left: 15%;
-     padding-top: 3.25rem;
-     padding-bottom: 1.25rem;
-     color: #fff;
-     text-align: center;
-}
-
-.carousel-inner{
-    position: relative;
-    
-    cursor: pointer;
-}
-.carouselFimg{
-    min-width: 100%;
-    min-height: 500px;
-    max-height: 880px;
-}
-
-.carouselImg{
-    min-width: 100%;
-    max-height: 900px;
-}
-.carousel-c-next {
-    position: absolute;
-    bottom: 1%;
-    right: 220px;
-    z-index: 1;
-    display: flex;
-    align-items: center;
-    /* justify-content: center; */
-    width: 15%;
-    padding: 0;
-    color: white;
-    text-align: center;
-    background: 0 0;
-    border: 0;
-    transition: opacity .15s ease;
-    text-shadow: 1px 1px 2px rgb(0 0 0 / 50%);
-    cursor: pointer;
-}
-.carousel-c-prev{
-    position: absolute;
-    bottom: 1%;
-    left: 220px;
-    z-index: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 15%;
-    padding: 0;
-    color: white;
-    text-align: center;
-    background: 0 0;
-    border: 0;
-    transition: opacity .15s ease;
-    text-shadow: 1px 1px 2px rgb(0 0 0 / 50%);
-    cursor: pointer;
-}
-.carousel-indicators{
-    position: absolute;
-    display: inline;
-    margin: 0;
-    margin-bottom: 10px;
-    padding: 0;
-    width: 170px;
-    left: 50%;
-    transform: translate(-50%, 0);
-    
-}
-
-
-.textBox{
-    position: absolute;
-    text-align: left;
-    top: 50%;
-    left: 15%;
-    transform: translateY(-50%);
-    color: white;
-    font-family: 'Nanum Gothic', sans-serif;
-    text-shadow: 1px 1px 2px rgb(0 0 0 / 80%);
-}
-.textTitle{
-    font-size: 35px;
-    text-shadow: 1px 1px 2px rgb(0 0 0 / 80%);
-}
-
-.viewMore{
-    border: transparent;
-    width: 180px;
-    height: 60px;
-    background-color: rgba(255,255,255,0.85);
-    font-family: 'Nanum Gothic', sans-serif;
-    font-weight: bold;
-    box-shadow: 1px 1px 4px rgb(0 0 0 / 20%);
-}
- /*풋터 영역*/
- .footerBox{height: 200px;}
- footer.footer {
-      padding-top: 4rem;
-      padding-bottom: 4rem;
- }
- .footer a{
-      text-decoration: none;
-      color: black;
-      font-weight: 40px;
-      font-weight: bold;
- }
-        
-</style>
-
 <body>
 <div class="container MainBox">
      <!-- 네비바 -->
      <nav class="navbar navbar-light bg-light fixed">
          <div class="container">
-             <a class="navbar-brand" href="/toPay.pay" id="logo">로고</a>
+             <a class="navbar-brand" href="/Tohome" id="logo">로고</a>
              <div class="col-md-1  navbar-anchor"><a href="/">COMPANY</a></div>
              <div class="dropdown ">
                  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-weight: bold;">
@@ -223,13 +74,13 @@ font-weight: bold;
 				document.getElementById("loginIcon2").onclick = function(){
 					let url = "/toLogin.mem";
 					let name = "로그인";
-					let option = "width=500, height=500, left=700, top=300";
+					let option = "width=600, height=700, left=700, top=300";
 					window.open(url, name, option);
 					}
 				document.getElementById("loginIcon").onclick = function(){
 					let url = "/toLogin.mem";
 					let name = "로그인";
-					let option = "width=500, height=500, left=700, top=300";
+					let option = "width=600, height=700, left=700, top=300";
 					window.open(url, name, option);
 					}
 				</script>
