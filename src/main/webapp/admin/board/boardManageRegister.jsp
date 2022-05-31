@@ -4,11 +4,8 @@
 <html>
 <head>
 <meta charset="EUC-KR">
-<<<<<<< HEAD
-<title>Insert title here</title>
-=======
-<title>문의 관리</title>
- <script
+<title>배송 문의</title>
+<script
       src="https://kit.fontawesome.com/f9358a6ceb.js"
       crossorigin="anonymous"
     ></script>
@@ -28,8 +25,7 @@
       integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
       crossorigin="anonymous"
     ></script>
-<link href="<%=request.getContextPath()%>css/boardManage.css" rel="stylesheet"/>
->>>>>>> 7ba77a9516e91d826e59737b05896dcb861e1211
+    <link href="<%=request.getContextPath()%>css/boardManageRegister.css" rel="stylesheet"/>
 </head>
 <body>
 <div class="adminContainer">
@@ -112,135 +108,107 @@
               </div>
             </div>
             <ul class="sub-menu sub-menu-fourth">
-              <li><a href="#">문의관리</a></li>
+              <li><a href="#">문의 관리</a></li>
               <li><a href="#">리뷰 관리</a></li>
             </ul>
           </div>
         </div>
-
-        <!-- 메인 부분 -->
         <div class="col-md-10 adminMainContainer">
-          <div class="table firstTable">
-            <h3 class="text-center mt-3 firstTableTitle">문의 관리</h3>
-            <!-- <h3 class="MemberText" style="border-top-width: 0px;">회원 목록</h3> -->
-            <div
-              class="boardCategory d-flex justify-content-center mt-4"
-              style="border-top-width: 0px"
-            >
-              <select
-                class="form-select w-25"
-                aria-label="Default select example"
-                id="category-Selector"
-              >
-                <option value="shipment" class="category-Shipment">배송</option>
-                <option value="payment" class="category-Payment">결제</option>
-                <option value="event" class="category-Event">이벤트</option>
-              </select>
-            </div>
-            <div class="selectAll ms-4" style="border-top-width: 0px">
-              <i class="fa-solid fa-folder-open"></i>
-              <span class="ms-2">전체조회</span>
-            </div>
-            <div class="boardContainer" style="border-top-width: 0px">
-              <table
-                class="table table-striped boardTable text-center mt-3"
-                id="tableBox"
-              >
-                <thead>
-                  <tr>
-                    <th scope="col">문의 번호</th>
-                    <th scope="col">문의 유형</th>
-                    <th scope="col">회원ID</th>
-                    <th scope="col">제목</th>
-                    <th scope="col">날짜</th>
-                    <th scope="col">등록</th>
-                    <th scope="col">답변 여부</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>배송</td>
-                    <td>kh123</td>
-                    <td>배송 관련 문의드립니다</td>
-                    <td>2022년 05년 21일 11시 08분</td>
-                    <td>
-                      <span class="boardRegister"
-                        ><i class="fa-solid fa-pen-to-square"></i
-                      ></span>
-                    </td>
-                    <td>
-                      <span class="replyCheck">답변 완료</span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-
-              <!-- 페이지네이션 -->
-              <div
-                class="pageNationContainer d-flex justify-content-center mt-2"
-              >
-                <nav aria-label="Page navigation example">
-                  <ul class="pagination">
-                    <li class="page-item">
-                      <a class="page-link" href="#">Previous</a>
-                    </li>
-                    <li class="page-item">
-                      <a class="page-link" href="#">1</a>
-                    </li>
-                    <li class="page-item">
-                      <a class="page-link" href="#">2</a>
-                    </li>
-                    <li class="page-item">
-                      <a class="page-link" href="#">3</a>
-                    </li>
-                    <li class="page-item">
-                      <a class="page-link" href="#">4</a>
-                    </li>
-                    <li class="page-item">
-                      <a class="page-link" href="#">5</a>
-                    </li>
-                    <li class="page-item">
-                      <a class="page-link" href="#">Next</a>
-                    </li>
-                  </ul>
-                </nav>
+          <div class="container">
+            <div class="boardDeleteModal">
+              <h3 class="text-center">배송 문의</h3>
+              <!--배송 글자 (dto로 값 받아오기) -->
+              <div class="form-group d-none">
+                <!--글 쓴 사람 id 가져오기 위해서-->
+                <label for="exampleInputEmail1">글쓴이</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  aria-describedby="emailHelp"
+                  value=""
+                />
               </div>
-            </div>
-          </div>
-
-          <!-- 삭제 모달  -->
-          <div class="boardDeleteModal">
-            <div class="text-center mt-4">
-              해당 글을 정말로 삭제 하시겠습니까?
-            </div>
-            <div class="row mt-3">
-              <div class="col-md-6 d-flex justify-content-end">
-                <button
-                  type="button"
-                  class="btn btn-primary btn-sm"
-                  id="boardDeleteCancelBtn"
-                >
-                  취소
-                </button>
+              <div class="form-group">
+                <label for="exampleInputEmail1">제목</label>
+                <input
+                  type="text"
+                  class="form-control mt-2"
+                  aria-describedby="emailHelp"
+                  value="배송 문의"
+                  readonly
+                />
               </div>
-              <div class="col-md-6">
-                <button
-                  type="button"
-                  class="btn btn-danger btn-sm"
-                  id="boardDeleteBtn"
+              <div class="form-group mt-2">
+                <label for="exampleFormControlTextarea1">내용</label>
+                <textarea
+                  class="form-control mt-2"
+                  id="exampleFormControlTextarea1"
+                  rows="4"
+                  readonly
                 >
-                  삭제
-                </button>
+구매한지 3일이</textarea
+                >
+              </div>
+              <div class="form-group mt-4 text-center">
+                <label for="exampleInputEmail1" class="text-center"
+                  ><strong>댓글</strong></label
+                >
+              </div>
+              <div class="form-group mt-4 commentContainer">
+                <div class="commentBox mt-2">
+                  <span class="ms-5">kh12345</span>&nbsp;
+                  <span class="commentDate">2015년07월21일</span><br />
+                  <div class="row mt-2 d-flex">
+                    <div class="col-9">
+                      이런식으로 하시면 진짜 곤란하죠 전화를 몇번 드렸는데
+                    </div>
+                    <div
+                      class="col-3 boardDelete d-flex justify-content-center"
+                    >
+                      <i class="fa-solid fa-trash ms-3"></i>
+                    </div>
+                  </div>
+                </div>
+              <div class="form-group mt-5">
+                <label for="exampleFormControlTextarea1"
+                  ><strong>관리자 내용</strong></label
+                >
+                <textarea
+                  class="form-control mt-lg-2"
+                  id="exampleFormControlTextarea1"
+                  rows="4"
+                ></textarea>
+              </div>
+              <div class="boardDeleteModal-footer d-flex mt-3">
+                <div class="col d-flex justify-content-center">
+                  <button
+                    type="button"
+                    class="btn btn-success ms-2 me-2"
+                    id="boardCancelBtn"
+                  >
+                    취소
+                  </button>
+                  <button
+                    type="submit"
+                    class="btn btn-primary ms-2 me-2"
+                    id="boardSubmitBtn"
+                  >
+                    등록
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-danger ms-2 me-2"
+                    id="boardDeleteModal"
+                  >
+                    게시글 삭제
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-<<<<<<< HEAD
-=======
-    <script src="<%=request.getContextPath()%>script/boardManage.js"></script>
->>>>>>> 7ba77a9516e91d826e59737b05896dcb861e1211
+     <script src="<%=request.getContextPath()%>script/boardManageRegister.js"></script>
 </body>
 </html>
