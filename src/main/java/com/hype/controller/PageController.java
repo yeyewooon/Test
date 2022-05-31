@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.hype.dao.ProductDAO;
+import com.hype.dto.ImageDTO;
 
 @WebServlet("*.page")
 public class PageController extends HttpServlet {
@@ -34,8 +35,15 @@ public class PageController extends HttpServlet {
 			try {
 				//카테고리로 seq_product받아오기
 				ArrayList<Integer> seqPList = dao.selectSeqProByCtg(category);
+				//이미지 받아올 ArrayList
+				ArrayList<ImageDTO> imgList = new ArrayList<>();
 				//seq_product로 메인 이미지 받아오기
-				seqPList.get(0)
+				for(int i : seqPList) {
+					imgList = dao.selectMainImgBySeqPro(seqPList.get(i));
+					System.out.println(imgList);
+				}
+				//request imgList
+				request.setAttribute("imgList", imgList);
 			}catch(Exception e) {
 				e.printStackTrace();
 			}

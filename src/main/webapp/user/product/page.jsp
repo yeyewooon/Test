@@ -54,7 +54,7 @@
 						style="font-weight: bold;">CLOTHES</button>
 					<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
 						<li><a class="dropdown-item" href="/ToPage.page?category=Top">Top</a></li>
-						<li><a class="dropdown-item" href="/ToPage.page?category=Bottom">Bottom</a></li>
+						<li><a class="dropdown-item" href="/ToPage.page?category=bt">Bottom</a></li>
 						<li><a class="dropdown-item" href="/ToPage.page?category=Accessory">Accessory</a></li>
 					</ul>
 				</div>
@@ -370,7 +370,7 @@
 									<div class="col-md-4 d-block justify-content-center p-4">
 										<a href="">
 											<div class="imgBox">
-												<img src="resources/바지1-6.PNG" id="Cimg">
+												<img src="${imgList.img_path }/${imgList.img_name}" id="Cimg">
 												<div class="imgText">
 													<strong>청바지</strong><br> 50000원
 												</div>
