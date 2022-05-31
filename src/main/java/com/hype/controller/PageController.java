@@ -29,27 +29,29 @@ public class PageController extends HttpServlet {
 		//옷 나열 페이지로 이동
 		if(uri.equals("/ToPage.page")){ 
 			String category = request.getParameter("category");
-			//System.out.println(category);
+			System.out.println(category);
 			ProductDAO dao = new ProductDAO();
 			
 			try {
 				//카테고리로 seq_product받아오기
-				ArrayList<Integer> seqPList = dao.selectSeqProByCtg(category);
-				//이미지 받아올 ArrayList
-				ArrayList<ImageDTO> imgList = new ArrayList<>();
-				//seq_product로 메인 이미지 받아오기
-				for(int i : seqPList) {
-					imgList = dao.selectMainImgBySeqPro(seqPList.get(i));
-					System.out.println(imgList);
-				}
+//				ArrayList<Integer> seqPList = dao.selectSeqProByCtg(category);
+//				System.out.println(seqPList.toString());
+//				//이미지 받아올 ArrayList
+//				ArrayList<ImageDTO> imgList = new ArrayList<>();
+//				//seq_product로 메인 이미지 받아오기
+//				for(int i : seqPList) {
+//					imgList = dao.selectMainImgBySeqPro(seqPList.get(i));
+//					System.out.println(imgList);
+//				}
+//				ArrayList<ImageDTO> imgList = dao.selectMainImgBySeqPro(100);
+				ArrayList<ImageDTO> imgList = dao.select(category);
 				//request imgList
 				request.setAttribute("imgList", imgList);
+				System.out.println(imgList);
+				request.getRequestDispatcher("user/product/page.jsp").forward(request, response);
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
-			
-			
-			response.sendRedirect("page.jsp");
 		}/*else if(uri.equals("")){
 			
 		}*/

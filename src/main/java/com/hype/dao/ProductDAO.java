@@ -41,12 +41,12 @@ public class ProductDAO {
 			}
 			return list;
 		}
-		
 	}
 	
 	//데이터베이스에서 사진 불러오기
 	public ArrayList<ImageDTO> selectMainImgBySeqPro(int seq_product) throws Exception{
-		String sql = "select * from tbl_image where seq_product=? and image_name like '%main%' order by 1 desc";
+		String sql = "select * from tbl_image where seq_product=?";
+		//and image_name like '%main%' order by 1 desc 이거 추가
 		
 		try(Connection con = bds.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql);){
@@ -63,6 +63,26 @@ public class ProductDAO {
 			return list;
 		}
 	}
-	
+	//데이터베이스에서 사진 불러오기ffffff
+		public ArrayList<ImageDTO> select(String category) throws Exception{
+			String sql = "select * from tbl_image where seq_product=(select seq_product from tbl_product where category=?)";
+			//and image_name like '%main%' order by 1 desc 이거 추가
+			
+			try(Connection con = bds.getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql);){
+				
+				pstmt.setString(1, category);
+				ResultSet rs = pstmt.executeQuery();
+				ArrayList<ImageDTO> list = new ArrayList<>();
+				while(rs.next()) {
+					int seq_image = rs.getInt("seq_image");
+					int seq_product = rs.getInt("seq_product");
+					String image_name = rs.getString("image_name");
+					String image_path = rs.getString("image_path");
+					list.add(new ImageDTO(seq_image, seq_product, image_name, image_path));
+				}
+				return list;
+			}
+		}
 	
 }
