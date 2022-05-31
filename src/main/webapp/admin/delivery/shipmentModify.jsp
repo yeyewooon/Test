@@ -26,7 +26,188 @@
       crossorigin="anonymous"
     ></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-    <link href="<%=request.getContextPath()%>css/shipmentModify.css" rel="stylesheet"/>
+    
+    <style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      /* navbar & maincontainer */
+      .adminContainer {
+        height: 100vh;
+        background-color: black;
+      }
+      .adminNavbar {
+        margin: 0;
+        background-color: #212e41;
+        color: #fff;
+        height: 8%;
+      }
+
+      .adminNavbar-left {
+        font-size: 26px;
+      }
+
+      .adminNavbar-left span {
+        cursor: pointer;
+      }
+
+      .adminMain {
+        background-color: blue;
+      }
+
+      .adminContent {
+        margin: 0;
+        height: 92%;
+      }
+
+      .adminSidebarContainer {
+        background-color: #212e41;
+        color: #fff;
+      }
+
+      ul {
+        list-style: none;
+      }
+
+      .adminIcon {
+        margin-right: 30px;
+      }
+
+      .adminIconSpan {
+        margin-right: 12px;
+      }
+
+      .adminIconLogout {
+        margin-left: 26px;
+        cursor: pointer;
+      }
+
+      /* sidebar navlink */
+
+      .adminSidebar {
+        height: 92%;
+        background: #fff;
+        transition: all 0.5s ease;
+      }
+
+      .adminSidebar .nav-links li a {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+      }
+
+      .adminSidebarContainer {
+        padding: 0;
+      }
+
+      .adminMainContainer {
+        padding: 0;
+      }
+
+      .nav-linksContainer {
+        margin-top: 25px;
+        transition: 0.5s ease;
+      }
+
+      .nav-linksContainer:hover {
+        background-color: #1d1b31;
+      }
+
+      .nav-links {
+        font-size: 16px;
+        padding-left: 0;
+      }
+
+      .icon-link {
+        color: #fff;
+      }
+
+      .icon-link .icon-link-left {
+        color: #fff;
+      }
+
+      .icon-link .icon-link-left i {
+        left: 0;
+        color: #fff;
+      }
+
+      .icon-link .icon-link-left span {
+        color: #fff;
+      }
+
+      .sub-menu {
+        margin-left: 15%;
+        list-style: none;
+        display: none;
+        text-decoration-line: none;
+      }
+
+      .sub-menu li {
+        margin: 10px 0px;
+      }
+
+      .sub-menu li a {
+        font-size: 14px;
+        color: #fff;
+        text-decoration-line: none;
+      }
+
+      .sub-menu li:hover {
+        border-left: 3px solid #fff;
+      }
+
+      .firstTable {
+        background-color: #fff;
+        margin-bottom: 0;
+      }
+
+      /* 메인 페이지  */
+      .firstTableTitle {
+        font-size: 24px;
+      }
+
+      .shipmentModifyTable {
+        border: 0;
+      }
+      .MemberText,
+      .searchMemberText {
+        font-size: 18px;
+        margin-left: 9px;
+        margin-bottom: 0;
+        border: 40px;
+      }
+
+      .searchMemberInput {
+        margin-left: 9px;
+      }
+
+      .MemberContainer {
+        height: 340px;
+        overflow: auto;
+      }
+
+      tbody tr {
+        transition: 0.7s ease;
+      }
+
+      /* table hover시 color 변경 */
+      #tableBox:hover tbody tr:hover td {
+        background-color: #7f7f7f;
+        color: #fff;
+      }
+
+      /* 이모티콘 cursor pointer */
+      td span {
+        cursor: pointer;
+      }
+    
+    </style>
+    
+    
 </head>
 <body>
 <div class="adminContainer">
@@ -115,9 +296,10 @@
           </div>
         </div>
         <div class="col-md-10 adminMainContainer">
+        <form action="shipmentModifyProc.sh" method="post">
           <div class="table shipmentModifyTable">
             <div class="modifyContainer container w-100">
-              <h3 class="mt-2 text-center">배송 정보 수정</h3>
+              <h3 class="mt-3 text-center">배송 정보 수정</h3>
               <form accept="" method="post" id="modifyForm">
                 <div class="row mt-1">
                   <div class="form-group col-md-6 mt-2">
@@ -126,8 +308,9 @@
                       type="text"
                       class="form-control mt-2"
                       id="inputEmail4"
-                      value="201583215SASD"
+                      value="${list[0].getSeq_order()}"
                       readonly
+                      name="seq_order"
                     />
                   </div>
                   <div class="form-group col-md-6 mt-2">
@@ -136,8 +319,9 @@
                       type="text"
                       class="form-control mt-2"
                       id="inputPassword4"
-                      value="kh123"
+                      value="${list[0].getUser_id()}"
                       readonly
+                      name="user_id"
                     />
                   </div>
                 </div>
@@ -145,10 +329,11 @@
                   <div class="form-group col-md-6 mt-2">
                     <label for="inputEmail4">수취인 이름</label>
                     <input
-                      type="email"
+                      type="text"
                       class="form-control mt-2"
                       id="inputEmail4"
-                      value="김준호"
+                      value="${list[0].getOrder_name()}"
+                      name="order_name"
                     />
                   </div>
                   <div class="form-group col-md-6 mt-2">
@@ -159,19 +344,21 @@
                         <select
                           class="form-select"
                           aria-label="Default select example"
+                          id="phone1"
+                          name="phone1"
                         >
                           <option selected>010</option>
-                          <option value="1">012</option>
-                          <option value="2">011</option>
-                          <option value="3">016</option>
+                          <option value="012">012</option>
+                          <option value="011">011</option>
+                          <option value="016">016</option>
                         </select>
                       </div>
                       <div class="col">
                         <input
                           type="text"
                           class="form-control"
-                          id="phoneNumber1"
-                          name="phoneNumber1"
+                          id="phone2"
+                          name="phone2"
                           placeholder="전화번호"
                           maxlength="4"
                         />
@@ -180,8 +367,8 @@
                         <input
                           type="text"
                           class="form-control"
-                          id="phoneNumber2"
-                          name="phoneNumber2"
+                          id="phone3"
+                          name="phone3"
                           placeholder="전화번호"
                           maxlength="4"
                         />
@@ -191,12 +378,12 @@
                 </div>
                 <div class="row">
                   <div class="form-group col-md-6 mt-2">
-                    <label for="inputEmail4">주문일</label>
+                    <label for="inputEmail4">배송 메세지</label>
                     <input
                       type="text"
                       class="form-control mt-2"
                       id="inputEmail4"
-                      value="2022년 05월 23시 1시 45분 45초"
+                      value="${list[0].getOrder_msg()}"
                       readonly
                     />
                   </div>
@@ -207,6 +394,18 @@
                       class="form-control mt-2"
                       id="inputPassword4"
                       value="150000원"
+                      readonly
+                    />
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group col-md-12 mt-2">
+                    <label for="inputEmail4">사용자 입력 주소</label>
+                    <input
+                      type="text"
+                      class="form-control mt-2"
+                      id="inputEmail4"
+                      value="${list[0].getOrder_address()}"
                       readonly
                     />
                   </div>
@@ -227,7 +426,7 @@
                       class="btn btn btn-outline-success w-100"
                       id="btnPostCode"
                     >
-                      우편번호 찾기
+                      배송지 변경
                     </button>
                   </div>
                 </div>
@@ -268,9 +467,9 @@
                     <select
                       class="form-select mt-2"
                       aria-label="Default select example"
+                      name="order_status"
                     >
-                      <option selected>입금 확인</option>
-                      <option value="상품 준비중">상품 준비중</option>
+                      <option selected>${list[0].getOrder_status()}</option>
                       <option value="상품 출발">상품 출발</option>
                       <option value="상품 도착">상품 도착</option>
                     </select>
@@ -279,7 +478,7 @@
                     <label></label>
                     <div class="row mt-2">
                       <div class="col d-flex justify-content-end">
-                        <button type="button" class="btn btn-warning submitBtn">
+                        <button type="button" class="btn btn-warning submitBtn" id="backBtn">
                           뒤로 가기
                         </button>
                       </div>
@@ -296,9 +495,99 @@
           </div>
         </div>
       </div>
+      </form>
     </div>
     
     
-   <script src="<%=request.getContextPath()%>script/shipmentModify.js"></script>
+   
+   
+   
+   <script>
+	let phone = "${list[0].getOrder_phone()}";
+	console.log(phone);
+   	
+	let phone1 = phone.slice(0,3);
+	let phone2 = phone.slice(3,7);
+	let phone3 = phone.slice(7);
+	console.log(phone1);
+	console.log(phone2);
+	console.log(phone3);
+	
+	$("#phone1").val(phone1).prop("selected", true);
+	$("#phone2").val(phone2);
+	$("#phone3").val(phone3);
+	
+	
+	
+	
+	$(".arrow1").on("click", function () {
+        $(".sub-menu-first").toggle("4000ms");
+      });
+
+      $(".arrow2").on("click", function () {
+        $(".sub-menu-second").toggle("4000ms");
+      });
+
+      $(".arrow3").on("click", function () {
+        $(".sub-menu-third").toggle("4000ms");
+      });
+
+      $(".arrow4").on("click", function () {
+        $(".sub-menu-fourth").toggle("4000ms");
+      });
+      
+      
+      // 뒤로가기 버튼
+      $("#backBtn").on("click",function(){
+    	  location.href = "/shipManage.sh";
+      })
+      
+      
+
+      // 우편번호 api 주소 이용
+      let btnPostCode = document.getElementById("btnPostCode");
+      let detailAddr = document.getElementById("detailAddr");
+      btnPostCode.onclick = executePostcode;
+
+      function executePostcode() {
+        new daum.Postcode({
+          oncomplete: function (data) {
+
+            var roadAddr = data.roadAddress; // 도로명 주소 변수
+            var extraRoadAddr = ""; // 참고 항목 변수
+
+            if (data.bname !== "" && /[동|로|가]$/g.test(data.bname)) {
+              extraRoadAddr += data.bname;
+            }
+
+            if (data.buildingName !== "" && data.apartment === "Y") {
+              extraRoadAddr +=
+                extraRoadAddr !== ""
+                  ? ", " + data.buildingName
+                  : data.buildingName;
+            }
+  
+            if (extraRoadAddr !== "") {
+              extraRoadAddr = " (" + extraRoadAddr + ")";
+            }
+
+            document.getElementById("postCode").value = data.zonecode;
+            document.getElementById("roadAddr").value = roadAddr;
+            document.getElementById("jibunAddr").value = data.jibunAddress;
+
+ 
+          },
+        }).open();
+        detailAddr.focus();
+      }
+	
+   </script>
+   
+   
+   
+   
+   
+   
+   
 </body>
 </html>
