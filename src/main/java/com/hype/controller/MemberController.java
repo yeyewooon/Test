@@ -12,6 +12,8 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 import com.hype.dao.MemberDAO;
+import com.hype.dao.QnaDAO;
+import com.hype.dto.BuyDTO;
 import com.hype.dto.MemberDTO;
 import com.hype.utills.EncryptionUtils;
 
@@ -89,8 +91,12 @@ public class MemberController extends HttpServlet {
 			request.setCharacterEncoding("utf-8");
 			String id = request.getParameter("id");
 			String pw = request.getParameter("pw");
+			String url = request.getParameter("url");
 			System.out.println("접속 id : " + id);
 			System.out.println("접속 pw : " + pw);
+			
+			
+			System.out.println("접속하기 전url" + url);
 			
 			MemberDAO dao = new MemberDAO();
 			try {
@@ -162,21 +168,91 @@ public class MemberController extends HttpServlet {
 			}
 			
 		}else if(uri.equals("/findPw.mem")) { // 비밀번호찾기
-			String user_id = request.getParameter("user_id");
-			String user_name = request.getParameter("user_name");
-			
+			String user_id = request.getParameter("findPw_id");
+			String user_name = request.getParameter("findPw_name");
+			System.out.println(user_id +" : "+ user_name);
 			MemberDAO dao = new MemberDAO();
 			try {
 				int rs = dao.findPw(user_id, user_name);
 				
-				if(rs != 0) { // 1이 가입된 아이디 있음
+				if(rs == 1) { // 1이 가입된 아이디 있음
 					System.out.println("아이디 존재");
 					response.getWriter().append("exist");
 					
-				}else { // 0 가입된 아이디없음
+				}else if(rs == 0){ // 0 가입된 아이디없음
 					System.out.println("아이디 없음");
 					response.getWriter().append("no");
 				}
+				
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}else if(uri.equals("/toModifyPw.mem")) {  // 비밀번호 수정
+			String pw = request.getParameter("modifyPw");
+			String user_id = request.getParameter("modifyPw_id");
+			System.out.println("암호화 전 비밀번호 : " + pw);
+			System.out.println("변경하는 user_id : " + user_id);
+			MemberDAO dao = new MemberDAO();
+			
+			try {
+				pw = EncryptionUtils.getSHA512(pw);
+				System.out.println("암호화된 데이터 : " + pw);
+				
+				int rs = dao.modifyPw(pw, user_id);
+				
+				if(rs != 0) {
+					System.out.println("비밀번호 변경완료");
+					response.getWriter().append("success");
+				}else {
+					System.out.println("비밀번호 변경실패");
+					response.getWriter().append("fail");
+				}
+				
+				
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}else if(uri.equals("/toSearchSeq.mem")) { // 세션 아이디 값으로 주문번호 조회하기
+			HttpSession session = request.getSession();
+			String user_id = ((MemberDTO)session.getAttribute("loginSession")).getUser_id();
+			
+			QnaDAO dao = new QnaDAO();
+	
+			try {
+				ArrayList<BuyDTO> list = dao.seq_orderSelectById(user_id); 
+				
+				if(list != null) {
+					System.out.println("주문정보조회 성공");
+					request.setAttribute("list", list);
+				}else {
+					System.out.println("주문정보 없음");
+				}
+				
+				request.getRequestDispatcher("/member/popupOrderseq.jsp").forward(request, response);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}else if(uri.equals("/toQnaProc.mem")) { 
+			int seq_order = Integer.parseInt(request.getParameter("seq_order"));
+			String user_id = request.getParameter("user_id");
+			String qna_type = request.getParameter("qna_type");
+			String qna_title = request.getParameter("qna_title");
+			String qna_content = request.getParameter("qna_content");
+			System.out.println(seq_order +" : " + user_id +" : " + qna_type +" : " + qna_title +" : " + qna_content);
+			QnaDAO dao = new QnaDAO();
+			
+			try {
+				int rs = dao.qnaInsert(seq_order, user_id, qna_type, qna_title, qna_content);
+				
+				if(rs >0) {
+					System.out.println("등록 성공");
+					response.sendRedirect("/toCs.mem");
+					
+				}else {
+					System.out.println("등록 실패");
+				}
+				
 				
 			}catch(Exception e) {
 				e.printStackTrace();

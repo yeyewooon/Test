@@ -129,7 +129,13 @@ private BasicDataSource bds;
 			
 			ResultSet rs = pstmt.executeQuery();
 			
+			int result = 0;
+			
 			if(rs.next()) {
+				result = rs.getInt(1);
+			}
+			
+			if(result == 1) {
 				return 1;
 			}else {
 				return 0;
@@ -139,7 +145,19 @@ private BasicDataSource bds;
 		
 	}
 	
-	
+	public int modifyPw(String pw, String id) throws Exception{
+		String sql = "update tbl_member set user_password = ? where user_id = ?";
+		
+		try(Connection con = bds.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql)){
+			
+			pstmt.setString(1, pw);
+			pstmt.setString(2, id);
+			
+			int rs = pstmt.executeUpdate();
+			return rs;
+		}
+	}
 	
 	
 }

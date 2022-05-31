@@ -27,10 +27,19 @@ integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52n
 <link rel="stylesheet" href="<%=request.getContextPath()%>/member/css/popupLogin.css">
 <script>
 $(document).ready(function(){
+	let url = "/Tohome";
+	
+	if(opener.document.getElementById("url").value != null || opener.document.getElementById("url").value != ""){
+		url = opener.document.getElementById("url").value;
+	}
+	
+	console.log("이전 " , url);
+	$("#url").val(url);
+	
 	$("#btnCanlcel").on("click",function(){
 		self.close(); // 취소버튼 클릭 시 팝업 창닫기
 	});
-
+	
 
 	$("#btnLogin").on("click", function() {
 		let id = $("#id").val();
@@ -50,7 +59,7 @@ $(document).ready(function(){
 	if("${rs}" === "ok"){
 		console.log("${rs}");
 		alert("로그인 성공!");
-		opener.document.location.href ="/Tohome";
+		opener.document.location.href = url;
 		self.close();	
 
 
@@ -89,8 +98,8 @@ $(document).ready(function(){
 			, success : function(id){
 				console.log("받아온 id",id);
 				if(id != "fail"){
-					$(".findId_body").css("display", "none");
-					$(".findId_hiddenbody").css("display", "block");
+					$("#findId_body").css("display", "none");
+					$("#resultId").css("display", "block");
 			
 					for(let data of id){
 						let rs = $("<p>").html(data.user_id);
@@ -110,50 +119,121 @@ $(document).ready(function(){
 		})
 
 	});//findId 끝
-
 	
-// 	$("#btnFindPW").on("click", function() { //비밀번호찾기
-// 		if($("#findPw_name").val() === "" || ($("#findPw_id").val() === ""){
-// 			alert("이름 혹은 아이디를 입력해주세요");
-// 			return;
-// 		}
+	
+	$("#btnFindPW").on("click", function() { //비밀번호찾기
+		if($("#findPw_name").val() === "" || $("#findPw_id").val() === ""){
+			alert("이름 혹은 아이디를 입력해주세요");
+			return;
+		}
 		
-// 		let data = $("#findPwForm").serialize();
-		
-// 		$.ajax({
-// 			url : "/findPw.mem"
-// 			, type : "post"
-// 			, data : data
-// 			, success : function(rs){
-// 				console.log("받아온 rs",rs);
-// 				if(rs == "exist"){	
-// 					$(".findPw_body").empty();
+		let data = $("#findPwForm").serialize();
+		console.log(data);
+		$.ajax({
+			url : "/findPw.mem"
+			, type : "post"
+			, data : data
+			, success : function(rs){
+				console.log("받아온 rs",rs);
+				if(rs == "exist"){	
+					$("#findPw_body").css("display", "none");
+					$("#modifyPw_body").css("display", "block");
 					
-// 					let Pw = $("<input>").addClass("form-control").prop("type", "password").attr("name","pw").attr("id","pw");
-// 					let chekPw = $("<input>").addClass("form-control").prop("type", "password").attr("name","chekPw").attr("id","chekpw");
+					$("#modifyPw_id").val($("#findPw_id").val());
+					alert("변경할 비밀번호를 입력해주세요");
 					
-// 				}else if(rs === "no"){
-// 					alert("가입된 아이디가 없습니다.");
-// 				}
+					
+				}else if(rs === "no"){
+					alert("가입된 아이디가 없습니다.");
+				}
 				
 				
-// 			}, error : function(e){
-// 				console.log(e);
-// 			}
+			}, error : function(e){
+				console.log(e);
+			}
 			
-// 		})
+		})
 		
-// 	});//findPw 끝
+	});//findPw 끝
 	
+	$("#btnModifyPW").on("click", function() {
+		let regexPw = /^[a-z0-9~!@#$%^&]{5,19}$/;
+		
+		if($("#modifyPw").val() == "" | $("#checkPw").val() == ""){
+			alert("변경할 비밀번호를 입력해주세요");
+			return;
+		}else if( $("#modifyPw").val() != $("#checkPw").val()  ){
+			alert("비밀번호와 비밀번호 확인의 값이 다릅니다.");
+			return;
+		}
+		
+		if( !regexPw.test($("#modifyPw").val()) ){
+			alert("비밀번호 형식에 맞지 않습니다.");
+		}
+		
+		let data =  $("#modifyForm").serialize();
+		
+		$.ajax({
+			url : "/toModifyPw.mem"
+			, type : "post"
+			, data : data
+			, success : function(rs){
+				if(rs === "success"){
+					alert("비밀번호가 변경되었습니다.")
+					location.href = "/toLogin.mem";
+				}else if(rs==="fail"){
+					alert("비밀번호 변경에 실패했습니다.");
+				}
+				
+			}, error : function(e){
+				console.log(e);
+			}
+			
+		})
+		
+	}); // 비밀번호 변경
 	
+	$(".btn-close").on("click",function(){
+		clear();
+		
+	});
+	
+	$(".findID").on("click",function(){
+		clear();
+	});
 	
 	
 });//document.ready 종료
+
+
+function clear(){
+	// 아이디 찾기 clear		
 	
+	$("#findId_body").show();
+	$("#resultId").hide();
+	$("#findId_result").empty();
+	
+	$("#find_phone").val("");
+	$("#find_phone2").val(""); 
+	$("#find_phone3").val("");
+	$("#find_name").val("");
+	
+	// 비밀번호 찾기 clear
+	
+	$("#findPw_body").show();
+	$("#modifyPw_body").hide();
+	
+	$("#modifyPw").val("");
+	$("#checkPw").val("");
+	$("#findPw_name").val("");
+	$("#findPw_id").val("");
+	$("#modifyPw_id").val("");
+}
 </script>
 </head>
 <body>
 <form id="loginForm" action="/toLoginProc.mem" method="post">
+<input id="url" name="url" type="hidden" value="" />
  <div class="container">
         <!-- X아이콘 -->
         <div class = "row m-2 icon">
@@ -200,8 +280,8 @@ $(document).ready(function(){
         </div>
       </div>
 </form>
-<!-- id찾기 -->
 
+<!-- id찾기 -->
 <div class="modal fade" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -210,7 +290,7 @@ $(document).ready(function(){
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
        	<form id="findIdForm" action="/findIdForm.mem" method="post">
-	       	<div class="modal-body findId_body">   
+	       	<div id="findId_body"  class="modal-body">   
 	            <div class="row nameBox m-2">
 	                <div class="col-3 d-flex justify-content-center">
 	                    <label for="name" class="form-label">이름</label>
@@ -250,13 +330,14 @@ $(document).ready(function(){
 	                    <button type="button" class="btn btn-primary" id="btnFindID">아이디 찾기</button>
 	                </div>
 	            </div>
-	            <div class="row anchor mt-4">
+	            <div class="row anchor mt-4"  >
 	                <div class="col-12 d-flex justify-content-center">
-	                    <a href="" id="findPw"  data-bs-toggle="modal" data-bs-target="#staticBackdrop2">비밀번호 찾기</a>
+	                    <a class="findID" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">비밀번호 찾기</a>
 	                </div>
 	            </div>
 	        </div>
-	        <div class="modal-body findId_hiddenbody" style="display: none;">   
+	     </form> 
+	        <div id="resultId" class="modal-body" style="display: none;">  <!-- 가입된아이디 -->  
 	            <div class="row nameBox m-2">
 	                <div class="col-12 d-flex justify-content-center">
 	                    <label for="name" class="form-label">가입된 ID</label>
@@ -271,14 +352,11 @@ $(document).ready(function(){
 	                </div>
 	            </div>
 	        </div>
-	       </div>
-	        </form>  
       </div>
     </div>
   </div>
 
 <!-- 비밀번호찾기-->
-
 <div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -286,14 +364,15 @@ $(document).ready(function(){
           <h5 class="modal-title" id="staticBackdropLabel">비밀번호 찾기</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body findPw_body">
-       	 <form id="findPwForm" action="/findPw.mem" method="post">   
+        
+     <form id="findPwForm" action="/findPw.mem" method="post">    
+        <div id="findPw_body" class="modal-body"> 														<!-- 비밀번호찾는곳 -->
             <div class="row nameBox m-2">
                 <div class="col-3 d-flex justify-content-center">
                     <label for="name" class="form-label">이름</label>
                 </div>
                 <div class="col-9 d-flex justify-content-center">
-                    <input type="text" class="form-control" placeholder="ex)홍길동" name="findPw_name" id="findPW_name">
+                    <input type="text" class="form-control" placeholder="ex)홍길동" name="findPw_name" id="findPw_name">
                 </div>
             </div>
             <div class="row phoneBox m-2 mt-4">
@@ -309,13 +388,50 @@ $(document).ready(function(){
                     <button type="button" class="btn btn-primary" id="btnFindPW">비밀번호 찾기</button>
                 </div>
             </div>
-        </form>
+        
             <div class="row anchor mt-4">
                 <div class="col-12 d-flex justify-content-center">
-                    <a href="" id="findID" data-bs-toggle="modal" data-bs-target="#staticBackdrop1" >아이디 찾기</a>
+                    <a href="" class="findID" data-bs-toggle="modal" data-bs-target="#staticBackdrop1" >아이디 찾기</a>
                 </div>
             </div>
         </div>
+     </form>   
+     <form id="modifyForm" action="/toModifyPw.mem" method="post">                        <!-- 비밀번호 변경하는 곳 -->
+        <div id="modifyPw_body" class="modal-body" style="display: none;">
+            <div class="row nameBox m-2">
+                <div class="col-3 d-flex justify-content-center">
+                    <label for="name" class="form-label" style="font-size: 0.75rem; margin-top: 3px">비밀번호</label>
+                </div>
+                <div class="col-9 d-flex justify-content-center">
+                    <input type="password" class="form-control"  name="modifyPw" id="modifyPw">
+                </div>
+            </div>
+            <div class="row phoneBox m-2 mt-4">
+                <div class="col-3 d-flex justify-content-center">
+                    <label for="id" class="form-label" style="font-size: 0.75rem; margin-top: 3px" >비밀번호 확인</label>
+                </div>
+                <div class="col-9 d-flex justify-content-center">
+                    <input type="password" class="form-control" name="checkPw" id="checkPw">
+                    <input id="modifyPw_id" name="modifyPw_id" type="hidden" />
+                </div>
+            </div> 
+            <div class="row">
+            	<div class="col">
+            		<p style="font-size: 0.75rem;">영문, 숫자, 특수문자를 혼합하여 최소 5자리 이상 19자리 이하로 설정해 주세요.</p>
+            	</div>
+            </div>
+            <div class="row btns mt-4">
+                <div class="col-12 d-flex justify-content-center">
+                    <button type="button" class="btn btn-primary" id="btnModifyPW">비밀번호 변경</button>
+                </div>
+            </div>
+            <div class="row anchor mt-4">
+                <div class="col-12 d-flex justify-content-center">
+                    <a href="" class="findID" data-bs-toggle="modal" data-bs-target="#staticBackdrop1" >아이디 찾기</a>
+                </div>
+            </div>
+        </div>
+        </form>
       </div>
     </div>
   </div>
