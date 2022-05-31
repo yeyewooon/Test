@@ -193,14 +193,53 @@ public class MemberController extends HttpServlet {
 			
 			try {
 				ArrayList<CartDTO> list = dao.selectAllCart(dto.getUser_id());
+				System.out.println(list);
 				
 				request.setAttribute("list", list);
-				System.out.println(list.size());
 				request.getRequestDispatcher("/member/cart.jsp").forward(request, response);
 				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+		}else if(uri.equals("/toDeleteCart.mem")) {
+			int seq_cart = Integer.parseInt(request.getParameter("seq_cart"));
+			
+			MemberDAO dao = new MemberDAO();
+			
+			try {
+				
+				int rs = dao.deleteCart(seq_cart);
+				
+				if(rs > 0) {
+					System.out.println("삭제 완료");
+				}else {
+					System.out.println("삭제 실패");
+				}
+				
+				response.sendRedirect("/toCart.mem");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}else if(uri.equals("/toChangeQty.mem")) {
+			int seq_cart = Integer.parseInt(request.getParameter("seq_cart"));
+			int cart_quantity = Integer.parseInt(request.getParameter("cart_quantity"));
+			
+			MemberDAO dao = new MemberDAO();
+			try {
+				int rs = dao.updateQtyCart(cart_quantity, seq_cart);
+				
+				if(rs > 0) {
+					System.out.println("수량 수정 완료");
+				}else {
+					System.out.println("수량 수정 실패");
+				}
+				
+				response.sendRedirect("/toCart.mem");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}else if(uri.equals("/toPay.mem")) {
+			
 		}
 
 		

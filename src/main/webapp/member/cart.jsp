@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <!DOCTYPE html>
         <html>
 
@@ -28,6 +28,8 @@
                 crossorigin="anonymous">
             <!-- fontAwessome-->
             <script src="https://kit.fontawesome.com/241134516c.js" crossorigin="anonymous"></script>
+            <script src="https://code.jquery.com/jquery-3.6.0.js"
+                integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
             <link rel="stylesheet" href="<%=request.getContextPath()%>/member/css/cart.css">
             <title>장바구니</title>
 
@@ -85,59 +87,64 @@
                         <h3>장바구니</h3>
                     </div>
                 </div>
-                <table class="table mt-5">
-                    <thead>
-                        <tr>
-                            <th scope="col" style="width: 10%;">전체 3개</th>
-                            <th scope="col"><input type="checkbox"></th>
-                            <th scope="col" colspan="2">상품명(옵션)</th>
-                            <th scope="col">판매가</th>
-                            <th scope="col">수량</th>
-                            <th scope="col">주문금액</th>
-                            <th scope="col">주문관리</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <c:choose>
-                            <c:when test="${list.size() == 0}">
-                                <tr>
-                                    <td colspan="8">장바구니에 담긴 물건이 없습니다.</td>
-                                </tr>
-                            </c:when>
-                            <c:otherwise>
-                                <c:forEach items="${list}" var="dto" varStatus="status" >
-                                    <tr>
-                                        <th scope="row">${status.count}</th>
-                                        <td><input type="checkbox"></td>
-                                        <td class="col-1"><a href=""><img class="productImg" src="" alt=""></a></td>
-                                        <td>
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <p class="P-Name">${dto.cart_name}</p>
-                                                </div>
-                                                <div class="col">
-                                                    <input type="text" class="P-Option disabled"
-                                                        value="옵션 : SIZE / FREE">
-                                                </div>
-                                            </div>
-                                        </td>
 
-                                        <td>${dto.cart_price}</td>
-                                        <td>
-                                            <button class="minusBtn" type="button" onclick='count("minus")'
-                                                value='-' />-</button>
-                                            <span class="quantity" id="result">${dto.cart_quantity}</span>
-                                            <button class="plusBtn" type="button" onclick='count("plus")'
-                                                value='+' />+</button>
-                                        </td>
-                                        <td>${dto.cart_price} * ${dto.cart_quantity}</td>
-                                        <td><button class="item-delete" type="button">삭제하기</button></td>
+                <form action="/toPay.mem" id="signupForm" method="post">
+                    <table class="table productInfo mt-5">
+                        <thead>
+                            <tr>
+                                <th scope="col" style="width: 4.5rem;">전체 ${list.size()}개</th>
+                                <th scope="col"><input type="checkbox" id="checkAll"></th>
+                                <th scope="col" colspan="2">상품명(옵션)</th>
+                                <th scope="col">판매가</th>
+                                <th scope="col">수량</th>
+                                <th scope="col">주문금액</th>
+                                <th scope="col">주문관리</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:choose>
+                                <c:when test="${list.size() == 0}">
+                                    <tr>
+                                        <td colspan="8">장바구니에 담긴 물건이 없습니다.</td>
                                     </tr>
-                                </c:forEach>
-                            </c:otherwise>
-                        </c:choose>
-                    </tbody>
-                </table>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:forEach items="${list}" var="dto" varStatus="status">
+                                        <tr>
+                                            <th scope="row">${status.count}</th>
+                                            <td><input type="checkbox" name="seq_cart" class="check"
+                                                    value="${dto.seq_cart}"></td>
+                                            <td class="col-1"><a href=""><img class="productImg" src="" alt=""></a></td>
+                                            <td class="detailItem">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <p class="P-Name">${dto.cart_name}</p>
+                                                    </div>
+                                                    <div class="col">
+                                                        <input type="text" class="P-Option disabled"
+                                                            value="옵션 : SIZE / FREE">
+                                                    </div>
+                                                </div>
+                                            </td>
+
+                                            <td class="cart_price">&#8361;${dto.cart_price}</td>
+                                            <td>
+                                                <button class="minusBtn qty-update-btn" type="button"
+                                                    data-type="minus">-</button>
+                                                <input type="number" class="quantity" value="${dto.cart_quantity}">
+                                                <button class="plusBtn qty-update-btn" type="button"
+                                                    data-type="plus">+</button>
+                                            </td>
+                                            <td class="cart_total">&#8361;${dto.cart_total}</td>
+                                            <td><button class="item-delete" type="button"
+                                                    value="${dto.seq_cart}">삭제</button></td>
+                                        </tr>
+                                    </c:forEach>
+                                </c:otherwise>
+                            </c:choose>
+                        </tbody>
+                    </table>
+                </form>
                 <div class="row">
                     <div class="col">
                         <button class="selectDelete me-1" type="button">전체삭제</button>
