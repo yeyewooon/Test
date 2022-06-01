@@ -67,13 +67,34 @@ window.onload = function () {
 
   $('.btnOrder').on('click', function () {
     const checkboxes = document.getElementsByName('seq_cart');
-    checkboxes.forEach((checkbox, index) => {
-      if (!checkbox.checked) {
-        checkbox.removeAttribute('name');
+    const checked = $('.check:checked').length;
+    checkboxes.forEach(checkbox => {
+      if (checkbox.checked) {
+        document.getElementById('signupForm').submit();
+        return;
       }
       // console.log(checkbox.value);
       // form 제출
-      document.getElementById('signupForm').submit();
     });
+    if (checked === 0) {
+      alert('장바구니에서 물건을 선택해주세요.');
+    }
+  });
+
+  $('#btnDelAll').on('click', function () {
+    const check = confirm('모든 상품을 삭제하시겠습니까?');
+    if (check) {
+      alert('모든 상품이 삭제되었습니다.');
+      location.href = '/toDelAllCart.mem';
+    }
+  });
+
+  $('#btnDelSel').on('click', function () {
+    const check = confirm('선택한 상품을 삭제하시겠습니까?');
+    if (check) {
+      alert('선택한 상품이 삭제되었습니다.');
+      $('#signupForm').attr('action', '/toDelBySeqCart.mem');
+      document.getElementById('signupForm').submit();
+    }
   });
 };

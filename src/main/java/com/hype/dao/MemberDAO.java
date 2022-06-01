@@ -176,6 +176,41 @@ public class MemberDAO {
 		}
 	}
 	
+	public int deleteCartAll(String id) throws Exception {
+		String sql = "delete from tbl_cart where user_id = ?";
+
+		try (Connection con = bds.getConnection(); 
+				PreparedStatement pstmt = con.prepareStatement(sql)) {
+			
+			pstmt.setString(1, id);
+			
+			int rs = pstmt.executeUpdate();
+			return rs;
+		}
+	}
+	
+	public int delCartBySelect(int[] seq_cart) throws Exception{
+		String[] str = new String[seq_cart.length];
+		
+		for(int i = 0; i < seq_cart.length; i++) {
+			str[i] = "?";
+		}
+		String allStr = String.join(",", str);
+		String sql = "delete from tbl_cart where seq_cart in";
+		sql += "("+allStr+")";
+
+		try (Connection con = bds.getConnection(); 
+				PreparedStatement pstmt = con.prepareStatement(sql)) {
+			
+			for(int i = 0; i < seq_cart.length; i++) {
+				pstmt.setInt(i+1, seq_cart[i]);
+			}
+			
+			int rs = pstmt.executeUpdate();
+			return rs;
+		}
+	}
+	
 	public int updateQtyCart(int qty, int cart) throws Exception{
 		String sql = "update tbl_cart set cart_quantity=? where seq_cart = ?";
 

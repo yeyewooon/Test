@@ -144,13 +144,14 @@
                             </c:choose>
                         </tbody>
                     </table>
-                </form>
-                <div class="row">
-                    <div class="col">
-                        <button class="selectDelete me-1" type="button">전체삭제</button>
-                        <button class="selectDelete" type="button">선택삭제</button>
+
+                    <div class="row">
+                        <div class="col">
+                            <button class="selectDelete me-1" type="button" id="btnDelAll">전체삭제</button>
+                            <button class="selectDelete" type="button" id="btnDelSel">선택삭제</button>
+                        </div>
                     </div>
-                </div>
+                </form>
                 <div class="row mt-5">
                     <div class="col">
                         <ul class="guideline">
