@@ -2,6 +2,7 @@ package com.hype.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -104,16 +105,19 @@ public class MemberController extends HttpServlet {
 				System.out.println("암호화" + pw); // 지워야함
 				
 				MemberDTO dto = dao.login(id, pw);
+				
 				if(dto != null) { //로그인 성공
 					System.out.println("로그인 성공");
-					request.setAttribute("rs", "ok");
+					response.setCharacterEncoding("utf-8");
 					HttpSession session = request.getSession();
-					session.setAttribute("loginSession", dto);
+					session.setAttribute("loginSession", dto);	
+					
+					response.getWriter().append("loginSuccess");
 				}else {// 로그인 실패
 					System.out.println("로그인 실패");
-					request.setAttribute("rs", "no");
+					response.getWriter().append("loginFail");
 				}
-				request.getRequestDispatcher("/member/popupLogin.jsp").forward(request, response);
+				//request.getRequestDispatcher("/member/popupLogin.jsp").forward(request, response);
 			
 			}catch(Exception e) {
 				e.printStackTrace();
@@ -121,7 +125,7 @@ public class MemberController extends HttpServlet {
 		}else if(uri.equals("/logoutProc.mem")) {// 로그아웃 요청
 			HttpSession session = request.getSession();	
 			System.out.println(session.getAttribute("loginSession"));
-			// 1. session 객체를 초기화
+			// 1. session 객체를 초기화	
 			session.invalidate();
 			response.sendRedirect("/Tohome");
 			
@@ -129,10 +133,28 @@ public class MemberController extends HttpServlet {
 			request.setCharacterEncoding("utf-8");
 			HttpSession session = request.getSession();
 			
-			MemberDTO dto = (MemberDTO)session.getAttribute("loginSession");
-			System.out.println(dto.toString());
+			String user_id = ((MemberDTO)session.getAttribute("loginSession")).getUser_id();
 			
-			request.setAttribute("userInfo", dto);
+			MemberDAO dao = new MemberDAO();
+			
+			try {
+				List<Integer> list = dao.myPageCnt(user_id);
+				int totalCnt = list.get(0);
+				int deliveryCnt = list.get(1);
+				int deliveryCompletCnt = list.get(2);
+				int totalPrice = list.get(3);
+				
+				request.setAttribute("user_id", user_id);
+				request.setAttribute("totalCnt", totalCnt);
+				request.setAttribute("deliveryCnt", deliveryCnt);
+				request.setAttribute("deliveryCompletCnt", deliveryCompletCnt);
+				request.setAttribute("totalPrice", totalPrice);
+				
+				
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			
 			request.getRequestDispatcher("/member/myPage.jsp").forward(request, response);
 			
 		}else if(uri.equals("/toCs.mem")) { //고객센터로
@@ -145,7 +167,6 @@ public class MemberController extends HttpServlet {
 			request.setCharacterEncoding("utf-8");
 			String find_name = request.getParameter("find_name");
 			String find_phone = request.getParameter("find_phone");
-			System.out.println(find_name + " : " + find_phone);
 			
 			MemberDAO dao = new MemberDAO();
 				
@@ -170,7 +191,6 @@ public class MemberController extends HttpServlet {
 		}else if(uri.equals("/findPw.mem")) { // 비밀번호찾기
 			String user_id = request.getParameter("findPw_id");
 			String user_name = request.getParameter("findPw_name");
-			System.out.println(user_id +" : "+ user_name);
 			MemberDAO dao = new MemberDAO();
 			try {
 				int rs = dao.findPw(user_id, user_name);
@@ -190,13 +210,10 @@ public class MemberController extends HttpServlet {
 		}else if(uri.equals("/toModifyPw.mem")) {  // 비밀번호 수정
 			String pw = request.getParameter("modifyPw");
 			String user_id = request.getParameter("modifyPw_id");
-			System.out.println("암호화 전 비밀번호 : " + pw);
-			System.out.println("변경하는 user_id : " + user_id);
 			MemberDAO dao = new MemberDAO();
 			
 			try {
 				pw = EncryptionUtils.getSHA512(pw);
-				System.out.println("암호화된 데이터 : " + pw);
 				
 				int rs = dao.modifyPw(pw, user_id);
 				
@@ -239,7 +256,6 @@ public class MemberController extends HttpServlet {
 			String qna_type = request.getParameter("qna_type");
 			String qna_title = request.getParameter("qna_title");
 			String qna_content = request.getParameter("qna_content");
-			System.out.println(seq_order +" : " + user_id +" : " + qna_type +" : " + qna_title +" : " + qna_content);
 			QnaDAO dao = new QnaDAO();
 			
 			try {
@@ -247,20 +263,17 @@ public class MemberController extends HttpServlet {
 				
 				if(rs >0) {
 					System.out.println("등록 성공");
-					response.sendRedirect("/toCs.mem");
-					
+					response.getWriter().append("1");
 				}else {
 					System.out.println("등록 실패");
+					response.getWriter().append("0");
 				}
-				
 				
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
-			
 		}
 
 		
 	}
-
 }

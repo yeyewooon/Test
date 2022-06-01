@@ -61,13 +61,15 @@ private BasicDataSource bds;
 	}
 	
 	
-	public int qnaInsert(int seq, String id, String type, String title, String content) throws Exception{ //문의글 작성
-		String sql = "insert into tbl_qna values(?,?,?,?,?, sysdate)";
+	public int qnaInsert(int seq_order, String id, String type, String title, String content) throws Exception{ //문의글 작성
+		String sql = "insert into tbl_qna (seq_qna, seq_order, user_id, qna_type, qna_title, qna_content, qna_date )"
+				+ "values(seq_qna.nextval, ?, ?, ?, ?, ?, sysdate)";
+		
 		
 		try(Connection con = bds.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql)){
 			
-			pstmt.setInt(1, seq);
+			pstmt.setInt(1, seq_order);
 			pstmt.setString(2, id);
 			pstmt.setString(3, type);
 			pstmt.setString(4, title);

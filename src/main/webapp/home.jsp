@@ -54,7 +54,7 @@ integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52n
                  </form>
              </button></div>
              <div class="col-md-2 navbar-anchor" id="userIcon">
-                 <c:choose>
+         <c:choose>
 			<c:when test="${not empty loginSession}"><!-- 로그인했으면 -->
 				<a href="/toCart.mem"><i class="fa-solid fa-cart-plus"></i></a>
 					<div class="dropdown" style="display: inline;">

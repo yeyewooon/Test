@@ -44,14 +44,39 @@ $(document).ready(function(){
 	$("#btnLogin").on("click", function() {
 		let id = $("#id").val();
 		let pw = $("#pw").val();
-
-		if ($("#id").val() === "" || $("#pw").val() === "") {
+		
+		if ( id === "" || pw === "") {
 			alert("아이디 혹은 비밀번호를 정확히 입력하세요.");
 			return;
 		}
-		console.log("id : " , id);
-		console.log("pw : " , pw);
-		$("#loginForm").submit();
+		
+		let data = $("#loginForm").serialize();
+		
+		$.ajax({
+			
+			url : "/toLoginProc.mem"
+			, type : "post"
+			, data : data
+			, success : function(resultData){
+				console.log("받아온 id",resultData);
+				if(resultData != null){
+					
+					alert("로그인 성공");
+					
+					
+					opener.document.location.href = url;
+					self.close();
+			
+				}else{
+					alert("로그인 실패!");
+				}
+		
+			}, error : function(e){
+				console.log(e);
+			}
+
+		})
+
 
 	});
 

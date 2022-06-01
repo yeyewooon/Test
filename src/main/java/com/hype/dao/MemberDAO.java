@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -157,6 +158,44 @@ private BasicDataSource bds;
 			int rs = pstmt.executeUpdate();
 			return rs;
 		}
+	}
+	
+	public List<Integer> myPageCnt(String id) throws Exception{
+		String sql = "select  \r\n"
+				+ "(select count(a.seq_order) from tbl_order a where a.order_status = '상품준비중' and user_id= ?) as totalCnt,\r\n"
+				+ "(select count(b.seq_order) from tbl_order b where b.order_status = '배송중' and user_id= ?) as deliveryCnt,\r\n"
+				+ "(select count(c.seq_order) from tbl_order c where c.order_status = '배송완료' and user_id= ?) as deliveryCompleteCnt, \r\n"
+				+ "(select SUM(buy_price) from tbl_buy where user_id = ?) as totalPrice \r\n"
+				+ "from dual";
+		
+		try(Connection con = bds.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql)){
+			
+			pstmt.setString(1, id);
+			pstmt.setString(2, id);
+			pstmt.setString(3, id);
+			pstmt.setString(4, id);
+			
+			ResultSet rs = pstmt.executeQuery();
+			List<Integer> list = new ArrayList<>();
+			
+			while(rs.next()) {
+				int totalCnt = rs.getInt("totalCnt");
+				int deliveryCnt = rs.getInt("deliveryCnt");
+				int deliveryCompleteCnt = rs.getInt("deliveryCompleteCnt");
+				int totalPrice = rs.getInt("totalPrice");
+				
+				list.add(totalCnt);
+				list.add(deliveryCnt);
+				list.add(deliveryCompleteCnt);
+				list.add(totalPrice);
+			}
+			return list;
+			
+			
+		}
+		
+		
 	}
 	
 	

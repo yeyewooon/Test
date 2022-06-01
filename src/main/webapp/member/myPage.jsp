@@ -96,12 +96,12 @@ integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52n
             <div class="container" id="contentBox">
                 <div class="row">
                     <div class="col">
-                        <h3 class="header">${userInfo.user_id}님 환영합니다.</h3>
+                        <h3 class="header">${user_id}님 환영합니다.</h3>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
-                        <h6 class="info">>총 주문금액: 100,000원</h6>
+                        <h6 class="info">>총 주문금액: ${totalPrice}원</h6>
                     </div>
                 </div>
             </div>
@@ -115,15 +115,15 @@ integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52n
                 <div class="row">
                     <div class="col-12 col-sm-4 ship_info">
                         <p style="margin-top: 20px; margin-bottom: 5px;">주문건수</p>
-                        <h3>2</h3>
+                        <h3>${totalCnt}</h3>
                     </div>
                     <div class="col-12 col-sm-4 ship_info_right">
                         <p style="margin-top: 20px; margin-bottom: 5px;">배송중</p>
-                        <h3>1</h3>
+                        <h3>${deliveryCnt}</h3>
                     </div>
                     <div class="col-12 col-sm-4 ship_info_right">
                         <p style="margin-top: 20px; margin-bottom: 5px;">배송완료</p>
-                        <h3>1</h3>
+                        <h3>${deliveryCompletCnt}</h3>
                     </div>
                 </div>
                 <div class="row">

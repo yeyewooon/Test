@@ -41,7 +41,26 @@ $(document).ready(function(){
 			alert("주문번호와 제목, 내용을 입력해주세요");
 			return;
 		}
-		$("#qnaForm").submit();
+		
+		let data = $("#qnaForm").serialize();
+		
+		$.ajax({
+			url : "/toQnaProc.mem"
+			, type : "post"
+			, data : data
+			, success : function(resultData){
+				if(resultData === "1"){
+					alert("등록이 완료되었습니다.");
+					location.href = "/toCs.mem";
+				}else{
+					alert("등록에 실패하였습니다.");
+				}
+				
+			}, error : function(e){
+				console.log(e);
+			}
+			
+		})//ajax종료
 		
 	});
 	
@@ -125,10 +144,11 @@ $(document).ready(function(){
                  </div>
                  <div class="row p-2" style="border-top: 1px solid lightgrey;">
                      <div class="col-3">
-                         <p>주문 번호</p>
+                         <p>상품명</p>
                      </div>
                      <div class="col-7">
-                         <input class="form-control" type="text" id="seq_order" name="seq_order" style="width: 99% ;" readonly>
+                         <input class="form-control" type="hidden" id="seq_order" name="seq_order" style="width: 99% ;" readonly>
+                         <input class="form-control" type="text" id="buy_name" name="buy_name" style="width: 99% ;" readonly>
                      </div>
                      <div class="col-2">
                          <button id="btnCheck" class="btn btn-secondary"  type="button">조회</button>
