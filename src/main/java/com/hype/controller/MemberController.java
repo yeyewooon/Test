@@ -351,11 +351,16 @@ public class MemberController extends HttpServlet {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		} else if (uri.equals("/toPay.mem")) {
-			int[] seq_cart = Arrays.stream(request.getParameterValues("seq_cart")).mapToInt(Integer::parseInt).toArray();
+		} else if (uri.equals("/toPay.mem")) { // 결제
+			int[] seq_cart = Arrays.stream(request.getParameterValues("seq_cart")).mapToInt(Integer::parseInt).toArray(); // 장바구니에서 넘긴 tbl_cart 배열
+			
+			HttpSession session = request.getSession();
+			String user_id = ((MemberDTO)session.getAttribute("loginSession")).getUser_id();
+			
+			
+			request.getRequestDispatcher("/member/pay.jsp").forward(request, response);
 
-
-		}else if(uri.equals("/toQnaProc.mem")) { 
+		}else if(uri.equals("/toQnaProc.mem")) {  // qna 글쓰기
 			int seq_order = Integer.parseInt(request.getParameter("seq_order"));
 			String user_id = request.getParameter("user_id");
 			String qna_type = request.getParameter("qna_type");
@@ -377,8 +382,6 @@ public class MemberController extends HttpServlet {
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
-		}else if(uri.equals("/toPay.mem")) { 
-			response.sendRedirect("/member/pay.jsp");
 		}
 
 	}

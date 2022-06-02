@@ -27,11 +27,9 @@ let url = "/Tohome";
 			, data : data
 			, success : function(resultData){
 				console.log("받아온 id",resultData);
-				if(resultData != null){
+				if(resultData === "loginSuccess"){
 					
 					alert("로그인 성공");
-					
-					
 					opener.document.location.href = url;
 					self.close();
 			
@@ -45,16 +43,6 @@ let url = "/Tohome";
 		})
 	});
 
-	console.log("${rs}");
-	if("${rs}" === "ok"){
-		console.log("${rs}");
-		alert("로그인 성공!");
-		opener.document.location.href = url;
-		self.close();	
-	}else if("${rs}" === "no"){
-		console.log("${rs}");
-		alert("로그인 실패!");
-	}
 
 	$("#btnFindID").on("click", function() {
 		if( $("#find_name").val() === "" || $("#find_phone2").val() === "" || $("#find_phone3").val() === "" ){
