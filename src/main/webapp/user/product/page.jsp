@@ -35,7 +35,7 @@
 <!-- fontAwessome-->
 <script src="https://kit.fontawesome.com/241134516c.js"
 	crossorigin="anonymous"></script>
-//<link href="user/product/css/page.css" rel="stylesheet" />
+<link href="user/product/css/page.css" rel="stylesheet" />
 <title>Document</title>
 <style>
 i {
@@ -151,10 +151,22 @@ a {
 	transition: opacity .15s ease;
 }
 
-img {
-	width: 60px;
+.btnImg img{
+	width: 50px;
 }
-/*content1*/
+.ranknum{
+	background-color:dodgerblue;
+}
+.ranknum>span {
+	font-size: 20px;
+	font-weight: 30px;
+	color:white;
+}
+.carousel-inner{
+	height:415px;
+}
+
+/*content2*/
 .imgBox #Cimg {
 	width: 400px;
 	height: 400px;
@@ -163,7 +175,6 @@ img {
 
 .imgBox:hover {
 	transform: scale(1.1);
-	background-color: lightgrey;
 }
 
 .imgBox {
@@ -171,6 +182,7 @@ img {
 }
 
 .imgText {
+	text-align: center;
 	font-size: 18px;
 }
 /* 3열 */
@@ -213,9 +225,9 @@ footer.footer {
 						data-bs-toggle="dropdown" aria-expanded="false"
 						style="font-weight: bold;">CLOTHES</button>
 					<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-						<li><a class="dropdown-item" href="/ToPage.page?category=Top">Top</a></li>
+						<li><a class="dropdown-item" href="/ToPage.page?category=top">Top</a></li>
 						<li><a class="dropdown-item" href="/ToPage.page?category=bt">Bottom</a></li>
-						<li><a class="dropdown-item" href="/ToPage.page?category=Accessory">Accessory</a></li>
+						<li><a class="dropdown-item" href="/ToPage.page?category=acc">Accessory</a></li>
 					</ul>
 				</div>
 
@@ -270,245 +282,76 @@ footer.footer {
 					<div class="carousel-inner">
 						<div class="carousel-item active">
 							<div class="row">
-								<div class="col-lg-3">
-									<a href="">
-										<div class="card">
-											<!--카드1-->
-											<div class="row">
-												<div class="col">
-													<div class="cardimg">
-														<img src="images/바지1-5.PNG" class="cardimg">
+								<c:forEach items="${imgList }" var="imgList" varStatus="status">
+									<c:if test="${status.index<4}">
+										<div class="col-lg-3">
+											<a href="">
+												<div class="card">
+													<div class="row">
+														<div class="col-2 ranknum">
+															<span>${status.index+1 }</span>
+														</div>
+													</div>
+													<div class="row">
+														<div class="col">
+															<div class="cardimg">
+																<img src="${imgList.image_path}${imgList.image_name}" class="cardimg">
+															</div>
+														</div>
+													</div>
+													<div class="row card-text">
+														<div class="col-12 productName">
+															<span>${proList[status.index].product_name }</span><br> ${proList[status.index].product_price }
+														</div>
 													</div>
 												</div>
-											</div>
-											<div class="row card-text">
-												<div class="col-12 productName">
-													<span>tiger t-shirt(white)</span><br> <span>30000</span>
-												</div>
-											</div>
+											</a>
 										</div>
-									</a>
-								</div>
-								<div class="col-lg-3">
-									<a href="">
-										<div class="card">
-											<!--카드2-->
-											<div class="row">
-												<div class="col">
-													<div class="cardimg">
-														<img src="resources/mztiger1.PNG" class="cardimg">
-													</div>
-												</div>
-											</div>
-											<div class="row card-text">
-												<div class="col-12 productName">
-													<span>tiger t-shirt(white)</span><br> <span>30000</span>
-												</div>
-											</div>
-										</div>
-									</a>
-								</div>
-								<div class="col-lg-3">
-									<a href="">
-										<div class="card">
-											<!--카드3-->
-											<div class="row">
-												<div class="col">
-													<div class="cardimg">
-														<img src="images/mztiger1.PNG" class="cardimg">
-													</div>
-												</div>
-											</div>
-											<div class="row card-text">
-												<div class="col-12 productName">
-													<span>tiger t-shirt(white)</span><br> <span>30000</span>
-												</div>
-											</div>
-										</div>
-									</a>
-								</div>
-								<div class="col-lg-3 ">
-									<a href="">
-										<div class="card">
-											<!--카드4-->
-											<div class="row">
-												<div class="col">
-													<div class="cardimg">
-														<img src="images/mztiger1.PNG" class="cardimg">
-													</div>
-												</div>
-											</div>
-											<div class="row card-text">
-												<div class="col-12 productName">
-													<span>tiger t-shirt(white)</span><br> <span>30000</span>
-												</div>
-											</div>
-										</div>
-									</a>
-								</div>
+									</c:if>
+								</c:forEach>
 							</div>
 						</div>
 						<div class="carousel-item">
 							<div class="row">
-								<div class="col-lg-3">
-									<a href="">
-										<div class="card">
-											<div class="row">
-												<div class="col">
-													<div class="cardimg">
-														<img src="images/바지1-5.PNG" class="cardimg">
+								<c:forEach items="${imgList }" var="imgList" varStatus="status">
+									<c:if test="${status.index>=4}">
+										<div class="col-lg-3">
+											<a href="">
+												<div class="card">
+													<div class="row">
+														<div class="col-2 ranknum">
+															<span>${status.index+1 }</span>
+														</div>
+													</div>
+													<div class="row">
+														<div class="col">
+															<div class="cardimg">
+																<img src="${imgList.image_path}${imgList.image_name}" class="cardimg">
+															</div>
+														</div>
+													</div>
+													<div class="row card-text">
+														<div class="col-12 productName">
+															<span>${proList[status.index].product_name }</span><br> ${proList[status.index].product_price }
+														</div>
 													</div>
 												</div>
-											</div>
-											<div class="row card-text">
-												<div class="col-12 productName">
-													<span>tiger t-shirt(white)</span><br> <span>30000</span>
-												</div>
-											</div>
+											</a>
 										</div>
-									</a>
-								</div>
-								<div class="col-lg-3">
-									<a href="">
-										<div class="card">
-											<div class="row">
-												<div class="col">
-													<div class="cardimg">
-														<img src="images/mztiger1.PNG" class="cardimg">
-													</div>
-												</div>
-											</div>
-											<div class="row card-text">
-												<div class="col-12 productName">
-													<span>tiger t-shirt(white)</span><br> <span>30000</span>
-												</div>
-											</div>
-										</div>
-									</a>
-								</div>
-								<div class="col-lg-3">
-									<a href="">
-										<div class="card">
-											<div class="row">
-												<div class="col">
-													<div class="cardimg">
-														<img src="images/mztiger1.PNG" class="cardimg">
-													</div>
-												</div>
-											</div>
-											<div class="row card-text">
-												<div class="col-12 productName">
-													<span>tiger t-shirt(white)</span><br> <span>30000</span>
-												</div>
-											</div>
-										</div>
-									</a>
-								</div>
-								<div class="col-lg-3">
-									<a href="">
-										<div class="card">
-											<div class="row">
-												<div class="col">
-													<div class="cardimg">
-														<img src="images/mztiger1.PNG" class="cardimg">
-													</div>
-												</div>
-											</div>
-											<div class="row card-text">
-												<div class="col-12 productName">
-													<span>tiger t-shirt(white)</span><br> <span>30000</span>
-												</div>
-											</div>
-										</div>
-									</a>
-								</div>
+									</c:if>
+								</c:forEach>
 							</div>
-						</div>
-						<div class="carousel-item">
-							<div class="row">
-								<div class="col-lg-3">
-									<a href="">
-										<div class="card">
-											<div class="row">
-												<div class="col">
-													<div class="cardimg">
-														<img src="images/바지1-5.PNG" class="cardimg">
-													</div>
-												</div>
-											</div>
-											<div class="row card-text d-flex justify-content-center">
-												<div class="col-12 productName">
-													<span>tiger t-shirt(white)</span><br> <span>30000</span>
-												</div>
-											</div>
-										</div>
-									</a>
-								</div>
-								<div class="col-lg-3">
-									<a href="">
-										<div class="card">
-											<div class="row">
-												<div class="col">
-													<div class="cardimg">
-														<img src="images/mztiger1.PNG" class="cardimg">
-													</div>
-												</div>
-											</div>
-											<div class="row card-text">
-												<div class="col-12 productName">
-													<span>tiger t-shirt(white)</span><br> <span>30000</span>
-												</div>
-											</div>
-										</div>
-									</a>
-								</div>
-								<div class="col-lg-3">
-									<a href="">
-										<div class="card">
-											<div class="row">
-												<div class="col">
-													<div class="cardimg">
-														<img src="images/mztiger1.PNG" class="cardimg">
-													</div>
-												</div>
-											</div>
-											<div class="row card-text">
-												<div class="col-12 productName">
-													<span>tiger t-shirt(white)</span><br> <span>30000</span>
-												</div>
-											</div>
-										</div>
-									</a>
-								</div>
-								<div class="col-lg-3">
-									<a href="">
-										<div class="card">
-											<div class="row">
-												<div class="col">
-													<div class="cardimg">
-														<img src="images/mztiger1.PNG" class="cardimg">
-													</div>
-												</div>
-											</div>
-											<div class="row card-text">
-												<div class="col-12 productName">
-													<span>tiger t-shirt(white)</span><br> <span>30000</span>
-												</div>
-											</div>
-										</div>
-									</a>
-								</div>
-							</div>
-						</div>
+						</div>	
+							
 					</div>
-					<button class="carousel-c-prev btnImg" type="button"
-						data-bs-target="#carouselTop" data-bs-slide="prev">
-						<img src="resources/caret-left.png">
-					</button>
-					<button class="carousel-c-next btnImg" type="button"
-						data-bs-target="#carouselTop" data-bs-slide="next">
-						<img src="resources/caret-right.png">
-					</button>
+					<div class="btnClass">
+						<button class="carousel-c-prev btnImg" type="button" data-bs-target="#carouselTop" data-bs-slide="prev">
+							<img src="resources/images/caret-left.png">
+						</button>
+						<button class="carousel-c-next btnImg" type="button" data-bs-target="#carouselTop" data-bs-slide="next">
+							<img src="resources/images/caret-right.png">
+						</button>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -519,29 +362,71 @@ footer.footer {
 				<div class="content2">
 					<div class="row title">
 						<div class="col p-4 d-flex justify-content-center">
-							<p>하의</p>
+							<p>${category}</p>
 						</div>
 					</div>
-
-					<c:forEach var="i" begin="1" end="2">
-						<div class="imgContainer">
+					<div class="imgContainer">
+						<c:if test="${cnt <= 3}">
 							<div class="row">
-								<c:forEach var="i" begin="1" end="3">
+								<c:forEach items="${imgList }" var="imgList" varStatus="status">
 									<div class="col-md-4 d-block justify-content-center p-4">
-										<a href="">
+										<a href="detailPage.page?seq_product=${proList[status.index].seq_product }">
 											<div class="imgBox">
-												<img src="${imgList.img_path }\${imgList.img_name}" id="Cimg">
-												<div class="imgText">
-													<strong>청바지</strong><br> 50000원
-												</div>
+												<img src="${imgList.image_path}${imgList.image_name}" id="Cimg">
 											</div>
+											<div class="imgText">
+												<strong>${proList[status.index].product_name }</strong><br> ${proList[status.index].product_price}
+											</div>	
 										</a>
 									</div>
 								</c:forEach>
 							</div>
-						</div>
-					</c:forEach>
-				</div>
+						</c:if>
+						<c:if test="${cnt>3}">
+							<c:forEach items="${imgList }" var="imgList" varStatus="status">
+								<c:if test="${status.index%3 eq 0 }">
+									<div class="row">
+										<div class="col-md-4 d-block justify-content-center p-4">
+											<div class="imgBox">
+												<a href="detailPage.page?seq_product=${proList[status.index].seq_product }">
+													<img src="${imgList.image_path}${imgList.image_name}" id="Cimg">
+												</a>
+											</div>
+											<div class="imgText">
+												<strong>${proList[status.index].product_name }</strong><br> ${proList[status.index].product_price}
+											</div>	
+										</div>
+								</c:if>	
+								<c:if test="${status.index%3 eq 1 }">
+									<div class="col-md-4 d-block justify-content-center p-4">
+										<div class="imgBox">
+											<a href="detailPage.page?seq_product=${proList[status.index].seq_product }">
+												<img src="${imgList.image_path}${imgList.image_name}" id="Cimg">
+											</a>
+										</div>
+										<div class="imgText">
+											<strong>${proList[status.index].product_name }</strong><br> ${proList[status.index].product_price}
+										</div>	
+									</div>
+								</c:if>		
+								<c:if test="${status.index%3 eq 2 }">
+									<div class="col-md-4 d-block justify-content-center p-4">
+										<div class="imgBox">
+											<a href="detailPage.page?seq_product=${proList[status.index].seq_product }">
+												<img src="${imgList.image_path}${imgList.image_name}" id="Cimg">
+											</a>
+										</div>
+										<div class="imgText">
+											<strong>${proList[status.index].product_name }</strong><br> ${proList[status.index].product_price}
+										</div>	
+									</div>
+									</div>
+								</c:if>	
+							</c:forEach>		
+						</c:if>
+							
+					</div>		
+						
 			</div>
 		</div>
 

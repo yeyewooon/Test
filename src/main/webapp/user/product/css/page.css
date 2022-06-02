@@ -125,14 +125,13 @@ img {
 
 .imgBox:hover {
 	transform: scale(1.1);
-	background-color: lightgrey;
 }
-
 .imgBox {
 	padding-top: 30px;
 }
 
 .imgText {
+	text-align: center;
 	font-size: 18px;
 }
 /* 3열 */
