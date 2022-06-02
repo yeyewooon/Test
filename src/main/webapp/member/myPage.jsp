@@ -97,7 +97,11 @@ integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52n
             <div class="container" id="contentBox">
                 <div class="row">
                     <div class="col">
+<<<<<<< HEAD
                         <h3 class="header">${loginSession.user_id}님 환영합니다.</h3>
+=======
+                        <h3 class="header">${user_id}님 환영합니다.</h3>
+>>>>>>> fa0d61449ee11d5d8ecf5513db7ce8eaf887b622
                     </div>
                 </div>
                 <div class="row">

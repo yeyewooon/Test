@@ -1,4 +1,6 @@
-window.onload = function () {
+/**
+ * 
+ */window.onload = function () {
   $('.qty-update-btn').on('click', function () {
     const parent = $(this).closest('td');
     const parent2 = $(this).closest('tr');

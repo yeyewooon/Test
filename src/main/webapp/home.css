@@ -54,12 +54,14 @@ font-weight: bold;
 .carouselFimg{
     min-width: 100%;
     min-height: 500px;
-    max-height: 695px;
+/*     max-height: 695px; */
+	max-height: 880px;
 }
 
 .carouselImg{
     min-width: 100%;
-    max-height: 720px;
+/*     max-height: 720px; */
+    max-height: 900px;
 }
 .carousel-c-next {
     position: absolute;
