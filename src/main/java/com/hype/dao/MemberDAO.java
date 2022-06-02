@@ -203,26 +203,8 @@ public class MemberDAO {
 		try (Connection con = bds.getConnection(); 
 				PreparedStatement pstmt = con.prepareStatement(sql)) {
 			
-<<<<<<< HEAD
-			pstmt.setString(1, user_id);
-			pstmt.setString(2, user_name);
-			
-			ResultSet rs = pstmt.executeQuery();
-			
-			int result = 0;
-			
-			if(rs.next()) {
-				result = rs.getInt(1);
-			}
-			
-			if(result == 1) {
-				return 1;
-			}else {
-				return 0;
-=======
 			for(int i = 0; i < seq_cart.length; i++) {
 				pstmt.setInt(i+1, seq_cart[i]);
->>>>>>> 3ba0b981a4cb432b48c764ed9edadf0e4f4e42c8
 			}
 			
 			int rs = pstmt.executeUpdate();
@@ -230,16 +212,6 @@ public class MemberDAO {
 		}
 	}
 	
-<<<<<<< HEAD
-	public int modifyPw(String pw, String id) throws Exception{
-		String sql = "update tbl_member set user_password = ? where user_id = ?";
-		
-		try(Connection con = bds.getConnection();
-			PreparedStatement pstmt = con.prepareStatement(sql)){
-			
-			pstmt.setString(1, pw);
-			pstmt.setString(2, id);
-=======
 	public int updateQtyCart(int qty, int cart) throws Exception{
 		String sql = "update tbl_cart set cart_quantity=? where seq_cart = ?";
 
@@ -248,39 +220,25 @@ public class MemberDAO {
 			
 			pstmt.setInt(1, qty);
 			pstmt.setInt(2, cart);
->>>>>>> 3ba0b981a4cb432b48c764ed9edadf0e4f4e42c8
 			
 			int rs = pstmt.executeUpdate();
 			return rs;
 		}
 	}
-<<<<<<< HEAD
-=======
-
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
->>>>>>> 3ba0b981a4cb432b48c764ed9edadf0e4f4e42c8
+	public int modifyPw(String pw, String id) throws Exception{
+		String sql = "update tbl_member set user_password = ? where user_id = ?";
+		
+		try(Connection con = bds.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql)){
+			
+			pstmt.setString(1, pw);
+			pstmt.setString(2, id);
+			
+			int rs = pstmt.executeUpdate();
+			return rs;
+		}
+	}
 	
 	public List<Integer> myPageCnt(String id) throws Exception{
 		String sql = "select  \r\n"
@@ -319,6 +277,31 @@ public class MemberDAO {
 		
 		
 	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 }

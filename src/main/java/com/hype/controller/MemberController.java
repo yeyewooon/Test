@@ -2,11 +2,8 @@ package com.hype.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
-<<<<<<< HEAD
-import java.util.List;
-=======
 import java.util.Arrays;
->>>>>>> 3ba0b981a4cb432b48c764ed9edadf0e4f4e42c8
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,16 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.tomcat.util.buf.StringUtils;
-
 import com.google.gson.Gson;
 import com.hype.dao.MemberDAO;
-<<<<<<< HEAD
 import com.hype.dao.QnaDAO;
 import com.hype.dto.BuyDTO;
-=======
 import com.hype.dto.CartDTO;
->>>>>>> 3ba0b981a4cb432b48c764ed9edadf0e4f4e42c8
 import com.hype.dto.MemberDTO;
 import com.hype.utills.EncryptionUtils;
 
@@ -108,63 +100,42 @@ public class MemberController extends HttpServlet {
 			String url = request.getParameter("url");
 			System.out.println("접속 id : " + id);
 			System.out.println("접속 pw : " + pw);
-<<<<<<< HEAD
 			
 			
 			System.out.println("접속하기 전url" + url);
 			
-=======
-
->>>>>>> 3ba0b981a4cb432b48c764ed9edadf0e4f4e42c8
 			MemberDAO dao = new MemberDAO();
 			try {
-				pw = EncryptionUtils.getSHA512(pw);// 암호화
+				pw = EncryptionUtils.getSHA512(pw);//암호화
 				System.out.println("암호화" + pw); // 지워야함
-
+				
 				MemberDTO dto = dao.login(id, pw);
-<<<<<<< HEAD
 				
 				if(dto != null) { //로그인 성공
-=======
-				if (dto != null) { // 로그인 성공
->>>>>>> 3ba0b981a4cb432b48c764ed9edadf0e4f4e42c8
 					System.out.println("로그인 성공");
 					response.setCharacterEncoding("utf-8");
 					HttpSession session = request.getSession();
-<<<<<<< HEAD
 					session.setAttribute("loginSession", dto);	
 					
 					response.getWriter().append("loginSuccess");
 				}else {// 로그인 실패
-=======
-					session.setAttribute("loginSession", dto);
-				} else {// 로그인 실패
->>>>>>> 3ba0b981a4cb432b48c764ed9edadf0e4f4e42c8
 					System.out.println("로그인 실패");
 					response.getWriter().append("loginFail");
 				}
-<<<<<<< HEAD
-				//request.getRequestDispatcher("/member/popupLogin.jsp").forward(request, response);
-			
-			}catch(Exception e) {
-=======
-				request.getRequestDispatcher("/member/popupLogin.jsp").forward(request, response);
 
 			} catch (Exception e) {
->>>>>>> 3ba0b981a4cb432b48c764ed9edadf0e4f4e42c8
 				e.printStackTrace();
 			}
 		} else if (uri.equals("/logoutProc.mem")) {// 로그아웃 요청
 			HttpSession session = request.getSession();
 			System.out.println(session.getAttribute("loginSession"));
-			// 1. session 객체를 초기화	
+			// 1. session 객체를 초기화
 			session.invalidate();
 			response.sendRedirect("/Tohome");
 
 		} else if (uri.equals("/toMypage.mem")) { // 마이페이지로 로그인시에만 가능 안했다면 로그인 팝업
 			request.setCharacterEncoding("utf-8");
 			HttpSession session = request.getSession();
-<<<<<<< HEAD
 			
 			String user_id = ((MemberDTO)session.getAttribute("loginSession")).getUser_id();
 			
@@ -188,13 +159,6 @@ public class MemberController extends HttpServlet {
 				e.printStackTrace();
 			}
 			
-=======
-
-			MemberDTO dto = (MemberDTO) session.getAttribute("loginSession");
-			System.out.println(dto.toString());
-
-			request.setAttribute("userInfo", dto);
->>>>>>> 3ba0b981a4cb432b48c764ed9edadf0e4f4e42c8
 			request.getRequestDispatcher("/member/myPage.jsp").forward(request, response);
 
 		} else if (uri.equals("/toCs.mem")) { // 고객센터로
@@ -207,12 +171,8 @@ public class MemberController extends HttpServlet {
 			request.setCharacterEncoding("utf-8");
 			String find_name = request.getParameter("find_name");
 			String find_phone = request.getParameter("find_phone");
-<<<<<<< HEAD
-			
-=======
 			System.out.println(find_name + " : " + find_phone);
 
->>>>>>> 3ba0b981a4cb432b48c764ed9edadf0e4f4e42c8
 			MemberDAO dao = new MemberDAO();
 
 			try {
@@ -232,9 +192,8 @@ public class MemberController extends HttpServlet {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-<<<<<<< HEAD
-			
-		}else if(uri.equals("/findPw.mem")) { // 비밀번호찾기
+
+		} else if(uri.equals("/findPw.mem")) { // 비밀번호찾기
 			String user_id = request.getParameter("findPw_id");
 			String user_name = request.getParameter("findPw_name");
 			MemberDAO dao = new MemberDAO();
@@ -246,30 +205,13 @@ public class MemberController extends HttpServlet {
 					response.getWriter().append("exist");
 					
 				}else if(rs == 0){ // 0 가입된 아이디없음
-=======
-
-		} else if (uri.equals("/findPw.mem")) { // 비밀번호찾기
-			String user_id = request.getParameter("user_id");
-			String user_name = request.getParameter("user_name");
-
-			MemberDAO dao = new MemberDAO();
-			try {
-				int rs = dao.findPw(user_id, user_name);
-
-				if (rs != 0) { // 1이 가입된 아이디 있음
-					System.out.println("아이디 존재");
-					response.getWriter().append("exist");
-
-				} else { // 0 가입된 아이디없음
->>>>>>> 3ba0b981a4cb432b48c764ed9edadf0e4f4e42c8
 					System.out.println("아이디 없음");
 					response.getWriter().append("no");
 				}
-
-			} catch (Exception e) {
+				
+			}catch(Exception e) {
 				e.printStackTrace();
 			}
-<<<<<<< HEAD
 		}else if(uri.equals("/toModifyPw.mem")) {  // 비밀번호 수정
 			String pw = request.getParameter("modifyPw");
 			String user_id = request.getParameter("modifyPw_id");
@@ -313,32 +255,7 @@ public class MemberController extends HttpServlet {
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
-		}else if(uri.equals("/toQnaProc.mem")) { 
-			int seq_order = Integer.parseInt(request.getParameter("seq_order"));
-			String user_id = request.getParameter("user_id");
-			String qna_type = request.getParameter("qna_type");
-			String qna_title = request.getParameter("qna_title");
-			String qna_content = request.getParameter("qna_content");
-			QnaDAO dao = new QnaDAO();
 			
-			try {
-				int rs = dao.qnaInsert(seq_order, user_id, qna_type, qna_title, qna_content);
-				
-				if(rs >0) {
-					System.out.println("등록 성공");
-					response.getWriter().append("1");
-				}else {
-					System.out.println("등록 실패");
-					response.getWriter().append("0");
-				}
-				
-			}catch(Exception e) {
-				e.printStackTrace();
-			}
-		}else if(uri.equals("/toPay.mem")) { 
-			response.sendRedirect("/member/pay.jsp");
-=======
-
 		} else if (uri.equals("/toCart.mem")) {
 			HttpSession session = request.getSession();
 
@@ -438,8 +355,32 @@ public class MemberController extends HttpServlet {
 			int[] seq_cart = Arrays.stream(request.getParameterValues("seq_cart")).mapToInt(Integer::parseInt).toArray();
 
 
->>>>>>> 3ba0b981a4cb432b48c764ed9edadf0e4f4e42c8
+		}else if(uri.equals("/toQnaProc.mem")) { 
+			int seq_order = Integer.parseInt(request.getParameter("seq_order"));
+			String user_id = request.getParameter("user_id");
+			String qna_type = request.getParameter("qna_type");
+			String qna_title = request.getParameter("qna_title");
+			String qna_content = request.getParameter("qna_content");
+			QnaDAO dao = new QnaDAO();
+			
+			try {
+				int rs = dao.qnaInsert(seq_order, user_id, qna_type, qna_title, qna_content);
+				
+				if(rs >0) {
+					System.out.println("등록 성공");
+					response.getWriter().append("1");
+				}else {
+					System.out.println("등록 실패");
+					response.getWriter().append("0");
+				}
+				
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}else if(uri.equals("/toPay.mem")) { 
+			response.sendRedirect("/member/pay.jsp");
 		}
 
 	}
+
 }
