@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>고객센터</title>
 <!-- Favicon-->
 <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
 <!-- Bootstrap icons-->
@@ -21,9 +21,53 @@ integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52n
  integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 <!-- fontAwessome-->
 <script src="https://kit.fontawesome.com/241134516c.js" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <!-- CSS -->
 <link rel="stylesheet" href="<%=request.getContextPath()%>/member/css/qna.css">
 </head>
+<script>
+$(document).ready(function(){
+	
+	$("#btnCheck").on("click", function(){
+		console.log("a");
+		let url = "/toSearchSeq.mem";
+		let name = "주문번호 조회";
+		let option = "width=800, height=600, left=700, top=300";
+		window.open(url, name, option);
+	});
+	
+	$("#btnComplete").on("click", function(){
+		if($("#seq_order").val() == "" ||$("#qna_title").val() == "" || $("#qna_content").val() == "" ){
+			alert("주문번호와 제목, 내용을 입력해주세요");
+			return;
+		}
+		
+		let data = $("#qnaForm").serialize();
+		
+		$.ajax({
+			url : "/toQnaProc.mem"
+			, type : "post"
+			, data : data
+			, success : function(resultData){
+				if(resultData === "1"){
+					alert("등록이 완료되었습니다.");
+					location.href = "/toCs.mem";
+				}else{
+					alert("등록에 실패하였습니다.");
+				}
+				
+			}, error : function(e){
+				console.log(e);
+			}
+			
+		})//ajax종료
+		
+	});
+	
+})
+	
+			
+</script>
 <body>
    <div class="container MainBox">
         <!-- 네비바 -->
@@ -91,7 +135,7 @@ integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52n
      <div class="row">
          <div class="col">
              <!--문의 작성-->
-         <form action="/toWriteProc.mem" method="post">
+         <form id="qnaForm" action="/toQnaProc.mem" method="post">
              <div class="container inputBox">
                  <div class="row p-2">
                      <div class="col">
@@ -100,13 +144,14 @@ integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52n
                  </div>
                  <div class="row p-2" style="border-top: 1px solid lightgrey;">
                      <div class="col-3">
-                         <p>주문 번호</p>
+                         <p>상품명</p>
                      </div>
                      <div class="col-7">
-                         <input class="form-control" type="text" id="" style="width: 99% ;">
+                         <input class="form-control" type="hidden" id="seq_order" name="seq_order" style="width: 99% ;" readonly>
+                         <input class="form-control" type="text" id="buy_name" name="buy_name" style="width: 99% ;" readonly>
                      </div>
                      <div class="col-2">
-                         <button class="btn btn-secondary" id="btnSearch" type="button" onclick="location.href='/' ">조회</button>
+                         <button id="btnCheck" class="btn btn-secondary"  type="button">조회</button>
                      </div>
                  </div>
                  <div class="row p-2" style="border-top: 1px solid lightgrey;">
@@ -114,7 +159,7 @@ integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52n
                          <p>작성자</p>
                      </div>
                      <div class="col-9">
-                         <input class="form-control" type="text" id="user_id" name="user_id">
+                         <input class="form-control" type="text" id="user_id" name="user_id" value	="${loginSession.user_id}" readonly>
                      </div>
                  </div>
                  <div class="row p-2" style="border-top: 1px solid lightgrey;">
@@ -122,7 +167,11 @@ integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52n
                          <p>문의 유형</p>
                      </div>
                      <div class="col-9">
-                         <input class="form-control" type="text" id="qna_type" name="qna_type">
+	                     <select name="qna_type" id="qna_type" class="form-control" style="width:76.2%">
+		                    <option value="배송" selected>배송</option>
+		                    <option value="환불">환불</option>
+		                    <option value="결제">결제</option>
+	                 	 </select>
                      </div>
                  </div>
                  <div class="row p-2"  style="border-top: 1px solid lightgrey;">
@@ -167,7 +216,7 @@ integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52n
                                  <div class="accordion-body">
                                      온라인스토어 교환/반품 가능기간은, 상품 수령일(배달완료일) 포함하여 7일 이내 가능합니다.
                                      전산 접수를 하지않은 상태로 상품만 보내주시는 경우, 교환/환불처리가 지연될 수 있으니, 주의 부탁드리겠습니다.
-                                     <img src="images/refund.JPG" alt="">
+                                     <img src="/resources/images/refund.JPG" alt="">
                                      
                                  </div>
                                </div>
@@ -277,8 +326,8 @@ integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52n
      <div class="container btnBox" >
          <div class="row">
              <div class="col">
-                 <button class="btn btn-secondary" id="btnCancel" type="button" onclick="location.href='/' ">취소하기</button>
-                 <button class="btn btn-dark" id="btnComplete"type="button" onclick="location.href='/' ">작성하기</button>
+                 <button class="btn btn-secondary" id="btnCancel" type="button" onclick="location.href='/toCs.mem' ">취소하기</button>
+                 <button class="btn btn-dark" id="btnComplete"type="button" >작성하기</button>
                 </div>
             </div>
         </div>

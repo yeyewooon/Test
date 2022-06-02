@@ -25,139 +25,10 @@ integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52n
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <!-- css -->
 <link rel="stylesheet" href="<%=request.getContextPath()%>/member/css/popupLogin.css">
-<script>
-$(document).ready(function(){
-	$("#btnCanlcel").on("click",function(){
-		self.close(); // 취소버튼 클릭 시 팝업 창닫기
-	});
-
-
-	$("#btnLogin").on("click", function() {
-		let id = $("#id").val();
-		let pw = $("#pw").val();
-
-		if ($("#id").val() === "" || $("#pw").val() === "") {
-			alert("아이디 혹은 비밀번호를 정확히 입력하세요.");
-			return;
-		}
-		console.log("id : " , id);
-		console.log("pw : " , pw);
-		$("#loginForm").submit();
-
-	});
-
-	console.log("${rs}");
-	if("${rs}" === "ok"){
-		console.log("${rs}");
-		alert("로그인 성공!");
-		opener.document.location.href ="/Tohome";
-		self.close();	
-
-
-	}else if("${rs}" === "no"){
-		console.log("${rs}");
-		alert("로그인 실패!");
-	}
-
-
-
-	$("#btnFindID").on("click", function() {
-		if( $("#find_name").val() === "" || $("#find_phone2").val() === "" || $("#find_phone3").val() === "" ){
-			alert("이름과 전화번호를 입력해주세요.");
-			return;
-		}
-
-		let phone = $("#find_phone1 option:selected").val() + $("#find_phone2").val() + $("#find_phone3").val();
-		$("#find_phone").val(phone);
-
-		let regexPhone = /[0-9]{11}/;
-
-		if(!regexPhone.test(phone)){
-			alert("올바르지 않은 형식의 전화번호 입니다.");
-			return;
-		}
-
-		let data = $("#findIdForm").serialize();
-
-
-		$.ajax({
-	
-			url : "/findId.mem"
-			, type : "post"
-			, data : data
-			, dataType : "json"
-			, success : function(id){
-				console.log("받아온 id",id);
-				if(id != "fail"){
-					$(".findId_body").css("display", "none");
-					$(".findId_hiddenbody").css("display", "block");
-			
-					for(let data of id){
-						let rs = $("<p>").html(data.user_id);
-						let col = $("<div>").addClass("col d-flex justify-content-center").append(rs);
-						let row = $("<div>").addClass("row").append(col);
-						$("#findId_result").append(row);
-					}
-			
-				}else{
-					alert("가입된 아이디가 없습니다.");
-				}
-		
-			}, error : function(e){
-				console.log(e);
-			}
-
-		})
-
-	});//findId 끝
-
-	
-	$("#btnFindPW").on("click", function() { //비밀번호찾기
-		if( $("#findPw_name").val() === "" || ( $("#findPw_id").val() === "")){
-			alert("이름 혹은 아이디를 입력해주세요");
-			return;
-		}
-		
-		let data = $("#findPwForm").serialize();
-		
-		$.ajax({
-			url : "/findPw.mem"
-			, type : "post"
-			, data : data
-			, success : function(rs){
-				console.log("받아온 rs",rs);
-				if(rs == "exist"){	
-					$(".findPw_body").empty();
-					//prop("type", "password");
-					let input = $("<input>").addClass("form-control")
-					
-					
-				}else if(rs === "no"){
-					alert("가입된 아이디가 없습니다.");
-				}
-				
-				
-			}, error : function(e){
-				console.log(e);
-			}
-			
-		})
-		
-	});//findPw 끝
-	
-	$('#btnSignup').on("click", function() {
-		window.opener.location.href = "/toSignup.mem";
-		self.close();
-	})
-	
-	
-	
-});//document.ready 종료
-	
-</script>
 </head>
 <body>
 <form id="loginForm" action="/toLoginProc.mem" method="post">
+<input id="url" name="url" type="hidden" value="" />
  <div class="container">
         <!-- X아이콘 -->
         <div class = "row m-2 icon">
@@ -188,14 +59,14 @@ $(document).ready(function(){
                 <button type = "button" class = "btn btn-primary" id = "btnLogin">로그인</button>
             </div>
         </div>
-
-				<!-- 회원가입 버튼 -->
-				<div class = "row p-4">
-            <div class="col-12  d-flex justify-content-center">
-                <button type = "button" class = "btn btn-danger" id = "btnSignup">회원가입</button>
-            </div>
+        
+       	<!-- 회원가입 버튼 -->
+		<div class = "row p-4">
+           <div class="col-12  d-flex justify-content-center">
+               <button type = "button" class = "btn btn-danger" id = "btnSignup">회원가입</button>
+           </div>
         </div>
-
+        
         <!-- 카카오 로그인 -->
         <div class = "row">
             <div class="col-12  d-flex justify-content-center kakaoLogin">
@@ -212,8 +83,8 @@ $(document).ready(function(){
         </div>
       </div>
 </form>
-<!-- id찾기 -->
 
+<!-- id찾기 -->
 <div class="modal fade" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -222,7 +93,7 @@ $(document).ready(function(){
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
        	<form id="findIdForm" action="/findIdForm.mem" method="post">
-	       	<div class="modal-body findId_body">   
+	       	<div id="findId_body"  class="modal-body">   
 	            <div class="row nameBox m-2">
 	                <div class="col-3 d-flex justify-content-center">
 	                    <label for="name" class="form-label">이름</label>
@@ -262,13 +133,14 @@ $(document).ready(function(){
 	                    <button type="button" class="btn btn-primary" id="btnFindID">아이디 찾기</button>
 	                </div>
 	            </div>
-	            <div class="row anchor mt-4">
+	            <div class="row anchor mt-4"  >
 	                <div class="col-12 d-flex justify-content-center">
-	                    <a href="" id="findPw"  data-bs-toggle="modal" data-bs-target="#staticBackdrop2">비밀번호 찾기</a>
+	                    <a class="findID" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">비밀번호 찾기</a>
 	                </div>
 	            </div>
 	        </div>
-	        <div class="modal-body findId_hiddenbody" style="display: none;">   
+	     </form> 
+	        <div id="resultId" class="modal-body" style="display: none;">  <!-- 가입된아이디 -->  
 	            <div class="row nameBox m-2">
 	                <div class="col-12 d-flex justify-content-center">
 	                    <label for="name" class="form-label">가입된 ID</label>
@@ -283,14 +155,11 @@ $(document).ready(function(){
 	                </div>
 	            </div>
 	        </div>
-	       </div>
-	        </form>  
       </div>
     </div>
   </div>
 
 <!-- 비밀번호찾기-->
-
 <div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -298,14 +167,15 @@ $(document).ready(function(){
           <h5 class="modal-title" id="staticBackdropLabel">비밀번호 찾기</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body findPw_body">   
+        
+     <form id="findPwForm" action="/findPw.mem" method="post">    
+        <div id="findPw_body" class="modal-body"> 														<!-- 비밀번호찾는곳 -->
             <div class="row nameBox m-2">
                 <div class="col-3 d-flex justify-content-center">
                     <label for="name" class="form-label">이름</label>
                 </div>
-        <form id="findPwForm" action="/findPw.mem" method="post">
                 <div class="col-9 d-flex justify-content-center">
-                    <input type="text" class="form-control" placeholder="ex)홍길동" name="findPw_name" id="findPW_name">
+                    <input type="text" class="form-control" placeholder="ex)홍길동" name="findPw_name" id="findPw_name">
                 </div>
             </div>
             <div class="row phoneBox m-2 mt-4">
@@ -321,17 +191,54 @@ $(document).ready(function(){
                     <button type="button" class="btn btn-primary" id="btnFindPW">비밀번호 찾기</button>
                 </div>
             </div>
-        </form>
+        
             <div class="row anchor mt-4">
                 <div class="col-12 d-flex justify-content-center">
-                    <a href="" id="findID" data-bs-toggle="modal" data-bs-target="#staticBackdrop1" >아이디 찾기</a>
+                    <a href="" class="findID" data-bs-toggle="modal" data-bs-target="#staticBackdrop1" >아이디 찾기</a>
                 </div>
             </div>
         </div>
+     </form>   
+     <form id="modifyForm" action="/toModifyPw.mem" method="post">                        <!-- 비밀번호 변경하는 곳 -->
+        <div id="modifyPw_body" class="modal-body" style="display: none;">
+            <div class="row nameBox m-2">
+                <div class="col-3 d-flex justify-content-center">
+                    <label for="name" class="form-label" style="font-size: 0.75rem; margin-top: 3px">비밀번호</label>
+                </div>
+                <div class="col-9 d-flex justify-content-center">
+                    <input type="password" class="form-control"  name="modifyPw" id="modifyPw">
+                </div>
+            </div>
+            <div class="row phoneBox m-2 mt-4">
+                <div class="col-3 d-flex justify-content-center">
+                    <label for="id" class="form-label" style="font-size: 0.75rem; margin-top: 3px" >비밀번호 확인</label>
+                </div>
+                <div class="col-9 d-flex justify-content-center">
+                    <input type="password" class="form-control" name="checkPw" id="checkPw">
+                    <input id="modifyPw_id" name="modifyPw_id" type="hidden" />
+                </div>
+            </div> 
+            <div class="row">
+            	<div class="col">
+            		<p style="font-size: 0.75rem;">영문, 숫자, 특수문자를 혼합하여 최소 5자리 이상 19자리 이하로 설정해 주세요.</p>
+            	</div>
+            </div>
+            <div class="row btns mt-4">
+                <div class="col-12 d-flex justify-content-center">
+                    <button type="button" class="btn btn-primary" id="btnModifyPW">비밀번호 변경</button>
+                </div>
+            </div>
+            <div class="row anchor mt-4">
+                <div class="col-12 d-flex justify-content-center">
+                    <a href="" class="findID" data-bs-toggle="modal" data-bs-target="#staticBackdrop1" >아이디 찾기</a>
+                </div>
+            </div>
+        </div>
+        </form>
       </div>
     </div>
   </div>
  
 </body>
-<%-- <script src="<%=request.getContextPath()%>script/popupLogin.js"></script> --%>
+ <script src="<%=request.getContextPath()%>script/popupLogin.js"></script>
 </html>
