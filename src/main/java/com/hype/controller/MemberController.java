@@ -11,8 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.tomcat.util.buf.StringUtils;
-
 import com.google.gson.Gson;
 import com.hype.dao.MemberDAO;
 import com.hype.dto.CartDTO;
