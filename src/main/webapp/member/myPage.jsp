@@ -22,6 +22,7 @@ integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52n
  integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 <!-- fontAwessome-->
 <script src="https://kit.fontawesome.com/241134516c.js" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <!-- css -->
 <link rel="stylesheet" href="<%=request.getContextPath()%>/member/css/myPage.css">
 </head>
@@ -96,12 +97,12 @@ integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52n
             <div class="container" id="contentBox">
                 <div class="row">
                     <div class="col">
-                        <h3 class="header">${userInfo.user_id}님 환영합니다.</h3>
+                        <h3 class="header">${loginSession.user_id}님 환영합니다.</h3>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
-                        <h6 class="info">>총 주문금액: 100,000원</h6>
+                        <h6 class="info">>총 주문금액: ${totalPrice}원</h6>
                     </div>
                 </div>
             </div>
@@ -115,19 +116,19 @@ integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52n
                 <div class="row">
                     <div class="col-12 col-sm-4 ship_info">
                         <p style="margin-top: 20px; margin-bottom: 5px;">주문건수</p>
-                        <h3>2</h3>
+                        <h3>${totalCnt}</h3>
                     </div>
                     <div class="col-12 col-sm-4 ship_info_right">
                         <p style="margin-top: 20px; margin-bottom: 5px;">배송중</p>
-                        <h3>1</h3>
+                        <h3>${deliveryCnt}</h3>
                     </div>
                     <div class="col-12 col-sm-4 ship_info_right">
                         <p style="margin-top: 20px; margin-bottom: 5px;">배송완료</p>
-                        <h3>1</h3>
+                        <h3>${deliveryCompletCnt}</h3>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-12 col-sm-6 mp_info" onclick="location.href='/'">
+                    <div class="col-12 col-sm-6 mp_info" id="profile">
                         <p class="infoTextHeader d-inline-block" style="font-size: 25px ;"><Strong>Profile</Strong></p><span style="margin-left: 20px;"> 회원 정보</span><br>
                         <p class="infoText" style="font-size: 15px ;">
                             고객님께서 가입하신 회원정보를 확인 및<br>
@@ -143,7 +144,7 @@ integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52n
                     </div>                  
                 </div>
                 <div class="row">
-                    <div class="col-12 col-sm-6 mp_info" style="border-bottom: none; border-right: 1px solid lightgray;" onclick="location.href='/'">
+                    <div class="col-12 col-sm-6 mp_info" style="border-bottom: none; border-right: 1px solid lightgray;" onclick="location.href='/toQnaBoard.mem?curPage=1'">
                         <p class="infoTextHeader d-inline-block" style="font-size: 25px ;"><Strong>Board</Strong></p><span style="margin-left: 20px;"> Q&A 게시물 관리</span>
                         <p class="infoText" style="font-size: 15px ;">
                             고객님께서 작성하신 상품평 및 문의글을<br>
@@ -196,4 +197,13 @@ integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52n
     </div>
 </footer>
 </body>
+<script>
+    $("#profile").on("click", function() {
+        if('${loginSession.user_id}'.indexOf('@')){
+            alert("카카오 계정은 접근 할 수 없습니다.");
+            return;
+        }
+        location.href='/toMemberInfo.mem?user_id='+ '${loginSession.user_id}'
+    })
+</script>
 </html>
