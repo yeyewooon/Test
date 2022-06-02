@@ -4,24 +4,18 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-<<<<<<< HEAD
-=======
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-<<<<<<< HEAD
 import java.util.HashMap;
 import java.util.List;
-=======
-import java.util.List;
->>>>>>> fe51257fdc0604c71609bd8e6ee5539767e88b0f
->>>>>>> fa0d61449ee11d5d8ecf5513db7ce8eaf887b622
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 
 import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 
+import com.hype.dto.CartDTO;
 import com.hype.dto.MemberDTO;
 import com.hype.dto.QnaDTO;
 
@@ -51,7 +45,7 @@ private BasicDataSource bds;
 			pstmt.setString(5, dto.getUser_postCode());
 			pstmt.setString(6, dto.getUser_roadAddr());
 			pstmt.setString(7, dto.getUser_detailAddr());
-			pstmt.setInt(8, dto.getUser_phone());
+			pstmt.setString(8, dto.getUser_phone());
 			pstmt.setString(9, dto.getUser_email());
 			
 			int rs = pstmt.executeUpdate();
@@ -80,8 +74,6 @@ private BasicDataSource bds;
 			}
 		}
 	}
-<<<<<<< HEAD
-=======
 
 	public MemberDTO login(String id, String pw) throws Exception { // 로그인 메소드
 		String sql = "select * from tbl_member where user_id = ? and user_password = ?";
@@ -254,43 +246,6 @@ private BasicDataSource bds;
 		}
 	}
 	
-	public List<Integer> myPageCnt(String id) throws Exception{
-		String sql = "select  \r\n"
-				+ "(select count(a.seq_order) from tbl_order a where a.order_status = '상품준비중' and user_id= ?) as totalCnt,\r\n"
-				+ "(select count(b.seq_order) from tbl_order b where b.order_status = '배송중' and user_id= ?) as deliveryCnt,\r\n"
-				+ "(select count(c.seq_order) from tbl_order c where c.order_status = '배송완료' and user_id= ?) as deliveryCompleteCnt, \r\n"
-				+ "(select SUM(buy_price) from tbl_buy where user_id = ?) as totalPrice \r\n"
-				+ "from dual";
-		
-		try(Connection con = bds.getConnection();
-			PreparedStatement pstmt = con.prepareStatement(sql)){
-			
-			pstmt.setString(1, id);
-			pstmt.setString(2, id);
-			pstmt.setString(3, id);
-			pstmt.setString(4, id);
-			
-			ResultSet rs = pstmt.executeQuery();
-			List<Integer> list = new ArrayList<>();
-			
-			while(rs.next()) {
-				int totalCnt = rs.getInt("totalCnt");
-				int deliveryCnt = rs.getInt("deliveryCnt");
-				int deliveryCompleteCnt = rs.getInt("deliveryCompleteCnt");
-				int totalPrice = rs.getInt("totalPrice");
-				
-				list.add(totalCnt);
-				list.add(deliveryCnt);
-				list.add(deliveryCompleteCnt);
-				list.add(totalPrice);
-			}
-			return list;
-			
-			
-		}
-		
-		
-	}
 
 	public MemberDTO selectById(String id) throws Exception {
 		String sql = "select * from tbl_member where user_id = ?";
@@ -397,19 +352,19 @@ private BasicDataSource bds;
 			
 			while(rs.next()) {
 				int seq_qna = rs.getInt(1);
-				String user_id = rs.getString(2);
-				String qna_type = rs.getString(3);
-				String qna_title = rs.getString(4);
-				String qna_content = rs.getString(5);
-				String qna_date = getStringDate(rs.getDate(6));
+				int seq_order = rs.getInt(2);
+				String user_id = rs.getString(3);
+				String qna_type = rs.getString(4);
+				String qna_title = rs.getString(5);
+				String qna_content = rs.getString(6);
+				String qna_date = getStringDate(rs.getDate(7));
 				
-				list.add(new QnaDTO(seq_qna, user_id, qna_type, qna_title, qna_content, qna_date));
+				list.add(new QnaDTO(seq_qna, seq_order, user_id, qna_type, qna_title, qna_content, qna_date));
 			}
 			return list;
 		}
 	}
 	
-<<<<<<< HEAD
 	public HashMap<String, Object> getPageNavi(int curPage, String id) throws Exception{
 		String sql = "select count(*) as totalCnt from tbl_qna where user_id=?";
 		
@@ -496,7 +451,6 @@ private BasicDataSource bds;
 		}
 	}
 
-=======
 	
 	
 	
@@ -520,6 +474,4 @@ private BasicDataSource bds;
 	
 	
 	
->>>>>>> fe51257fdc0604c71609bd8e6ee5539767e88b0f
->>>>>>> fa0d61449ee11d5d8ecf5513db7ce8eaf887b622
 }

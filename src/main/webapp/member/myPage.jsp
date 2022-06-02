@@ -97,11 +97,7 @@ integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52n
             <div class="container" id="contentBox">
                 <div class="row">
                     <div class="col">
-<<<<<<< HEAD
                         <h3 class="header">${loginSession.user_id}님 환영합니다.</h3>
-=======
-                        <h3 class="header">${user_id}님 환영합니다.</h3>
->>>>>>> fa0d61449ee11d5d8ecf5513db7ce8eaf887b622
                     </div>
                 </div>
                 <div class="row">
@@ -203,11 +199,11 @@ integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52n
 </body>
 <script>
     $("#profile").on("click", function() {
-        if('${loginSession.user_id}'.indexOf('@')){
-            alert("카카오 계정은 접근 할 수 없습니다.");
+        if('${loginSession.user_id}'.indexOf('@') === -1){
+            location.href='/toMemberInfo.mem?user_id='+ '${loginSession.user_id}'
             return;
         }
-        location.href='/toMemberInfo.mem?user_id='+ '${loginSession.user_id}'
+        alert("카카오 계정은 접근 할 수 없습니다.");
     })
 </script>
 </html>
