@@ -92,7 +92,7 @@
               </div>
             </div>
             <ul class="sub-menu sub-menu-third">
-              <li><a href="/shipManage.sh?curPage=1">배송 정보 변경</a></li>
+              <li><a href="https://www.naver.com">배송 정보 변경</a></li>
             </ul>
           </div>
           <div class="nav-linksContainer nav-linksContainer4">
@@ -224,19 +224,5 @@
     </div>
     
     <script src="<%=request.getContextPath()%>script/adminMain.js"></script>
-    
-    <script>
-    	
-    
-    
-    </script>
-    
-    
-    
-    
-    
-    
-    
-    
 </body>
 </html>
