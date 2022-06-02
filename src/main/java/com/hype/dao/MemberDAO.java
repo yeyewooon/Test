@@ -3,36 +3,39 @@ package com.hype.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+<<<<<<< HEAD
+=======
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+>>>>>>> fe51257fdc0604c71609bd8e6ee5539767e88b0f
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 
 import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 
-import com.hype.dto.CartDTO;
 import com.hype.dto.MemberDTO;
 
 public class MemberDAO {
-	private BasicDataSource bds;
-
+private BasicDataSource bds;
+	
 	public MemberDAO() {
 		try {
 			Context iCtx = new InitialContext();
-			Context envCtx = (Context) iCtx.lookup("java:comp/env");
-			bds = (BasicDataSource) envCtx.lookup("jdbc/bds");
-		} catch (Exception e) {
+			Context envCtx = (Context)iCtx.lookup("java:comp/env");
+			bds = (BasicDataSource)envCtx.lookup("jdbc/bds");
+		}catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
-
-	public int signup(MemberDTO dto) throws Exception { // 회원가입 메소드
+	
+	public int signup(MemberDTO dto) throws Exception{
 		String sql = "insert into tbl_member values(?, ?, ?, ?, ?, ?, ?, ?, ?, default)";
-
-		try (Connection con = bds.getConnection(); PreparedStatement pstmt = con.prepareStatement(sql)) {
-
+		
+		try(Connection con = bds.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql)){
+			
 			pstmt.setString(1, dto.getUser_id());
 			pstmt.setString(2, dto.getUser_password());
 			pstmt.setString(3, dto.getUser_name());
@@ -40,34 +43,37 @@ public class MemberDAO {
 			pstmt.setInt(5, dto.getUser_postCode());
 			pstmt.setString(6, dto.getUser_roadAddr());
 			pstmt.setString(7, dto.getUser_detailAddr());
-			pstmt.setString(8, dto.getUser_phone());
+			pstmt.setInt(8, dto.getUser_phone());
 			pstmt.setString(9, dto.getUser_email());
-
+			
 			int rs = pstmt.executeUpdate();
 			return rs;
 		}
-
+		
 	}
-
-	public boolean checkId(String id) throws Exception { // 중복검사 메소드
+	
+	public boolean checkId(String id) throws Exception{
 		String sql = "select count(*) from tbl_member where user_id = ?";
-
-		try (Connection con = bds.getConnection(); PreparedStatement pstmt = con.prepareStatement(sql)) {
-
+		
+		try(Connection con = bds.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql)){
+			
 			pstmt.setString(1, id);
 			ResultSet rs = pstmt.executeQuery();
-
+			
 			int result = 0;
-			if (rs.next()) {
+			if(rs.next()) {
 				result = rs.getInt(1);
 			}
-			if (result == 0) {
+			if(result == 0) {
 				return true;
-			} else {
+			}else {
 				return false;
 			}
 		}
 	}
+<<<<<<< HEAD
+=======
 
 	public MemberDTO login(String id, String pw) throws Exception { // 로그인 메소드
 		String sql = "select * from tbl_member where user_id = ? and user_password = ?";
@@ -304,4 +310,5 @@ public class MemberDAO {
 	
 	
 	
+>>>>>>> fe51257fdc0604c71609bd8e6ee5539767e88b0f
 }
