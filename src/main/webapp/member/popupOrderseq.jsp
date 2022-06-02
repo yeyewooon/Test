@@ -26,31 +26,32 @@ integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52n
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <!-- css -->
 <link rel="stylesheet" href="<%=request.getContextPath()%>/member/css/myPage.css">
+
 </head>
 <style>
 	p{
 	font-size: 0.7rem;}
 </style>
 <script>
-	$(document).ready(function(){
+ 	$(document).ready(function(){
 		
-	$("#btnClose").on("click", function(){
- 		self.close();
- 	});
- 
- 	$("#btnEnroll").on("click", function(e){
- 		let stringVal = $('input[name="seq_order"]:checked').val();
- 		let array = stringVal.split("/");
- 		let seq_order = array[0];
- 		let buy_name = array[1];
- 		
- 		opener.document.getElementById("seq_order").value = seq_order;
- 		opener.document.getElementById("buy_name").value = buy_name;
- 		self.close();
- 	});
+ 	$("#btnClose").on("click", function(){
+  		self.close();
+  	});
+
+  	$("#btnEnroll").on("click", function(e){
+  		let stringVal = $('input[name="seq_order"]:checked').val();
+  		let array = stringVal.split("/");
+  		let seq_order = array[0];
+  		let buy_name = array[1];
+		
+  		opener.document.getElementById("seq_order").value = seq_order;
+  		opener.document.getElementById("buy_name").value = buy_name;
+  		self.close();
+  	});
  
 		
-	});
+ 	});
 </script>
 <body>
     <div class="container" style="padding: 30px; width: 800px;text-align: center;">
@@ -74,7 +75,7 @@ integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52n
 		        <tr>
 		            <td><input type="radio" id="${dto.seq_order}" name="seq_order" value="${dto.seq_order}/${dto.buy_name}"></td> 
 		            <td><p>${dto.seq_order}</p></td>
-		            <td><p>${dto.seq_order}</p></td>
+		            <td><p>${dto.user_id}</p></td>
 		            <td><p>${dto.buy_name}</p></td>
 		            <td><p>${dto.buy_price}</p></td>
 		            <td><p>${dto.buy_qty}</p></td>

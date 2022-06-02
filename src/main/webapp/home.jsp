@@ -296,7 +296,7 @@ integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52n
                     <div class="col-lg-6 h-100 text-center text-lg-end my-auto">
                         <ul class="list-inline mb-0">
                             <li class="list-inline-item me-4">
-                                <a href="#!"><i class="bi-facebook fs-3"></i></a>
+                                <a href="/toPay.mem"><i class="bi-facebook fs-3"></i></a>
                             </li>
                             <li class="list-inline-item me-4">
                                 <a href="#!"><i class="bi-twitter fs-3"></i></a>
@@ -311,9 +311,4 @@ integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52n
      	 </footer>
 </body>
 </html>
-
-<script>
-document.querySelector('.carousel-c-next').addEventListener("click", function () {
-    document.qu('.carousel slide').style.transform = 'translate(-100vw)'
-})
-</script>
+<script src="<%=request.getContextPath()%>home.js"></script>

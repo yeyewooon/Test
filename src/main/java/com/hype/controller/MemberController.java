@@ -272,6 +272,8 @@ public class MemberController extends HttpServlet {
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
+		}else if(uri.equals("/toPay.mem")) { 
+			response.sendRedirect("/member/pay.jsp");
 		}
 
 		

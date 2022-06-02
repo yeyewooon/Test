@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,158 +28,8 @@ integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52n
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
 <!-- iamport.payment.js -->
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.8.js"></script>
-<style>
-i {
-  margin: 5px;
-}
-
-.navbar-light {
-  width: 100%;
-  position: fixed;
-  top: 0;
-  z-index: 1;
-  left: 0%;
-}
-
-body {
-  padding-top: 100px;
-}
-
-/*네비바 속성*/
-.navbar-anchor a {
-  text-decoration: none;
-  color: black;
-  font-weight: bold;
-}
-
-#userIcon {
-  text-align: right;
-  font-size: 25px;
-  padding: 5px;
-}
-
-#navbar-search {
-  text-align: right;
-}
-
-#searchIcon {
-  color: lightgrey;
-}
-
-/* 네비바 드롭다운 */
-.dropdown-toggle:hover {
-  color: #83bf7b;
-  border-color: aliceblue;
-}
-
-.dropdown:hover .dropdown-menu {
-  display: block;
-  margin-top: 0;
-  font-weight: bold;
-}
-
-.header-comment {
-  padding: 20px;
-  border-bottom: 1px solid lightgray;
-}
-
-.productImg {
-  width: 5rem;
-  height: 5rem;
-  margin-left: 1rem;
-}
-
-.plusBtn,
-.minusBtn,
-.quantity {
-  border: none;
-  width: 30%;
-  height: 100%;
-}
-
-table{
-    border: 1px solid lightgray;
-}
-
-.userInfo td{
-    padding: 1rem;
-    font-size: 0.8rem;
-    font-weight: bold;
-}
-.productInfo td, th{
-    text-align: center;
-    vertical-align: middle;
-    font-size: 0.8rem;
-}
-
-.P-Option{
-    width: 80%;
-    text-align: center;
-}
-.disabled {
-pointer-events: none;
-background-color: #00000010;
-color: black;
-opacity: 1;
-}
-.section{
-    border-top: 1px solid lightgray;
-}
-.destination{
-    margin-right: 5%;
-}
-.comment{
-    margin-left: 1rem;
-    font-size: 0.8rem;
-    color: lightgray;
-}
-.place-change{
-  background-color: white;
-  border: 1px solid lightgray;
-}
-.total td{
-  height: 3rem;
-  font-size: 1rem;
-  font-weight: bold;
-}
-
-
-
-.guideline {
-  opacity: 0.7;
-  font-size: 0.5rem;
-}
-
-.btnOrder {
-  width: 10rem;
-  height: 4rem;
-}
-
-
-
-
-/*풋터 영역*/
-.footerBox {
-  height: 200px;
-
-}
-
-footer.footer {
-  padding-top: 4rem;
-  padding-bottom: 4rem;
-}
-
-.footer a {
-  text-decoration: none;
-  color: black;
-  font-weight: 40px;
-  font-weight: bold;
-}
-</style>
-
+   <link rel="stylesheet" href="<%=request.getContextPath()%>css/pay.css">
 <script>
-//https://minaminaworld.tistory.com/78
-
  /**
   * 1. 위에 script import
   * 2. onclick 이벤트 생성
@@ -201,7 +52,7 @@ footer.footer {
 		 pay_method: 'card', 
 		 merchant_uid: 'merchant_' + new Date().getTime(),
 		 name: '주문명:결제테스트',            //결제창에서 보여질 이름            
-		 amount: 10,		 //가격             
+		 amount: 100,		 //가격             
 		 buyer_email: 'iamport@siot.do',
             buyer_name: '구매자이름',
 		 buyer_tel: '010-1234-5678',
@@ -242,6 +93,8 @@ footer.footer {
 </head>
 
 <body>
+<c:set var="user_phone" value="${loginSession.user_phone}"/>
+
   <div class="container MainBox" id="header">
     <!-- 네비바 -->
     <nav class="navbar navbar-light bg-light fixed">
@@ -301,23 +154,30 @@ footer.footer {
             <td class="col-3">배송지 선택</td>
           <td class="col-10">
               <input type="radio" id="destination1" name="destination">
-                <label for="destination1" class="destination">주호민님 배송지</label>
+                <label for="destination1" class="destination">${loginSession.user_name}님 배송지</label>
                 <input type="radio" id="destination2" name="destination">
                 <label for="destination2" class="destination">회사 배송지</label>
                 <button type="button" class="place-change">배송지변경</button>
                 
+            </td> 
+        </tr>
+        <tr>
+          <td class="col-2">수령인</td>
+          <td id="order_name" name="order_name">${loginSession.user_name}</td>
+        </tr>
+        <tr>
+            <td class="col-2">
+            	휴대전화
             </td>
-        </tr>
-        <tr>
-            <td class="col-2">수령인</td>
-          <td>주호민</td>
-        </tr>
-        <tr>
-            <td class="col-2">휴대전화</td>
-          <td>010-1234-1234</td>
+          <td id="order_phone" name="order_phone">
+          	${fn:substring(user_phone,0,3)}-${fn:substring(user_phone,3,7)}-${fn:substring(user_phone,7,11)}
+          </td>
         </tr>
             <td class="col-2">배송지 주소</td>
-            <td>인천 서구 원당대로 650 완정역(인천2호선)</td>
+          	<td>
+          	${loginSession.user_roadAddr} ${loginSession.user_detailAddr}
+         	</td>
+            	<input type="hidden"  id="order_address" name="order_address"  value="${loginSession.user_roadAddr} ${loginSession.user_detailAddr}" />
         <tr>
             <td class="col-2">배송 메모</td>
             <td>

@@ -76,13 +76,13 @@ integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52n
 							document.getElementById("loginIcon2").onclick = function(){
 								let url = "/toLogin.mem";
 								let name = "로그인";
-								let option = "width=500, height=500, left=700, top=300";
+								let option = "width=600, height=700, left=700, top=300";
 								window.open(url, name, option);
 								}
 							document.getElementById("loginIcon").onclick = function(){
 								let url = "/toLogin.mem";
 								let name = "로그인";
-								let option = "width=500, height=500, left=700, top=300";
+								let option = "width=600, height=700, left=700, top=300";
 								window.open(url, name, option);
 								}
 							</script>
@@ -279,7 +279,7 @@ integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52n
  document.getElementById("loginIcon3").onclick = function(){
 		let url = "/toLogin.mem";
 		let name = "로그인";
-		let option = "width=500, height=500, left=700, top=300";
+		let option = "width=600, height=700, left=700, top=300";
 		window.open(url, name, option);
 		}
  </script>
