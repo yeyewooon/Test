@@ -184,19 +184,18 @@ tr {
   width: 200px;
 }
 
-.phoneWrap {
-  margin-right: 20px;
-}
-
 .phone {
   width: 100px;
   height: 30px;
   border: 1px solid lightgray;
+  font-size: 0.8rem;
 }
 
-.form-control,
 .btn-primary{
   font-size: 0.8rem;
+}
+#submitBtn{
+  width: 150px;
 }
 
 

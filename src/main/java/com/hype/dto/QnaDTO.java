@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 package com.hype.dto;
 
 public class QnaDTO {
@@ -10,6 +8,7 @@ public class QnaDTO {
 	private String qna_title;
 	private String qna_content;
 	private String qna_date;
+	
 	public QnaDTO() {}
 	
 	public QnaDTO(int seq_qna, int seq_order, String user_id, String qna_type, String qna_title, String qna_content,
@@ -90,4 +89,3 @@ public class QnaDTO {
 	
 	
 }
->>>>>>> fe51257fdc0604c71609bd8e6ee5539767e88b0f
