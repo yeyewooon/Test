@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <!DOCTYPE html>
         <html>
 
@@ -28,6 +28,7 @@
                 crossorigin="anonymous">
             <!-- fontAwessome-->
             <script src="https://kit.fontawesome.com/241134516c.js" crossorigin="anonymous"></script>
+            <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
             <title>문의내역</title>
             <style>
                 i {
@@ -79,16 +80,9 @@
                     font-weight: bold;
                 }
 
-                .table th,
-                td {
-                    text-align: center;
-                    vertical-align: middle;
-                    font-size: 0.8rem;
-                }
-
                 #searchType {
                     font-size: 0.8rem;
-                    width: 4rem;
+                    width: 6rem;
                     height: 2rem;
                 }
 
@@ -157,13 +151,41 @@
                     color: #fff;
                     border: 1px solid #42454c;
                 }
-                .qna_title{
-                    color: black;
-                    text-decoration: none;
+
+                .container {
+                    text-align: center;
                 }
-                .qna_title:hover{
-                    opacity: 0.8;
+
+                .title {
+                    font-size: 0.8rem;
+                    font-weight: bold;
                 }
+
+                .section {
+                    border-bottom: 1px solid lightgray;
+                    font-size: 0.8rem;
+                }
+
+                .num {
+                    font-weight: bold;
+                }
+
+                .accordion-body {
+                    background: #d4d4d440;
+                    font-weight: bold;
+                }
+
+                .csPart {
+                    font-size: 0.8rem;
+                }
+
+                .content {
+                    text-align: left;
+                    margin-left: 100px;
+                    font-size: 0.8rem;
+                }
+
+
 
 
 
@@ -229,44 +251,76 @@
             </div>
 
             <div class="container">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col" class="col-1">번호</th>
-                            <th scope="col" class="col-1">문의유형</th>
-                            <th scope="col" class="col-4">제목</th>
-                            <th scope="col" class="col-1">작성자</th>
-                            <th scope="col" class="col-1">작성일</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <c:choose>
-                            <c:when test="${list.size() == 0}">
-                                <tr>
-                                    <td colspan=5>등록된 문의글이 없습니다.</td>
-                                </tr>
-                            </c:when>
-                            <c:otherwise>
-                                <c:forEach items="${list}" var="dto">
-                                    <tr>
-                                        <th scope="row">${dto.seq_qna}</th>
-                                        <td>${dto.qna_type}</td>
-                                        <td><a href="#" class="qna_title">${dto.qna_title}</a></td>
-                                        <td>${dto.user_id}</td>
-                                        <td>${dto.qna_date}</td>
-                                    </tr>
-                                </c:forEach>
-                            </c:otherwise>
-                        </c:choose>
-                    </tbody>
-                </table>
+                <div class="row section pb-2">
+                    <div class="col-1 title">번호</div>
+                    <div class="col-2 title">문의유형</div>
+                    <div class="col-3 title">제목</div>
+                    <div class="col-2 title">작성자</div>
+                    <div class="col-2 title">처리 상태</div>
+                    <div class="col-2 title">작성일</div>
+                </div>
+                <c:choose>
+                    <c:when test="${list.size() == 0}">
+                        <div class="row mt-2 section pb-2">
+                            <div class="col-12">
+                                <p>등록된 문의글이 없습니다.</p>
+                            </div>
+                        </div>
+                    </c:when>
+                    <c:otherwise>
+                        <c:forEach items="${list}" var="dto" varStatus="status">
+                            <!--첫줄 시작-->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="FAQToggle">
+                                    <div class="row mt-2 section pb-2">
+                                        <div class="col-1 num">${dto.seq_qna}</div>
+                                        <div class="col-2">${dto.qna_type}</div>
+                                        <div class="col-3">
+                                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                                data-bs-target="#collapse${dto.seq_qna}" aria-expanded="true"
+                                                aria-controls="collapseOne"
+                                                style="display: inline; text-align: center;">
+                                                ${dto.qna_title}
+                                            </button>
+                                        </div>
+                                        <div class="col-2">${dto.user_id}</div>
+                                        <div class="col-2 status">${dto.qna_status}</div>
+                                        <div class="col-2">${dto.qna_date}</div>
+                                    </div>
+                                </h2>
+                                <div id="collapse${dto.seq_qna}" class="accordion-collapse collapse"
+                                    aria-labelledby="FAQToggle" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body row">
+                                        <div class="csPart col-2 pt-5 pb-5">
+                                        </div>
+                                        <div class="col-10">
+                                            <p class="content pt-5 pb-5">${dto.qna_content}</p>
+                                        </div>
+                                    </div>
+                                    <div class="accordion-body row mt-2 answer">
+                                            <div class="csPart col-2 pt-5 pb-5">
+                                                하이프랜드 CS담당자
+                                            </div>
+                                            <div class="col-10">
+                                                <p class="content pt-5 pb-5">${reply[status.index].qna_reply}</p>
+                                            </div>
+
+                                            </div>
+
+                                </div>
+                            </div>
+
+                        </c:forEach>
+                    </c:otherwise>
+                </c:choose>
 
                 <div class="row mt-5 mb-5" style="text-align: center;">
                     <div class="col">
-                        <input type="text">
+                        <input type="text" id="searchKeyword">
                         <select name="searchType" id="searchType">
-                            <option value=''>제목</option>
-                            <option value='10'>내용</option>
+                            <option value='qna_title'>제목</option>
+                            <option value='qna_content'>내용</option>
+                            <option value='qna_type'>문의유형</option>
                         </select>
                         <button type="button" id="search">검색</button>
                     </div>
@@ -279,7 +333,8 @@
                                 < </a>
                         </c:if>
                         <c:forEach var="pageNum" begin="${naviMap.startNavi}" end="${naviMap.endNavi}" step="1">
-                            <a href="/toQnaBoard.mem?curPage=${pageNum}" value="${pageNum}" class="paging">${pageNum}</a>
+                            <a href="/toQnaBoard.mem?curPage=${pageNum}" value="${pageNum}"
+                                class="paging">${pageNum}</a>
                         </c:forEach>
 
                         <c:if test="${naviMap.needNext eq true}">
@@ -333,13 +388,31 @@
 
         <script>
             const active = document.getElementsByClassName('paging');
-            
-            for(let i = 0; i<active.length; i++){
-                if(active[i].innerText == '${curPage}'){
+
+            for (let i = 0; i < active.length; i++) {
+                if (active[i].innerText == '${curPage}') {
                     active[i].setAttribute("class", "active");
                 }
             }
 
+            const status = document.getElementsByClassName('status');
+            const answer = document.getElementsByClassName('answer'); 
+            for (let i = 0; i < status.length; i++) {
+                if (status[i].innerText == '답변 대기') {
+                    answer[i].style.display = "none";
+                }
+            }
+
+            $('#search').on('click', function() {
+                const searchKeyword = $('#searchKeyword').val();
+                if( $('#searchType option:selected').val() == 'qna_title'){
+                    location.href = "/toSearchProc.mem?curPage="+ "${curPage}"+'&searchType=qna_title&searchKeyword='+searchKeyword;
+                }else if($('#searchType option:selected').val() == 'qna_content'){
+                    location.href = "/toSearchProc.mem?curPage="+ "${curPage}"+'&searchType=qna_content&searchKeyword='+searchKeyword;
+                }else if($('#searchType option:selected').val() == 'qna_type'){
+                    location.href = "/toSearchProc.mem?curPage="+ "${curPage}"+'&searchType=qna_type&searchKeyword='+searchKeyword;
+                }
+            })
         </script>
 
         </html>

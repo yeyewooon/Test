@@ -7,12 +7,13 @@ public class QnaDTO {
 	private String qna_type;
 	private String qna_title;
 	private String qna_content;
+	private String qna_status;
 	private String qna_date;
 	
 	public QnaDTO() {}
-	
+
 	public QnaDTO(int seq_qna, int seq_order, String user_id, String qna_type, String qna_title, String qna_content,
-			String qna_date) {
+			String qna_status, String qna_date) {
 		super();
 		this.seq_qna = seq_qna;
 		this.seq_order = seq_order;
@@ -20,6 +21,7 @@ public class QnaDTO {
 		this.qna_type = qna_type;
 		this.qna_title = qna_title;
 		this.qna_content = qna_content;
+		this.qna_status = qna_status;
 		this.qna_date = qna_date;
 	}
 
@@ -39,7 +41,7 @@ public class QnaDTO {
 		this.seq_order = seq_order;
 	}
 
-	public String getuser_id() {
+	public String getUser_id() {
 		return user_id;
 	}
 
@@ -71,6 +73,14 @@ public class QnaDTO {
 		this.qna_content = qna_content;
 	}
 
+	public String getQna_status() {
+		return qna_status;
+	}
+
+	public void setQna_status(String qna_status) {
+		this.qna_status = qna_status;
+	}
+
 	public String getQna_date() {
 		return qna_date;
 	}
@@ -81,11 +91,10 @@ public class QnaDTO {
 
 	@Override
 	public String toString() {
-		return  seq_qna + " : " + seq_order + " :  " + user_id + " : "
-				+ qna_type + " : " + qna_title + " : " + qna_content + " : " + qna_date;
-			
+		return seq_qna + " : " + seq_order + " : " + user_id + " : "
+				+ qna_type + " : " + qna_title + " : " + qna_content + " : " + qna_status
+				+ " : " + qna_date;
 	}
-	
 	
 	
 }
