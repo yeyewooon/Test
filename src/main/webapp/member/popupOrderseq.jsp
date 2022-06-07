@@ -75,7 +75,7 @@ integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52n
 		        <tr>
 		            <td><input type="radio" id="${dto.seq_order}" name="seq_order" value="${dto.seq_order}/${dto.buy_name}"></td> 
 		            <td><p>${dto.seq_order}</p></td>
-		            <td><p>${dto.user_id}</p></td>
+		            <td><p>${loginSession.user_id}</p></td>
 		            <td><p>${dto.buy_name}</p></td>
 		            <td><p>${dto.buy_price}</p></td>
 		            <td><p>${dto.buy_qty}</p></td>

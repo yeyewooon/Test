@@ -297,22 +297,7 @@
           </tr>
         </tbody>
       </table>
-      <div class="row mt-5 wrapTerms">
-        <p style="border-bottom: 1px solid lightgray; padding: 1rem;">
-          <label for="">마케팅 수신 동의</label>
-          <span class="star">(선택)</span>
-        </p>
-        <div class="col">
-          <input type="checkBox" name="checkEmail" id="checkEmail">
-          <label for="checkEmail">이메일</label>
-          <input type="checkBox" name="checkSMS" id="checkSMS">
-          <label for="checkEmail">SMS</label>
-          <p style="font-size: 0.7rem; opacity: 0.6; margin-top: 1rem;">
-            ※ 본 동의 사항은 선택사항으로 거부 할 수 있으며, 거부하시더라도 서비스 이용에 제한은 없습니다.
-            <br>단, 이벤트 정보, 신제품 출시 등 맞춤형 서비스를 제공 받으실 수 없습니다.
-          </p>
-        </div>
-      </div>
+      
       <div class="row mt-5 mb-5">
         <div class="col" style="text-align: center;">
           <p><strong>이용약관과 개인정보 수집 및 이용을 동의하십니까?</strong></p>

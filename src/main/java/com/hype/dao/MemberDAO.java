@@ -17,8 +17,8 @@ import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 
 import com.hype.dto.CartDTO;
 import com.hype.dto.MemberDTO;
+import com.hype.dto.OrderDTO;
 import com.hype.dto.QnaDTO;
-import com.hype.dto.ReplyDTO;
 
 public class MemberDAO {
 private BasicDataSource bds;
@@ -155,7 +155,7 @@ private BasicDataSource bds;
 
 			pstmt.setString(1, id);
 			ResultSet rs = pstmt.executeQuery();
-			DecimalFormat decFormat = new DecimalFormat("###,###");
+//			DecimalFormat decFormat = new DecimalFormat("###,###");
 
 			ArrayList<CartDTO> list = new ArrayList<>();
 
@@ -165,8 +165,8 @@ private BasicDataSource bds;
 				String user_id = rs.getString(3);
 				String cart_name = rs.getString(4);
 				int cart_quantity = rs.getInt(5);
-				String cart_price = decFormat.format(rs.getInt(6));
-				String cart_total = decFormat.format(rs.getInt(6) * cart_quantity);
+				int	cart_price = rs.getInt(6); //decFormat.format(rs.getInt(6));
+				int cart_total = rs.getInt(6) * cart_quantity; //decFormat.format(rs.getInt(6) * cart_quantity);
 
 				list.add(new CartDTO(seq_cart, seq_product, user_id, cart_name, cart_quantity, cart_price, cart_total));
 			}
@@ -304,19 +304,31 @@ private BasicDataSource bds;
 		}
 	}
 
-	public List<Integer> myPageCnt(String id) throws Exception {
-		String sql = "select  \r\n"
+	public List<Integer> myPageCnt(String id, ArrayList<OrderDTO> dto) throws Exception {
+		String[] str = new String[dto.size()];
+		for (int i = 0; i < dto.size(); i++) {
+			str[i] = "?";
+		}
+		String allStr = String.join(",", str);
+		
+		String sql1 = "select  \r\n"
 				+ "(select count(a.seq_order) from tbl_order a where a.order_status = '상품준비중' and user_id= ?) as totalCnt,\r\n"
 				+ "(select count(b.seq_order) from tbl_order b where b.order_status = '배송중' and user_id= ?) as deliveryCnt,\r\n"
-				+ "(select count(c.seq_order) from tbl_order c where c.order_status = '배송완료' and user_id= ?) as deliveryCompleteCnt, \r\n"
-				+ "(select SUM(buy_price) from tbl_buy where user_id = ?) as totalPrice \r\n" + "from dual";
-
+				+ "(select count(c.seq_order) from tbl_order c where c.order_status = '배송완료' and user_id= ?) as deliveryCompleteCnt,";
+		String sql2 = "(select SUM(buy_price) from tbl_buy where seq_order in ";
+		sql2 += "(" + allStr + ")";
+		String sql3 = ") as totalPrice from dual";
+		String sql = sql1 + sql2 + sql3;
+		
 		try (Connection con = bds.getConnection(); PreparedStatement pstmt = con.prepareStatement(sql)) {
 
 			pstmt.setString(1, id);
 			pstmt.setString(2, id);
 			pstmt.setString(3, id);
-			pstmt.setString(4, id);
+			
+			for (int i = 0; i < dto.size(); i++) {
+				pstmt.setInt(i+3 + 1, dto.get(i).getSeq_order());
+			}
 
 			ResultSet rs = pstmt.executeQuery();
 			List<Integer> list = new ArrayList<>();
@@ -358,10 +370,10 @@ private BasicDataSource bds;
 				String qna_type = rs.getString(4);
 				String qna_title = rs.getString(5);
 				String qna_content = rs.getString(6);
-				String qna_status = rs.getString(7);
-				String qna_date = getStringDate(rs.getDate(8));
+				String qna_date = getStringDate(rs.getDate(7));
+				String qna_status = rs.getString(8);
 				
-				list.add(new QnaDTO(seq_qna, seq_order, user_id, qna_type, qna_title, qna_content, qna_status ,qna_date));
+				list.add(new QnaDTO(seq_qna, seq_order, user_id, qna_type, qna_title, qna_content, qna_status,qna_date));
 			}
 			return list;
 		}
@@ -382,18 +394,45 @@ private BasicDataSource bds;
 			int naviCntPerPage = 5; // 네비바에 몇개 단위로 페이징을 구성할지
 			int pageTotalCnt = 0; // 총 몇 페이지가 나올지
 			
+			/* 현재 DB에 148개의 게시글
+			 * 148개의 게시글 기준으로 10개씩 페이징을 해준다면 총 15개의 페이지가 나와야함.
+			 * pageTotalCnt = 15;
+			 * 
+			 * 148 / 10 = 14페이지 + 1 = 15페이지
+			 * 140 / 10 = 14 + 1 = 15... -> 올바르지 않은 값이 됨
+			 * */
 			if(totalCnt % recordCntPerPage > 0) { // 나머지가 생김(10의 배수가 아님x)
 				pageTotalCnt = totalCnt / recordCntPerPage + 1;
 			}else {
 				pageTotalCnt = totalCnt / recordCntPerPage;
 			}
 			
+			/* 현재 페이지는 반드시 1 이상
+			 * 현재 페이지는 총 페이지의 개수를 넘어갈 수 없음
+			 * */
 			if(curPage < 1) { // 현재 페이지가 0이거나 혹은 음수일때
 				curPage = 1; // 무조건 첫페이지로 맞춰주기
 			}else if(curPage > pageTotalCnt) { // 현재 페이지가 총 페이지 수 보다 크다면
 				 curPage = pageTotalCnt;
 			}
 			
+			/* 현재 페이지를 기준으로 
+			 * 네비의 시작페이지, 끝페이지를 잡을 것
+			 * 
+			 * 만약 현재 페이지가 3페이지라면
+			 * 네비의 시작 페이지 = 1 / 네비의 끝 페이지 = 5
+			 * 
+			 * 만약 현재 페이지가 6페이지라면
+			 * 네비의 시작 페이지 = 6 / 네비의 끝 페이지 = 10
+			 * 
+			 * (현재 페이지 / 페이지 단위) * 페이지 단위 + 1
+			 * 3 / 5 = 0 * 5 = 0 + 1 = 1
+			 * 5 / 5 = 1 * 5 = 5 + 1 = 6
+			 * 
+			 * ( (현재 페이지-1) / 페이지 단위) * 페이지 단위 + 1
+			 * 3-1 = 2 / 5 = 0 * 5 = 0 + 1 = 1
+			 * 5-1 = 4 / 5 = 0 * 5 = 0 + 1 = 1
+			 * */
 			int startNavi = ((curPage) / naviCntPerPage) + 1;
 			int endNavi = startNavi + naviCntPerPage -1;
 			
@@ -423,71 +462,6 @@ private BasicDataSource bds;
 			map.put("curPage", curPage);
 			
 			return map;
-		}
-	}
-	
-	public ArrayList<ReplyDTO> replyById(String id, int[] num) throws Exception{
-		String[] str = new String[num.length];
-
-		for (int i = 0; i < num.length; i++) {
-			str[i] = "?";
-		}
-		String allStr = String.join(",", str);
-		String sql = "select * from tbl_reply where user_id = ? and seq_qna in ";
-		sql += "(" + allStr + ")";
-		
-		try (Connection con = bds.getConnection(); 
-				PreparedStatement pstmt = con.prepareStatement(sql)) {
-			
-			pstmt.setString(1, id);
-			
-			for (int i = 0; i < num.length; i++) {
-				pstmt.setInt(i + 2, num[i]);
-			}
-			
-			ResultSet rs = pstmt.executeQuery();
-			ArrayList<ReplyDTO> list = new ArrayList<>();
-			
-			while(rs.next()) {
-				int seq_reply = rs.getInt(1);
-				String user_id = rs.getString(2);
-				int seq_qna = rs.getInt(3);
-				String qna_reply = rs.getString(4);
-				String reply_date = getStringDate(rs.getDate(5));
-				
-				list.add(new ReplyDTO(seq_reply, user_id, seq_qna, qna_reply, reply_date));
-			}
-			return list;
-		}
-	}
-	
-	public ArrayList<QnaDTO> searchByQna(String id,String type,String searchKeyword, int start, int end) throws Exception{
-		String sql = "select * from (select tbl_qna.*, row_number() over(order by seq_qna desc) as num from tbl_qna) where user_id = ? and "+type+  " like '%'||?||'%' and num between ? and ?";
-		
-		try( Connection con = bds.getConnection();
-				PreparedStatement pstmt = con.prepareStatement(sql)){
-			
-			pstmt.setString(1, id);
-			pstmt.setString(2, searchKeyword);
-			pstmt.setInt(3, start);			
-			pstmt.setInt(4, end);
-			
-			ResultSet rs = pstmt.executeQuery();
-			ArrayList<QnaDTO> list = new ArrayList<>();
-			
-			while(rs.next()) {
-				int seq_qna = rs.getInt("seq_qna");
-				int seq_order = rs.getInt("seq_order");
-				String user_id = rs.getString("user_id");
-				String qna_type = rs.getString("qna_type");
-				String qna_title = rs.getString("qna_title");
-				String qna_content = rs.getString("qna_content");
-				String qna_status = rs.getString("qna_status");
-				String qna_date = getStringDate(rs.getDate("qna_date"));
-				
-				list.add(new QnaDTO(seq_qna, seq_order, user_id, qna_type, qna_title, qna_content, qna_status ,qna_date));
-			}
-			return list;
 		}
 	}
 

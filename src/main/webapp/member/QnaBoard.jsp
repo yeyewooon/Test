@@ -400,6 +400,8 @@
             for (let i = 0; i < status.length; i++) {
                 if (status[i].innerText == '답변 대기') {
                     answer[i].style.display = "none";
+                }else if(status[i].innerText == '답변 완료'){
+                    status[i].style.color = 'blue';
                 }
             }
 

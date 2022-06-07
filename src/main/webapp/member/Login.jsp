@@ -339,10 +339,10 @@
                     $('#find_phone1 option:selected').val() +
                     $('#find_phone2').val() +
                     $('#find_phone3').val();
-                $('#find_phone').val(콜);
+                $('#find_phone').val(phone);
                 let regexPhone = /[0-9]{11}/;
 
-                if (!regexPhone.test(콜)) {
+                if (!regexPhone.test(phone)) {
                     alert('올바르지 않은 형식의 전화번호 입니다.');
                     return;
                 }

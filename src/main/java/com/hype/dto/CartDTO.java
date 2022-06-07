@@ -6,13 +6,13 @@ public class CartDTO {
    private String user_id;
    private String cart_name;
    private int cart_quantity;
-   private String cart_price;
-   private String cart_total;
+   private int cart_price;
+   private int cart_total; //지워야함
    
    public CartDTO() {}
    
-   public CartDTO(int seq_cart, int seq_product, String user_id, String cart_name, int cart_quantity, String cart_price,
-         String cart_total) {
+   public CartDTO(int seq_cart, int seq_product, String user_id, String cart_name, int cart_quantity, int cart_price,
+		   int cart_total) {
       super();
       this.seq_cart = seq_cart;
       this.seq_product = seq_product;
@@ -63,19 +63,19 @@ public class CartDTO {
       this.cart_quantity = cart_quantity;
    }
 
-   public String getCart_price() {
+   public int getCart_price() {
       return cart_price;
    }
 
-   public void setCart_price(String cart_price) {
+   public void setCart_price(int cart_price) {
       this.cart_price = cart_price;
    }
 
-   public String getCart_total() {
+   public int getCart_total() {
       return cart_total;
    }
 
-   public void setCart_total(String cart_total) {
+   public void setCart_total(int cart_total) { //지워야함
       this.cart_total = cart_total;
    }
 

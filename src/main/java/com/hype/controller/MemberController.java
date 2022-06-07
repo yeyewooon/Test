@@ -15,12 +15,15 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 import com.hype.dao.MemberDAO;
+import com.hype.dao.PayDAO;
 import com.hype.dao.QnaDAO;
 import com.hype.dto.BuyDTO;
 import com.hype.dto.CartDTO;
+import com.hype.dto.DeliveryDTO;
 import com.hype.dto.MemberDTO;
+import com.hype.dto.OrderDTO;
+import com.hype.dto.PayListDTO;
 import com.hype.dto.QnaDTO;
-import com.hype.dto.ReplyDTO;
 import com.hype.utills.EncryptionUtils;
 
 @WebServlet("*.mem")
@@ -140,21 +143,30 @@ public class MemberController extends HttpServlet {
 			HttpSession session = request.getSession();
 
 			String user_id = ((MemberDTO) session.getAttribute("loginSession")).getUser_id();
-
-			MemberDAO dao = new MemberDAO();
-
+			
+			QnaDAO qnaDao = new QnaDAO();
+			MemberDAO memberDao = new MemberDAO();
+			int totalCnt = 0;
+			int deliveryCnt = 0;
+			int deliveryCompletCnt = 0;
+			int totalPrice = 0;
 			try {
-				List<Integer> list = dao.myPageCnt(user_id);
-				int totalCnt = list.get(0);
-				int deliveryCnt = list.get(1);
-				int deliveryCompletCnt = list.get(2);
-				int totalPrice = list.get(3);
+				ArrayList<OrderDTO> orderDTO = qnaDao.selectById(user_id);
+				System.out.println(orderDTO);
+				if (orderDTO.size()!= 0) {
+					List<Integer> list = memberDao.myPageCnt(user_id,orderDTO);
+					System.out.println(list);
+					totalCnt = list.get(0);
+					deliveryCnt = list.get(1);
+					deliveryCompletCnt = list.get(2);
+					totalPrice = list.get(3);
+					
+				}
 				request.setAttribute("user_id", user_id);
 				request.setAttribute("totalCnt", totalCnt);
 				request.setAttribute("deliveryCnt", deliveryCnt);
 				request.setAttribute("deliveryCompletCnt", deliveryCompletCnt);
 				request.setAttribute("totalPrice", totalPrice);
-
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -239,15 +251,16 @@ public class MemberController extends HttpServlet {
 			String user_id = ((MemberDTO) session.getAttribute("loginSession")).getUser_id();
 
 			QnaDAO dao = new QnaDAO();
-
 			try {
-				ArrayList<BuyDTO> list = dao.seq_orderSelectById(user_id);
-
-				if (list != null) {
+				ArrayList<OrderDTO> seq_order = dao.selectById(user_id);
+				if (seq_order.size() != 0) {
 					System.out.println("주문정보조회 성공");
+					ArrayList<BuyDTO> list = dao.seq_orderSelectBySeq(seq_order);
+					System.out.println(list);
 					request.setAttribute("list", list);
 				} else {
 					System.out.println("주문정보 없음");
+					
 				}
 
 				request.getRequestDispatcher("/member/popupOrderseq.jsp").forward(request, response);
@@ -350,22 +363,35 @@ public class MemberController extends HttpServlet {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		} else if (uri.equals("/toPay.mem")) {
+		} else if (uri.equals("/toPay.mem")) { // 결제
 			int[] seq_cart = Arrays.stream(request.getParameterValues("seq_cart")).mapToInt(Integer::parseInt)
 					.toArray(); // 장바구니에서 넘긴 tbl_cart 배열
-			/*
-			 * HttpSession session = request.getSession(); String user_id =
-			 * ((MemberDTO)session.getAttribute("loginSession")).getUser_id();
-			 * 
-			 * PayDAO dao = new PayDAO(); try { ArrayList<DeliveryDTO> list =
-			 * dao.deliSelectById(user_id); request.setAttribute("deli_list", list);
-			 * 
-			 * 
-			 * 
-			 * }catch(Exception e) { e.printStackTrace(); }
-			 * 
-			 * request.getRequestDispatcher("/pay/pay.jsp").forward(request, response);
-			 */
+			HttpSession session = request.getSession();
+			String user_id = ((MemberDTO) session.getAttribute("loginSession")).getUser_id();
+
+			PayDAO dao = new PayDAO();
+			try {
+				ArrayList<DeliveryDTO> deliList = dao.deliSelectById(user_id);
+				request.setAttribute("deli_list", deliList);
+				ArrayList<PayListDTO> payList = dao.selectBySeq_cart(seq_cart, user_id);
+				request.setAttribute("pay_list", payList);
+				
+				int totalPrice = 0;
+				List<Integer> pay_list_seq_cart = new ArrayList<>();
+				
+				for(PayListDTO pay :  payList) {
+					totalPrice +=  pay.getCart_quantity()*pay.getProduct_price();
+					pay_list_seq_cart.add(pay.getSeq_cart());
+				}
+				
+				request.setAttribute("seq_cart", pay_list_seq_cart);
+				request.setAttribute("total_price", totalPrice);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			request.getRequestDispatcher("/pay/pay.jsp").forward(request, response);
 
 		} else if (uri.equals("/toKakao.mem")) {
 			String email = request.getParameter("email");
@@ -442,28 +468,7 @@ public class MemberController extends HttpServlet {
 				e.printStackTrace();
 			}
 
-		} else if (uri.equals("/toSearchSeq.mem")) { // 세션 아이디 값으로 주문번호 조회하기
-			HttpSession session = request.getSession();
-			String user_id = ((MemberDTO) session.getAttribute("loginSession")).getUser_id();
-
-			QnaDAO dao = new QnaDAO();
-
-			try {
-				ArrayList<BuyDTO> list = dao.seq_orderSelectById(user_id);
-
-				if (list != null) {
-					System.out.println("주문정보조회 성공");
-					request.setAttribute("list", list);
-				} else {
-					System.out.println("주문정보 없음");
-				}
-
-				request.getRequestDispatcher("/member/popupOrderseq.jsp").forward(request, response);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-		} else if (uri.equals("/toQnaProc.mem")) { // qna 글쓰기
+		}else if (uri.equals("/toQnaProc.mem")) { // qna 글쓰기
 			int seq_order = Integer.parseInt(request.getParameter("seq_order"));
 			String user_id = request.getParameter("user_id");
 			String qna_type = request.getParameter("qna_type");
@@ -495,61 +500,15 @@ public class MemberController extends HttpServlet {
 			try {
 				HashMap map = dao.getPageNavi(curPage, dto.getUser_id());
 				ArrayList<QnaDTO> list = dao.qnaById(dto.getUser_id(), curPage * 5 - 4, curPage * 5);
-				int[] arr = new int[list.size()];
-				for (int i = 0; i < list.size(); i++) {
-					arr[i] += list.get(i).getSeq_qna();
-				}
-				ArrayList<ReplyDTO> reply = dao.replyById(dto.getUser_id(), arr);
-
 				System.out.println(list);
-				System.out.println(reply);
 				request.setAttribute("list", list);
-				request.setAttribute("reply", reply);
 				request.setAttribute("naviMap", map);
 				request.setAttribute("curPage", curPage);
 				request.getRequestDispatcher("/member/QnaBoard.jsp").forward(request, response);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		} else if (uri.equals("/toSearchProc.mem")) {
-			int curPage = Integer.parseInt(request.getParameter("curPage"));
-			String searchKeyword = request.getParameter("searchKeyword");
-			String searchType = request.getParameter("searchType");
-			System.out.println("keyword" + " : " + searchKeyword);
-			System.out.println("keyword" + " : " + searchType);
-
-			HttpSession session = request.getSession();
-			MemberDTO dto = (MemberDTO) session.getAttribute("loginSession");
-
-			MemberDAO dao = new MemberDAO();
-			try {
-				HashMap map = dao.getPageNavi(curPage, dto.getUser_id());
-				ArrayList<QnaDTO> list = dao.searchByQna(dto.getUser_id(),searchType,searchKeyword, curPage * 5 - 4, curPage * 5);
-				System.out.println(list);
-				if(list.size() != 0) {
-					int[] arr = new int[list.size()];
-					for (int i = 0; i < list.size(); i++) {
-						arr[i] += list.get(i).getSeq_qna();
-					}
-					ArrayList<ReplyDTO> reply = dao.replyById(dto.getUser_id(), arr);
-
-					System.out.println(list);
-					System.out.println(reply);
-					request.setAttribute("list", list);
-					request.setAttribute("reply", reply);
-					request.setAttribute("naviMap", map);
-					request.setAttribute("curPage", curPage);
-				}
-				
-				request.setAttribute("list", list);
-				request.setAttribute("naviMap", map);
-				request.setAttribute("curPage", curPage);
-				request.getRequestDispatcher("/member/QnaBoard.jsp").forward(request, response);
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+     	}
 	}
 
 }

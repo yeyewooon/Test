@@ -155,6 +155,8 @@ $('#emailAdress2').focusout(function () {
 });
 
 $('#submitBtn').on('click', function () {
+  const termsOfService = document.getElementById('termsOfService');
+  const privacyPolicy = document.getElementById('privacyPolicy');
   let regexId = /^[a-zA-Z0-9_]{6,}$/;
   let regexPw = /^[a-z0-9~!@#$%^&]{5,19}$/;
   let regexPhone = /^[0-9]{11}$/;
@@ -204,14 +206,19 @@ $('#submitBtn').on('click', function () {
   } else if (!regexDate.test($('#user_date').val())) {
     alert('생년월일 형식에 맞지 않습니다.');
     return;
-  } else if ($('#postCode').val() === '' || $('#roadAddr').val() === '') {
-    alert('주소를 입력해 주세요.');
-    return;
   } else if ($('#user_id').val() == $('#user_password').val()) {
     alert('아이디와 다른 비밀번호를 입력해주세요.');
     return;
+  } else if (!termsOfService.checked && !privacyPolicy.checked) {
+    alert('필수 약관에 동의하셔야 가입이 가능합니다.');
+    return;
+  } else if ($('#postCode').val() === '' || $('#roadAddr').val() === '') {
+    alert('주소를 입력해 주세요.');
+    return;
   }
-
-  //form 제출
-  document.getElementById('signupForm').submit();
+  const check = confirm('입력하신 정보로 회원가입하시겠습니까?');
+  if (check) {
+    //form 제출
+    document.getElementById('signupForm').submit();
+  }
 });
