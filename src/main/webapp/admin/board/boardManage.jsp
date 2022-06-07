@@ -4,6 +4,9 @@
 <html>
 <head>
 <meta charset="EUC-KR">
+<<<<<<< HEAD
+<title>Insert title here</title>
+=======
 <title>문의 관리</title>
  <script
       src="https://kit.fontawesome.com/f9358a6ceb.js"
@@ -26,6 +29,7 @@
       crossorigin="anonymous"
     ></script>
 <link href="<%=request.getContextPath()%>css/boardManage.css" rel="stylesheet"/>
+>>>>>>> 7ba77a9516e91d826e59737b05896dcb861e1211
 </head>
 <body>
 <div class="adminContainer">
@@ -234,6 +238,9 @@
         </div>
       </div>
     </div>
+<<<<<<< HEAD
+=======
     <script src="<%=request.getContextPath()%>script/boardManage.js"></script>
+>>>>>>> 7ba77a9516e91d826e59737b05896dcb861e1211
 </body>
 </html>

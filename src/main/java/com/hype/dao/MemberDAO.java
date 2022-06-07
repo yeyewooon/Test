@@ -28,7 +28,7 @@ public class MemberDAO {
 		}
 	}
 
-	public int signup(MemberDTO dto) throws Exception { // 회원가입 메소드
+	public int signup(MemberDTO dto) throws Exception {
 		String sql = "insert into tbl_member values(?, ?, ?, ?, ?, ?, ?, ?, ?, default)";
 
 		try (Connection con = bds.getConnection(); PreparedStatement pstmt = con.prepareStatement(sql)) {
@@ -37,7 +37,7 @@ public class MemberDAO {
 			pstmt.setString(2, dto.getUser_password());
 			pstmt.setString(3, dto.getUser_name());
 			pstmt.setString(4, dto.getUser_date());
-			pstmt.setInt(5, dto.getUser_postCode());
+			pstmt.setString(5, dto.getUser_postCode());
 			pstmt.setString(6, dto.getUser_roadAddr());
 			pstmt.setString(7, dto.getUser_detailAddr());
 			pstmt.setString(8, dto.getUser_phone());
@@ -49,7 +49,7 @@ public class MemberDAO {
 
 	}
 
-	public boolean checkId(String id) throws Exception { // 중복검사 메소드
+	public boolean checkId(String id) throws Exception {
 		String sql = "select count(*) from tbl_member where user_id = ?";
 
 		try (Connection con = bds.getConnection(); PreparedStatement pstmt = con.prepareStatement(sql)) {
@@ -81,7 +81,7 @@ public class MemberDAO {
 			if (rs.next()) {
 				String user_name = rs.getString("user_name");
 				String user_date = rs.getString("user_date");
-				int user_postCode = rs.getInt("user_postCode");
+				String user_postCode = rs.getString("user_postCode");
 				String user_rodAddr = rs.getString("user_roadAddr");
 				String user_detailAddr = rs.getString("user_detailAddr");
 				String user_phone = rs.getString("user_phone");
@@ -110,7 +110,7 @@ public class MemberDAO {
 
 			while (rs.next()) {
 				String user_id = rs.getString("user_id");
-				list.add(new MemberDTO(user_id, null, null, null, 0, null, null, null, null, null));
+				list.add(new MemberDTO(user_id, null, null, null, null, null, null, null, null, null));
 			}
 			return list;
 
@@ -154,10 +154,9 @@ public class MemberDAO {
 				String user_id = rs.getString(3);
 				String cart_name = rs.getString(4);
 				int cart_quantity = rs.getInt(5);
-				String cart_price = decFormat.format(rs.getInt(6));
-				String cart_total = decFormat.format(rs.getInt(6) * cart_quantity);
+				int cart_price = decFormat.format(rs.getInt(6));
 
-				list.add(new CartDTO(seq_cart, seq_product, user_id, cart_name, cart_quantity, cart_price, cart_total));
+				list.add(new CartDTO(seq_cart, seq_product, user_id, cart_name, cart_quantity, cart_price));
 			}
 			return list;
 
@@ -167,79 +166,74 @@ public class MemberDAO {
 	public int deleteCart(int num) throws Exception {
 		String sql = "delete from tbl_cart where seq_cart = ?";
 
-		try (Connection con = bds.getConnection(); 
-				PreparedStatement pstmt = con.prepareStatement(sql)) {
-			
+		try (Connection con = bds.getConnection(); PreparedStatement pstmt = con.prepareStatement(sql)) {
+
 			pstmt.setInt(1, num);
 			int rs = pstmt.executeUpdate();
-			
+
 			return rs;
 		}
 	}
-	
+
 	public int deleteCartAll(String id) throws Exception {
 		String sql = "delete from tbl_cart where user_id = ?";
 
-		try (Connection con = bds.getConnection(); 
-				PreparedStatement pstmt = con.prepareStatement(sql)) {
-			
+		try (Connection con = bds.getConnection(); PreparedStatement pstmt = con.prepareStatement(sql)) {
+
 			pstmt.setString(1, id);
-			
+
 			int rs = pstmt.executeUpdate();
 			return rs;
 		}
 	}
-	
-	public int delCartBySelect(int[] seq_cart) throws Exception{
+
+	public int delCartBySelect(int[] seq_cart) throws Exception {
 		String[] str = new String[seq_cart.length];
-		
-		for(int i = 0; i < seq_cart.length; i++) {
+
+		for (int i = 0; i < seq_cart.length; i++) {
 			str[i] = "?";
 		}
 		String allStr = String.join(",", str);
 		String sql = "delete from tbl_cart where seq_cart in";
-		sql += "("+allStr+")";
+		sql += "(" + allStr + ")";
 
-		try (Connection con = bds.getConnection(); 
-				PreparedStatement pstmt = con.prepareStatement(sql)) {
-			
-			for(int i = 0; i < seq_cart.length; i++) {
-				pstmt.setInt(i+1, seq_cart[i]);
+		try (Connection con = bds.getConnection(); PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+			for (int i = 0; i < seq_cart.length; i++) {
+				pstmt.setInt(i + 1, seq_cart[i]);
 			}
-			
+
 			int rs = pstmt.executeUpdate();
 			return rs;
 		}
 	}
-	
-	public int updateQtyCart(int qty, int cart) throws Exception{
+
+	public int updateQtyCart(int qty, int cart) throws Exception {
 		String sql = "update tbl_cart set cart_quantity=? where seq_cart = ?";
 
-		try (Connection con = bds.getConnection(); 
-				PreparedStatement pstmt = con.prepareStatement(sql)) {
-			
+		try (Connection con = bds.getConnection(); PreparedStatement pstmt = con.prepareStatement(sql)) {
+
 			pstmt.setInt(1, qty);
 			pstmt.setInt(2, cart);
-			
+
 			int rs = pstmt.executeUpdate();
 			return rs;
 		}
 	}
-	
-	public int modifyPw(String pw, String id) throws Exception{
+
+	public int modifyPw(String pw, String id) throws Exception {
 		String sql = "update tbl_member set user_password = ? where user_id = ?";
-		
-		try(Connection con = bds.getConnection();
-			PreparedStatement pstmt = con.prepareStatement(sql)){
-			
+
+		try (Connection con = bds.getConnection(); PreparedStatement pstmt = con.prepareStatement(sql)) {
+
 			pstmt.setString(1, pw);
 			pstmt.setString(2, id);
-			
+
 			int rs = pstmt.executeUpdate();
 			return rs;
 		}
 	}
-	
+
 	public List<Integer> myPageCnt(String id) throws Exception{
 		String sql = "select  \r\n"
 				+ "(select count(a.seq_order) from tbl_order a where a.order_status = '상품준비중' and user_id= ?) as totalCnt,\r\n"
@@ -275,33 +269,8 @@ public class MemberDAO {
 			
 		}
 		
-		
 	}
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 }
+

@@ -38,6 +38,9 @@
 <link href="user/product/css/page.css" rel="stylesheet" />
 <title>Document</title>
 <style>
+*{
+	/*background-color:#f9f5ea;*/
+}
 i {
 	margin: 5px;
 }
@@ -82,17 +85,23 @@ i {
 }
 /*헤더 메인 사진*/
 body {
-	padding-top: 100px;
+	padding-top: 50px;
 }
 
-.header_img {
-	background-color: gainsboro;
-	border: 2px solid black;
-	height: 400px;
+.header-img {
+	height: 800px;
+	width:100%;
+	margin:0;
+}
+
+.header-image{
+	width:100%;
+	height:100%;
 }
 
 /* 상품 캐러셀 */
 .content1 {
+	margin-top:20px;
 	border: 2px solid black;
 	width: 100%;
 	height: 600px;
@@ -151,19 +160,22 @@ a {
 	transition: opacity .15s ease;
 }
 
-.btnImg img{
+.btnImg img {
 	width: 50px;
 }
-.ranknum{
-	background-color:dodgerblue;
+
+.ranknum {
+	background-color: dodgerblue;
 }
+
 .ranknum>span {
 	font-size: 20px;
 	font-weight: 30px;
-	color:white;
+	color: white;
 }
-.carousel-inner{
-	height:415px;
+
+.carousel-inner {
+	height: 415px;
 }
 
 /*content2*/
@@ -209,6 +221,11 @@ footer.footer {
 	font-weight: 40px;
 	font-weight: bold;
 }
+/*navibar*/
+.navbar{
+	margin-left : 0;
+	margin-right : 0;
+}
 </style>
 </head>
 <body>
@@ -237,20 +254,7 @@ footer.footer {
 				<div class="col-md-1 navbar-anchor">
 					<a href="/">고객센터</a>
 				</div>
-				<!-- 네비바 검색창 -->
-				<div class="col-md-4 navbar-anchor" id="navbar-search">
-					<form
-						class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-						<div class="input-group">
-							<button class="btn btn-link" style="border: 1px solid lightgrey;"
-								id="btnSearch" type="button">
-								<i id="searchIcon" class="fas fa-search"></i>
-							</button>
-							<input class="form-control" type="text"
-								aria-describedby="btnNavbarSearch" />
-						</div>
-					</form>
-				</div>
+				
 				<div class="col-md-2 navbar-anchor" id="userIcon">
 					<a href=""><i class="fa-solid fa-cart-plus"></i></a> <a href=""><i
 						class="fa-solid fa-user"></i></a>
@@ -260,10 +264,16 @@ footer.footer {
 	</div>
 
 	<!-- 헤더 사진 -->
-	<div class="header_img" id="header">
-		<div class="row m-5">
-			<div class="col-12 d-flex w-100">header-image</div>
-		</div>
+	<div class="header-img" id="header">
+		<c:if test="${category eq 'top' }">
+			<img src="./resources/images/header-image-top.jpg" class="header-image">
+		</c:if>
+		<c:if test="${category eq 'bt' }">
+			<img src="./resources/images/header-image_bottom.jpg" class="header-image">
+		</c:if>
+		<c:if test="${category eq 'acc' }">
+			<img src="./resources/images/header-image-acc.jpg" class="header-image">
+		</c:if>
 	</div>
 
 	<!-- 상품 캐러셀 -->
@@ -275,33 +285,36 @@ footer.footer {
 		</div>
 
 		<div class="row">
-			<div class="col-12 imageBox  d-flex justify-content-center">
+			<div class="col-12 imageBox d-flex justify-content-center">
 				<div id="carouselTop"
 					class="carousel carousel-dark slide data-bs-pause"
 					data-bs-ride="carousel">
 					<div class="carousel-inner">
 						<div class="carousel-item active">
 							<div class="row">
-								<c:forEach items="${imgList }" var="imgList" varStatus="status">
+								<c:forEach items="${rimgList }" var="rimgList"
+									varStatus="status">
 									<c:if test="${status.index<4}">
 										<div class="col-lg-3">
 											<a href="">
 												<div class="card">
 													<div class="row">
-														<div class="col-2 ranknum">
+														<div class="col-2 ranknum d-flex justify-content-center">
 															<span>${status.index+1 }</span>
 														</div>
 													</div>
 													<div class="row">
 														<div class="col">
 															<div class="cardimg">
-																<img src="${imgList.image_path}${imgList.image_name}" class="cardimg">
+																<img src="${rimgList.image_path}${rimgList.image_name}"
+																	class="cardimg">
 															</div>
 														</div>
 													</div>
 													<div class="row card-text">
 														<div class="col-12 productName">
-															<span>${proList[status.index].product_name }</span><br> ${proList[status.index].product_price }
+															<span>${pList[status.index].product_name }</span><br>
+															${proList[status.index].product_price }
 														</div>
 													</div>
 												</div>
@@ -313,26 +326,29 @@ footer.footer {
 						</div>
 						<div class="carousel-item">
 							<div class="row">
-								<c:forEach items="${imgList }" var="imgList" varStatus="status">
+								<c:forEach items="${rimgList }" var="rimgList"
+									varStatus="status">
 									<c:if test="${status.index>=4}">
 										<div class="col-lg-3">
 											<a href="">
 												<div class="card">
 													<div class="row">
-														<div class="col-2 ranknum">
+														<div class="col-2 ranknum d-flex justify-content-center">
 															<span>${status.index+1 }</span>
 														</div>
 													</div>
 													<div class="row">
 														<div class="col">
 															<div class="cardimg">
-																<img src="${imgList.image_path}${imgList.image_name}" class="cardimg">
+																<img src="${rimgList.image_path}${rimgList.image_name}"
+																	class="cardimg">
 															</div>
 														</div>
 													</div>
 													<div class="row card-text">
 														<div class="col-12 productName">
-															<span>${proList[status.index].product_name }</span><br> ${proList[status.index].product_price }
+															<span>${proList[status.index].product_name }</span><br>
+															${proList[status.index].product_price }
 														</div>
 													</div>
 												</div>
@@ -341,14 +357,16 @@ footer.footer {
 									</c:if>
 								</c:forEach>
 							</div>
-						</div>	
-							
+						</div>
+
 					</div>
 					<div class="btnClass">
-						<button class="carousel-c-prev btnImg" type="button" data-bs-target="#carouselTop" data-bs-slide="prev">
+						<button class="carousel-c-prev btnImg" type="button"
+							data-bs-target="#carouselTop" data-bs-slide="prev">
 							<img src="resources/images/caret-left.png">
 						</button>
-						<button class="carousel-c-next btnImg" type="button" data-bs-target="#carouselTop" data-bs-slide="next">
+						<button class="carousel-c-next btnImg" type="button"
+							data-bs-target="#carouselTop" data-bs-slide="next">
 							<img src="resources/images/caret-right.png">
 						</button>
 					</div>
@@ -370,13 +388,16 @@ footer.footer {
 							<div class="row">
 								<c:forEach items="${imgList }" var="imgList" varStatus="status">
 									<div class="col-md-4 d-block justify-content-center p-4">
-										<a href="detailPage.page?seq_product=${proList[status.index].seq_product }">
+										<a
+											href="detailPage.page?seq_product=${proList[status.index].seq_product }">
 											<div class="imgBox">
-												<img src="${imgList.image_path}${imgList.image_name}" id="Cimg">
+												<img src="${imgList.image_path}${imgList.image_name}"
+													id="Cimg">
 											</div>
 											<div class="imgText">
-												<strong>${proList[status.index].product_name }</strong><br> ${proList[status.index].product_price}
-											</div>	
+												<strong>${proList[status.index].product_name }</strong><br>
+												${proList[status.index].product_price}
+											</div>
 										</a>
 									</div>
 								</c:forEach>
@@ -388,45 +409,54 @@ footer.footer {
 									<div class="row">
 										<div class="col-md-4 d-block justify-content-center p-4">
 											<div class="imgBox">
-												<a href="detailPage.page?seq_product=${proList[status.index].seq_product }">
-													<img src="${imgList.image_path}${imgList.image_name}" id="Cimg">
+												<a
+													href="detailPage.page?seq_product=${proList[status.index].seq_product }">
+													<img src="${imgList.image_path}${imgList.image_name}"
+													id="Cimg">
 												</a>
 											</div>
 											<div class="imgText">
-												<strong>${proList[status.index].product_name }</strong><br> ${proList[status.index].product_price}
-											</div>	
+												<strong>${proList[status.index].product_name }</strong><br>
+												${proList[status.index].product_price}
+											</div>
 										</div>
-								</c:if>	
+								</c:if>
 								<c:if test="${status.index%3 eq 1 }">
 									<div class="col-md-4 d-block justify-content-center p-4">
 										<div class="imgBox">
-											<a href="detailPage.page?seq_product=${proList[status.index].seq_product }">
-												<img src="${imgList.image_path}${imgList.image_name}" id="Cimg">
+											<a
+												href="detailPage.page?seq_product=${proList[status.index].seq_product }">
+												<img src="${imgList.image_path}${imgList.image_name}"
+												id="Cimg">
 											</a>
 										</div>
 										<div class="imgText">
-											<strong>${proList[status.index].product_name }</strong><br> ${proList[status.index].product_price}
-										</div>	
+											<strong>${proList[status.index].product_name }</strong><br>
+											${proList[status.index].product_price}
+										</div>
 									</div>
-								</c:if>		
+								</c:if>
 								<c:if test="${status.index%3 eq 2 }">
 									<div class="col-md-4 d-block justify-content-center p-4">
 										<div class="imgBox">
-											<a href="detailPage.page?seq_product=${proList[status.index].seq_product }">
-												<img src="${imgList.image_path}${imgList.image_name}" id="Cimg">
+											<a
+												href="detailPage.page?seq_product=${proList[status.index].seq_product }">
+												<img src="${imgList.image_path}${imgList.image_name}"
+												id="Cimg">
 											</a>
 										</div>
 										<div class="imgText">
-											<strong>${proList[status.index].product_name }</strong><br> ${proList[status.index].product_price}
-										</div>	
+											<strong>${proList[status.index].product_name }</strong><br>
+											${proList[status.index].product_price}
+										</div>
 									</div>
-									</div>
-								</c:if>	
-							</c:forEach>		
-						</c:if>
-							
-					</div>		
-						
+					</div>
+					</c:if>
+					</c:forEach>
+					</c:if>
+
+				</div>
+
 			</div>
 		</div>
 

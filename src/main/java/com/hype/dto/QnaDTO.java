@@ -1,3 +1,4 @@
+
 package com.hype.dto;
 
 public class QnaDTO {
@@ -88,3 +89,4 @@ public class QnaDTO {
 	
 	
 }
+

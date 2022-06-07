@@ -150,7 +150,7 @@ integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52n
                             한눈에 관리하실 수 있습니다.
                         </p>
                     </div>
-                    <div class="col-12 col-sm-6 mp_info" style="border-bottom: none; border-right: 1px solid lightgray;" onclick="location.href='/'">
+                    <div class="col-12 col-sm-6 mp_info" style="border-bottom: none; border-right: 1px solid lightgray;" onclick="location.href='/toOrderList.sh?user_id=aaa'">
                         <p class="infoTextHeader d-inline-block" style="font-size: 25px ;"><Strong>OrderList</Strong></p><span style="margin-left: 20px;"> 구매내역</span>
                         <p class="infoText" style="font-size: 15px ;">
                             고객님께서 구매하신 제품의 목록을<br>

@@ -1,13 +1,13 @@
 package com.hype.dto;
 
 public class ProductDTO {
+
 	private int seq_product;
 	private String product_code;
 	private String category;
 	private String product_name;
 	private int product_price;
 	private String product_content;
-	
 
 	public ProductDTO() {
 		super();
@@ -65,5 +65,5 @@ public class ProductDTO {
 				+ product_content + "]";
 	}
 
-	
+
 }

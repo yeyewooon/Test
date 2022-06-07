@@ -1,0 +1,98 @@
+@charset "EUC-KR";
+		/*i{
+            margin: 5px;
+        }
+        .navbar-light{
+            width: 100%;
+            position: fixed;
+            top: 0;
+            z-index: 1;
+            left: 0%;
+        }
+
+        body{padding-top: 100px;}*/
+        
+        /*네비바 속성*/
+     /*  .navbar-anchor a{
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+        }
+        #userIcon {
+            text-align: right;
+            font-size: 25px;
+            padding: 5px;
+        }
+        #navbar-search{
+            text-align: right;
+        }
+        #searchIcon{
+            color: lightgrey;*/
+        }
+        /* 네비바 드롭다운 */
+       /* .dropdown-toggle:hover{color: #83bf7b; border-color: aliceblue;}
+        .dropdown:hover .dropdown-menu {
+        display: block;
+        margin-top: 0;
+        font-weight: bold;
+        }*/
+
+        /*상품 사진 및 설명*/
+/*        .clothesMain{position: relative;}
+        .imgBox{width: 600px; height: 450px;}
+        img{background-color: lightblue; width: 700px;}
+        .clothesContent{width: 30%;}
+        .clothesName{border-bottom:2px solid black; text-align: center;}
+        .clothesPrice, .clothesDelivery{border-bottom:1px solid gainsboro; text-align: center;}
+        .orderBox{text-align: center;}
+        .btnOrder, .btnCart{background-color: #83bf7b; border-color: #83bf7b;}
+        .clothesDetail{text-align: center; padding-top: 120px;}
+        .countBox{align-items: center; padding: 0; margin: 0; border-bottom: 1px solid gainsboro;}
+        .numberBox{text-align: center;}
+        .btnCount{background-color: #83bf7b;}
+        .inputCount{margin:5px; text-align: center;  padding: 0;}
+
+        .body{padding-bottom:100px;}*/
+
+        /* 상품 메뉴 */
+        /*.detailNav{margin-top: 500px;}
+        .detailNav a{text-decoration: none; color: cadetblue;}*/
+        
+        /* 상품 정보*/
+       /* .brand{margin:auto; width: 1000px;}
+        .brand_detail{border-bottom: 1px solid black;}
+        .brand_title{border-bottom:2px solid black; font-size: 20px;}
+        .brand_info{font-weight: bold; font-size: 15px;}
+        .info_detail{font-size: 13px;}*/
+        
+        /* 판매자 정보 */
+        /*.seller{background-color: gainsboro; width: 100%; margin: auto;}
+        .detail{border:1px solid black; width: 1000px; margin:auto; margin-top: 100px;}
+        .seller-detail{font-size: 13px; color: darkgray;}
+        b{padding-left: 10px;}
+        .info_detail{padding-left: 15px;}*/
+
+        /* 리뷰 영역 */
+       /* .review{width: 500px; background-color: aliceblue;
+            align-content: center; margin: auto; margin-bottom: 100px;
+            margin-top: 100px;
+        }*/
+
+        /*.review .row:nth-child(1){padding-top: 15px;}*/
+
+         /*풋터 영역*/
+         /*.footerBox{
+            height: 200px;
+
+        }
+        footer.footer {
+             padding-top: 4rem;
+             padding-bottom: 4rem;
+        }
+        .footer a{
+            text-decoration: none;
+            color: black;
+            font-weight: 40px;
+            font-weight: bold;
+        }	*/
+        

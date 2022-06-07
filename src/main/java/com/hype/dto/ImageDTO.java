@@ -15,9 +15,11 @@ public class ImageDTO {
 		this.image_name = image_name;
 		this.image_path = image_path;
 	}
+
 	public int getSeq_image() {
 		return seq_image;
 	}
+
 	public void setSeq_image(int seq_image) {
 		this.seq_image = seq_image;
 	}
@@ -44,6 +46,4 @@ public class ImageDTO {
 		return seq_image + " : " + seq_product + " : " + image_name
 				+ " : " + image_path;
 	}
-	
-	
 }
