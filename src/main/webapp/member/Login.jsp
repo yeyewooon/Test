@@ -78,13 +78,11 @@
                     </div>
 
                     <!-- 카카오 로그인 -->
-                    <form action="/kakao.mem" id="kakaoForm" method="post">
                         <div class="row">
                             <div class="col-12  d-flex justify-content-center kakaoLogin">
                                 <a href="javascript:kakaoLogin();"><img src="/resources/images/kakao_login.png"></a>
                             </div>
                         </div>
-                    </form>
                     <!-- 아이디, 비밀번호 찾기-->
                     <div class="row m-3">
                         <div class="col-12 d-flex justify-content-center kakaoLogin">
@@ -489,8 +487,7 @@
                             success: (res) => {
                                 const email = res.kakao_account.email;
                                 console.log(email);
-                                location.href = "/toKakao.mem?email=" + email;
-                                window.opener.location.href = url;
+                                window.opener.location.href = "/toKakao.mem?email=" + email+"&url="+url;
                                 self.close();
                             }
                         });

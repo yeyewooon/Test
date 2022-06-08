@@ -20,15 +20,13 @@ i{	cursor: pointer;
     font-size: 25px;
     padding: 5px;
 }
-#navbar-search{
-    text-align: right;
-}
-#searchIcon{
-    color: lightgrey;
+#logo{
+    width: 60px;
+    height: 50px;
 }
 /* 네비바 드롭다운 */
 .dropdown-toggle:hover{color: #83bf7b; border-color: aliceblue;}
-.dropdown:hover .dropdown-menu {
+.dropdown:hover .nav-category {
 display: block;
 margin-top: 0;
 font-weight: bold;
@@ -64,7 +62,7 @@ font-weight: bold;
  }        
  textarea{
      width: 80%;
-     height: 100px;
+     height: 350px;
      margin-bottom: 50px;
      resize: none;
  }

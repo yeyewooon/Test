@@ -28,10 +28,12 @@
                 crossorigin="anonymous">
             <!-- fontAwessome-->
             <script src="https://kit.fontawesome.com/241134516c.js" crossorigin="anonymous"></script>
-            <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+            <script src="https://code.jquery.com/jquery-3.6.0.js"
+                integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
             <title>문의내역</title>
             <style>
                 i {
+                    cursor: pointer;
                     margin: 5px;
                 }
 
@@ -39,15 +41,10 @@
                     width: 100%;
                     position: fixed;
                     top: 0;
-                    z-index: 1;
+                    z-index: 99;
                     left: 0%;
                 }
 
-                body {
-                    padding-top: 100px;
-                }
-
-                /*네비바 속성*/
                 .navbar-anchor a {
                     text-decoration: none;
                     color: black;
@@ -55,17 +52,14 @@
                 }
 
                 #userIcon {
-                    text-align: right;
+                    text-align: center;
                     font-size: 25px;
                     padding: 5px;
                 }
 
-                #navbar-search {
-                    text-align: right;
-                }
-
-                #searchIcon {
-                    color: lightgrey;
+                #logo {
+                    width: 60px;
+                    height: 50px;
                 }
 
                 /* 네비바 드롭다운 */
@@ -74,25 +68,12 @@
                     border-color: aliceblue;
                 }
 
-                .dropdown:hover .dropdown-menu {
+                .dropdown:hover .nav-category {
                     display: block;
                     margin-top: 0;
                     font-weight: bold;
                 }
-
-                #searchType {
-                    font-size: 0.8rem;
-                    width: 6rem;
-                    height: 2rem;
-                }
-
-                #search {
-                    height: 2rem;
-                    width: 3rem;
-                    font-size: 0.8rem;
-                    background-color: white;
-                    border: 1px solid lightgray;
-                }
+                
 
                 .page_wrap {
                     text-align: center;
@@ -146,11 +127,6 @@
                     margin-right: 0;
                 }
 
-                .page_nation a.active {
-                    background-color: #42454c;
-                    color: #fff;
-                    border: 1px solid #42454c;
-                }
 
                 .container {
                     text-align: center;
@@ -179,7 +155,8 @@
                     font-size: 0.8rem;
                 }
 
-                .content {
+                .content,
+                .replyContent {
                     text-align: left;
                     margin-left: 100px;
                     font-size: 0.8rem;
@@ -210,29 +187,28 @@
         </head>
 
         <body>
-            <div class="container MainBox" id="header">
+            <div class="container MainBox mb-5">
                 <!-- 네비바 -->
                 <nav class="navbar navbar-light bg-light fixed">
-                    <div class="container navbar-head">
-                        <a class="navbar-brand" href="#!" id="logo">로고</a>
-                        <div class="col-md-1 navbar-anchor"><a href="/">COMPANY</a></div>
-
+                    <div class="container">
+                        <a class="navbar-brand" href="/Tohome" id="logo"><img id="logo" src="/resources/images/Logo.png"
+                                alt="HypeFriend"></a>
+                        <div class="col-md-1  navbar-anchor"><a href="/">COMPANY</a></div>
                         <div class="dropdown ">
                             <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
                                 aria-expanded="false" style="font-weight: bold;">
                                 CLOTHES
                             </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <ul class="dropdown-menu nav-category" aria-labelledby="dropdownMenuButton1">
                                 <li><a class="dropdown-item" href="#">Top</a></li>
                                 <li><a class="dropdown-item" href="#">Bottom</a></li>
                                 <li><a class="dropdown-item" href="#">Accessory</a></li>
                             </ul>
                         </div>
-
-                        <div class="col-md-1 navbar-anchor"><a href="/">매장찾기</a></div>
-                        <div class="col-md-1 navbar-anchor"><a href="/">고객센터</a></div>
+                        <div class="col-md-1 navbar-anchor"><a href="/">Shop</a></div>
+                        <div class="col-md-1 navbar-anchor"><a href="/toCs.mem">CS</a></div>
                         <!-- 네비바 검색창 -->
-                        <div class="col-md-4 navbar-anchor" id="navbar-search">
+                        <%-- <div class="col-md-4 navbar-anchor" id="navbar-search">
                             <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
                                 <div class="input-group">
                                     <button class="btn btn-link" style="border: 1px solid lightgrey;" id="btnSearch"
@@ -241,16 +217,48 @@
                                 </div>
                             </form>
                             </button>
-                        </div>
-                        <div class="col-md-2 navbar-anchor" id="userIcon">
-                            <a href=""><i class="fa-solid fa-cart-plus"></i></a>
-                            <a href=""><i class="fa-solid fa-user"></i></a>
-                        </div>
+                    </div> --%>
+                    <div class="col-md-4 navbar-anchor" id="userIcon">
+                        <c:choose>
+                            <c:when test="${not empty loginSession}">
+                                <!-- 로그인했으면 -->
+                                <a href="/toCart.mem"><i class="fa-solid fa-cart-plus"></i></a>
+                                <div class="dropdown" style="display: inline;">
+                                    <i class="fa-solid fa-user" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                        <li><a class="dropdown-item" href="/toMypage.mem">마이페이지</a></li>
+                                        <li><a class="dropdown-item" href="/logoutProc.mem">로그아웃</a></li>
+                                    </ul>
+                                </div>
+                                <span style="font-size: 10px;">${loginSession.user_id}님</span>
+                            </c:when>
+
+                            <c:otherwise>
+                                <!-- 로그인 안하면 -->
+                                <i id="loginIcon" class="fa-solid fa-cart-plus"></i></a>
+                                <i id="loginIcon2" class="fa-solid fa-user"></i>
+                                <script>
+                                    document.getElementById("loginIcon2").onclick = function () {
+                                        let url = "/toLogin.mem";
+                                        let name = "로그인";
+                                        let option = "width=600, height=700, left=700, top=300";
+                                        window.open(url, name, option);
+                                    }
+                                    document.getElementById("loginIcon").onclick = function () {
+                                        let url = "/toLogin.mem";
+                                        let name = "로그인";
+                                        let option = "width=600, height=700, left=700, top=300";
+                                        window.open(url, name, option);
+                                    }
+                                </script>
+                            </c:otherwise>
+                        </c:choose>
                     </div>
-                </nav>
+            </div>
+            </nav>
             </div>
 
-            <div class="container">
+            <div class="container" style="margin-top: 120px;">
                 <div class="row section pb-2">
                     <div class="col-1 title">번호</div>
                     <div class="col-2 title">문의유형</div>
@@ -276,6 +284,7 @@
                                         <div class="col-1 num">${dto.seq_qna}</div>
                                         <div class="col-2">${dto.qna_type}</div>
                                         <div class="col-3">
+                                            <input type="hidden" value="${dto.seq_qna}" class="qna">
                                             <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                                 data-bs-target="#collapse${dto.seq_qna}" aria-expanded="true"
                                                 aria-controls="collapseOne"
@@ -298,29 +307,30 @@
                                         </div>
                                     </div>
                                     <div class="accordion-body row mt-2 answer">
-                                            <div class="csPart col-2 pt-5 pb-5">
-                                                하이프랜드 CS담당자
-                                            </div>
-                                            <div class="col-10">
-                                                <p class="content pt-5 pb-5">${reply[status.index].qna_reply}</p>
-                                            </div>
-
-                                            </div>
-
+                                        <div class="csPart col-2 pt-5 pb-5">
+                                            하이프랜드 CS담당자
+                                        </div>
+                                        <div class="col-10">
+                                            <p class="replyContent pt-5 pb-5">${reply[status.index].qna_reply}</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-
                         </c:forEach>
                     </c:otherwise>
                 </c:choose>
+                <c:forEach items="${reply}" var="reply">
+                    <input type="hidden" class="reply" value="${reply.qna_reply}">
+                </c:forEach>
 
                 <div class="row mt-5 mb-5" style="text-align: center;">
                     <div class="col">
                         <input type="text" id="searchKeyword">
                         <select name="searchType" id="searchType">
-                            <option value='qna_title'>제목</option>
-                            <option value='qna_content'>내용</option>
-                            <option value='qna_type'>문의유형</option>
+                            <option class="type" value='qna_title'>제목</option>
+                            <option class="type" value='qna_content'>내용</option>
+                            <option class="type" value='qna_type'>문의유형</option>
+                            <option class="type" value='qna_status'>처리상태</option>
                         </select>
                         <button type="button" id="search">검색</button>
                     </div>
@@ -388,33 +398,50 @@
 
         <script>
             const active = document.getElementsByClassName('paging');
+            const searchType = document.getElementById('searchType');
+            const type = searchType.options[searchType.selectedIndex].value;
+            const searchKeyword = document.getElementById('searchKeyword');
+            
 
             for (let i = 0; i < active.length; i++) {
                 if (active[i].innerText == '${curPage}') {
-                    active[i].setAttribute("class", "active");
+                    active[i].style.cssText= "background-color: #42454c; color: #fff; border: 1px solid #42454c;";
                 }
+            };
+
+            if('${searchKeyword}' !== "" || '${searchType}' !== ""){
+                for(let i = 0; i < active.length; i++){
+                active[i].setAttribute("href", "/toSearchProc.mem?curPage="+ (i+1) +"&searchType="+'${searchType}'+"&searchKeyword="+'${searchKeyword}');
             }
+            };
+
 
             const status = document.getElementsByClassName('status');
-            const answer = document.getElementsByClassName('answer'); 
+            const answer = document.getElementsByClassName('answer');
+            const replyContent = document.getElementsByClassName('replyContent');
+            const reply = document.getElementsByClassName('reply');
+            let j = 0;
             for (let i = 0; i < status.length; i++) {
                 if (status[i].innerText == '답변 대기') {
                     answer[i].style.display = "none";
-                }else if(status[i].innerText == '답변 완료'){
+                } else if (status[i].innerText == '답변 완료') {
                     status[i].style.color = 'blue';
+                    replyContent[i].innerHTML = reply[j].value;
+                    j++;
                 }
-            }
+            };
 
-            $('#search').on('click', function() {
-                const searchKeyword = $('#searchKeyword').val();
-                if( $('#searchType option:selected').val() == 'qna_title'){
-                    location.href = "/toSearchProc.mem?curPage="+ "${curPage}"+'&searchType=qna_title&searchKeyword='+searchKeyword;
-                }else if($('#searchType option:selected').val() == 'qna_content'){
-                    location.href = "/toSearchProc.mem?curPage="+ "${curPage}"+'&searchType=qna_content&searchKeyword='+searchKeyword;
-                }else if($('#searchType option:selected').val() == 'qna_type'){
-                    location.href = "/toSearchProc.mem?curPage="+ "${curPage}"+'&searchType=qna_type&searchKeyword='+searchKeyword;
+            $('#search').on('click', function () {
+                if ($('#searchType option:selected').val() == 'qna_title') {
+                    location.href = "/toSearchProc.mem?curPage=" + "${curPage}" + '&searchType=qna_title&searchKeyword=' + searchKeyword.value;
+                } else if ($('#searchType option:selected').val() == 'qna_content') {
+                    location.href = "/toSearchProc.mem?curPage=" + "${curPage}" + '&searchType=qna_content&searchKeyword=' + searchKeyword.value;
+                } else if ($('#searchType option:selected').val() == 'qna_type') {
+                    location.href = "/toSearchProc.mem?curPage=" + "${curPage}" + '&searchType=qna_type&searchKeyword=' + searchKeyword.value;
+                } else if ($('#searchType option:selected').val() == 'qna_status') {
+                    location.href = "/toSearchProc.mem?curPage=" + "${curPage}" + '&searchType=qna_status&searchKeyword=' + searchKeyword.value;
                 }
-            })
+            });
         </script>
 
         </html>

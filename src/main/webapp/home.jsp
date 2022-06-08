@@ -34,7 +34,7 @@
         <!-- 네비바 -->
         <nav class="navbar navbar-light bg-light fixed">
           <div class="container">
-            <a class="navbar-brand" href="/Tohome" id="logo">로고</a>
+            <a class="navbar-brand" href="/Tohome" id="logo"><img id="logo" src="/resources/images/Logo3.png" alt="HypeFriend"></a>
             <div class="col-md-1  navbar-anchor"><a href="/">COMPANY</a></div>
             <div class="dropdown ">
               <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"
@@ -47,20 +47,10 @@
                 <li><a class="dropdown-item" href="#">Accessory</a></li>
               </ul>
             </div>
-            <div class="col-md-1 navbar-anchor"><a href="/">매장찾기</a></div>
-            <div class="col-md-1 navbar-anchor"><a href="/toCs.mem">고객센터</a></div>
-            <!-- 네비바 검색창 -->
-            <div class="col-md-4 navbar-anchor" id="navbar-search">
-              <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-                <div class="input-group">
-                  <button class="btn btn-link" style="border: 1px solid lightgrey;" id="btnSearch" type="button"><i
-                      id="searchIcon" class="fas fa-search"></i></button>
-                  <input class="form-control" type="text" aria-describedby="btnNavbarSearch" />
-                </div>
-              </form>
-              </button>
-            </div>
-            <div class="col-md-2 navbar-anchor" id="userIcon">
+            <div class="col-md-1 navbar-anchor"><a href="/">Shop</a></div>
+            <div class="col-md-1 navbar-anchor"><a href="/toCs.mem">CS</a></div>
+            
+            <div class="col-md-4 navbar-anchor" id="userIcon">
               <c:choose>
                 <c:when test="${not empty loginSession}">
                   <!-- 로그인했으면 -->
@@ -100,7 +90,7 @@
         </nav>
       </div>
 
-      <input id="url" name="url" type="hidden" value="/Tohome" />
+      <input id="url" name="url" type="hidden" value="/Tohome">
       <!-- 캐러셀-->
       <header class="masthead w-100" style="margin-top: 60px; ">
         <!-- 캐러셀 영역1-->

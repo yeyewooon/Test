@@ -2,16 +2,21 @@ package com.hype.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.hype.dao.MemberDAO;
 import com.hype.dao.PayDAO;
+import com.hype.dto.BuyDTO;
 import com.hype.dto.CartDTO;
+import com.hype.dto.MemberDTO;
 import com.hype.dto.PayListDTO;
 
 
@@ -90,14 +95,13 @@ public class PayController extends HttpServlet {
          try {
             int order_rs = pay_dao.orderInsert(user_id, order_name, order_phone, order_postCode, order_address, order_msg); //오더테이블 인서트
             if(order_rs > 0) { // order테이블 인서트 성공시
-               System.out.println("tbl_order 생성완료");
+               System.out.println("tbl_order 저장 성공");
                int seq_order = pay_dao.findSeq_orderBySelect(user_id);//order의 seq_order 찾기
                ArrayList<CartDTO> list = pay_dao.selectBySeq_cart(seq_cart2); // buy에 넣을 물품정보
                
                int buy_rs = pay_dao.buyInsert(seq_order, list); //buy insert
                if(buy_rs == list.size()) {
-                  int cart_deleteRs = member_dao.delCartBySelect(seq_cart2); // 구매 완료했으니 cart테이블 비워주기
-                  System.out.println("db저장 성공");
+                  System.out.println("tbl_buy 저장 성공");
                   response.getWriter().append("Success");
                }else {
                   System.out.println("db저장 실패");
@@ -111,6 +115,69 @@ public class PayController extends HttpServlet {
             e.printStackTrace();
          }
          
+      }else if (uri.equals("/toPayResult.pay")) {
+         int[] seq_cart = Arrays.stream(request.getParameterValues("seq_cart")).mapToInt(Integer::parseInt)
+               .toArray();
+         System.out.println("받아온 seq_cart : " + seq_cart );
+         HttpSession session = request.getSession();
+         String user_id = ((MemberDTO) session.getAttribute("loginSession")).getUser_id();
+         
+         PayDAO dao = new PayDAO();
+         try {
+            ArrayList<PayListDTO> payList = dao.selectBySeq_cart(seq_cart, user_id);
+            request.setAttribute("pay_list", payList);
+            System.out.println(payList);
+            
+            int totalPrice = 0;
+            int qty = 0;
+            List<Integer> pay_list_seq_cart = new ArrayList<>();
+            
+            for(PayListDTO pay :  payList) {
+               totalPrice +=  pay.getCart_quantity()*pay.getProduct_price();
+               qty += pay.getCart_quantity();
+               pay_list_seq_cart.add(pay.getSeq_cart());
+            }
+            
+            request.setAttribute("seq_cart", pay_list_seq_cart);
+            request.setAttribute("total_price", totalPrice);
+            request.setAttribute("qty", qty);
+            MemberDAO member_dao = new MemberDAO();
+            int cart_deleteRs = member_dao.delCartBySelect(seq_cart); // 구매 완료했으니 cart테이블 비워주기
+         } catch (Exception e) {
+            e.printStackTrace();
+         }
+
+         request.getRequestDispatcher("/pay/payResult.jsp").forward(request, response);
+         
+      }else if(uri.equals("/toOrderList.pay")) {
+          HttpSession session = request.getSession();
+          System.out.println(session.getAttribute("loginSession"));
+          String user_id = ((MemberDTO)session.getAttribute("loginSession")).getUser_id();
+          System.out.println(user_id);
+          PayDAO dao = new PayDAO();
+
+          try {
+              ArrayList<BuyDTO> buyList = dao.selectTblbuyid(user_id);
+              
+              int totalPrice = 0;
+			int qty = 0;
+			
+			for(BuyDTO buy :  buyList) {
+				totalPrice +=  buy.getBuy_qty()*buy.getBuy_price();
+				qty += buy.getBuy_qty();
+			}
+			request.setAttribute("total_price", totalPrice);
+			request.setAttribute("qty", qty);
+			request.setAttribute("buyList", buyList);
+
+          }catch(Exception e) {
+              e.printStackTrace();
+          }
+
+          request.getRequestDispatcher("/pay/OrderList.jsp").forward(request, response);
       }
+  
+      
+      
    }
 }

@@ -88,7 +88,7 @@ $(document).ready(function(){
 			}
 		}
 		
-		let deli_address = $("#deli_roadAddr").val() + $("#deli_detailAddr").val();
+		let deli_address = $("#deli_roadAddr").val() + " " + $("#deli_detailAddr").val();
 		$("#deli_address").val(deli_address);
 		let data = $("#insertForm").serialize();
 		

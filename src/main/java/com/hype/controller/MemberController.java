@@ -24,6 +24,7 @@ import com.hype.dto.MemberDTO;
 import com.hype.dto.OrderDTO;
 import com.hype.dto.PayListDTO;
 import com.hype.dto.QnaDTO;
+import com.hype.dto.ReplyDTO;
 import com.hype.utills.EncryptionUtils;
 
 @WebServlet("*.mem")
@@ -67,6 +68,24 @@ public class MemberController extends HttpServlet {
 				e.printStackTrace();
 			}
 
+		} else if(uri.equals("/checkEmail.mem")) {
+			String user_email = request.getParameter("user_email");
+			System.out.println("user_email : " + user_email);
+
+			MemberDAO dao = new MemberDAO();
+			try {
+				boolean rs = dao.checkEmail(user_email);
+
+				if (rs) {
+					System.out.println("사용가능한 이메일");
+					response.getWriter().append(user_email);
+				} else {
+					System.out.println("이미 사용중인 이메일");
+					response.getWriter().append("false");
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		} else if (uri.equals("/signupProc.mem")) {
 			String user_id = request.getParameter("user_id");
 			String user_password = request.getParameter("user_password");
@@ -160,8 +179,8 @@ public class MemberController extends HttpServlet {
 					deliveryCnt = list.get(1);
 					deliveryCompletCnt = list.get(2);
 					totalPrice = list.get(3);
-					
 				}
+				
 				request.setAttribute("user_id", user_id);
 				request.setAttribute("totalCnt", totalCnt);
 				request.setAttribute("deliveryCnt", deliveryCnt);
@@ -249,11 +268,12 @@ public class MemberController extends HttpServlet {
 		} else if (uri.equals("/toSearchSeq.mem")) { // 세션 아이디 값으로 주문번호 조회하기
 			HttpSession session = request.getSession();
 			String user_id = ((MemberDTO) session.getAttribute("loginSession")).getUser_id();
-
+			
 			QnaDAO dao = new QnaDAO();
 			try {
 				ArrayList<OrderDTO> seq_order = dao.selectById(user_id);
-				if (seq_order.size() != 0) {
+				System.out.println(seq_order);
+				if (seq_order.size()!= 0) {
 					System.out.println("주문정보조회 성공");
 					ArrayList<BuyDTO> list = dao.seq_orderSelectBySeq(seq_order);
 					System.out.println(list);
@@ -375,17 +395,21 @@ public class MemberController extends HttpServlet {
 				request.setAttribute("deli_list", deliList);
 				ArrayList<PayListDTO> payList = dao.selectBySeq_cart(seq_cart, user_id);
 				request.setAttribute("pay_list", payList);
+				System.out.println(payList);
 				
 				int totalPrice = 0;
+				int qty = 0;
 				List<Integer> pay_list_seq_cart = new ArrayList<>();
 				
 				for(PayListDTO pay :  payList) {
 					totalPrice +=  pay.getCart_quantity()*pay.getProduct_price();
+					qty += pay.getCart_quantity();
 					pay_list_seq_cart.add(pay.getSeq_cart());
 				}
 				
 				request.setAttribute("seq_cart", pay_list_seq_cart);
 				request.setAttribute("total_price", totalPrice);
+				request.setAttribute("qty", qty);
 				
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -394,6 +418,7 @@ public class MemberController extends HttpServlet {
 			request.getRequestDispatcher("/pay/pay.jsp").forward(request, response);
 
 		} else if (uri.equals("/toKakao.mem")) {
+			String url = request.getParameter("url");
 			String email = request.getParameter("email");
 			System.out.println("접속한 카카오 이메일 : " + email);
 
@@ -401,7 +426,8 @@ public class MemberController extends HttpServlet {
 
 			try {
 				MemberDTO dto = dao.kakao(email);
-
+				boolean rs = dao.checkId(email);
+				
 				if (email != null) { // 로그인 성공
 					System.out.println("로그인 성공");
 					request.setAttribute("rs", "ok");
@@ -411,7 +437,16 @@ public class MemberController extends HttpServlet {
 					System.out.println("로그인 실패");
 					request.setAttribute("rs", "no");
 				}
-				response.sendRedirect("/Tohome");
+				
+				if (rs) {
+					System.out.println("DB에 없는 아이디");
+					int ds = dao.kakaoId(email);
+				} else {
+					System.out.println("DB에 존재하는 카카오 이메일");
+				}
+				
+				
+				response.sendRedirect(url);
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -443,12 +478,15 @@ public class MemberController extends HttpServlet {
 				e.printStackTrace();
 			}
 		} else if (uri.equals("/toModifyMemProc.mem")) {
+			HttpSession session = request.getSession();
+			MemberDTO dto = (MemberDTO) session.getAttribute("loginSession");
+			
 			String user_postCode = request.getParameter("user_postCode");
 			String user_roadAddr = request.getParameter("user_roadAddr");
 			String user_detailAddr = request.getParameter("user_detailAddr");
 			String user_phone = request.getParameter("user_phone");
 			String user_email = request.getParameter("user_email");
-			String user_id = request.getParameter("id");
+			String user_id = dto.getUser_id();
 
 			System.out.println(user_id + " : " + user_email + " : " + user_phone);
 
@@ -500,10 +538,51 @@ public class MemberController extends HttpServlet {
 			try {
 				HashMap map = dao.getPageNavi(curPage, dto.getUser_id());
 				ArrayList<QnaDTO> list = dao.qnaById(dto.getUser_id(), curPage * 5 - 4, curPage * 5);
-				System.out.println(list);
+				int[] number = new int[list.size()];
+				for(int i = 0; i < list.size(); i++) {
+					number[i] = list.get(i).getSeq_qna();
+				}
+				if(number.length != 0) {
+					ArrayList<ReplyDTO> reply = dao.replyByQna(dto.getUser_id(),number);
+					request.setAttribute("reply", reply);
+				}
+				
+				System.out.println(map);
+//				System.out.println(reply);
 				request.setAttribute("list", list);
+				
 				request.setAttribute("naviMap", map);
 				request.setAttribute("curPage", curPage);
+				request.getRequestDispatcher("/member/QnaBoard.jsp").forward(request, response);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+     	} else if(uri.equals("/toSearchProc.mem")) {
+     		HttpSession session = request.getSession();
+     		int curPage = Integer.parseInt(request.getParameter("curPage"));
+     		String searchType = request.getParameter("searchType");
+     		String searchKeyword = request.getParameter("searchKeyword");
+     		
+     		MemberDTO dto = (MemberDTO) session.getAttribute("loginSession");
+			MemberDAO dao = new MemberDAO();
+			
+			try {
+				HashMap map = dao.getPageNaviBykey(dto.getUser_id(), searchType, searchKeyword, curPage);
+				System.out.println(map);
+				ArrayList<QnaDTO> list = dao.qnaBySearch(dto.getUser_id(), searchKeyword ,searchType,curPage * 5 - 4, curPage * 5);
+//				System.out.println(list);
+				int[] number = new int[list.size()];
+				for(int i = 0; i < list.size(); i++) {
+					number[i] = list.get(i).getSeq_qna();
+				}
+				ArrayList<ReplyDTO> reply = dao.replyByQna(dto.getUser_id(),number);
+//				System.out.println(reply);
+				request.setAttribute("list", list);
+				request.setAttribute("reply", reply);
+				request.setAttribute("naviMap", map);
+				request.setAttribute("curPage", curPage);
+				request.setAttribute("searchType", searchType);
+				request.setAttribute("searchKeyword", searchKeyword);
 				request.getRequestDispatcher("/member/QnaBoard.jsp").forward(request, response);
 			} catch (Exception e) {
 				e.printStackTrace();

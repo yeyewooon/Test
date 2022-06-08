@@ -157,7 +157,7 @@ a{
         <c:set var="user_phone" value="${dto.deli_phone}"/>   
             <div class="row deliList mb-3">
               <div class="col pb-3" style="border-bottom: 1px solid lightgray;">
-                <h5 style="font-weight: bold;">${dto.deli_place} (${dto.deli_name}님 배송지)</h5>
+                <h5 style="font-weight: bold;">${dto.deli_name} (${dto.deli_place}님 배송지)</h5>
                 <span>${fn:substring(user_phone,0,3)}-${fn:substring(user_phone,3,7)}-${fn:substring(user_phone,7,11)}</span>
                 <p>(${dto.deli_postCode}) ${dto.deli_address}</p>
                 <button type="button" class="btn btn-light btnModify" value="${dto.seq_deli}">수정</button>

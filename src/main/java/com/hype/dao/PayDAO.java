@@ -1,8 +1,10 @@
 package com.hype.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.naming.Context;
@@ -10,10 +12,10 @@ import javax.naming.InitialContext;
 
 import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 
+import com.hype.dto.BuyDTO;
 import com.hype.dto.CartDTO;
 import com.hype.dto.DeliveryDTO;
 import com.hype.dto.MemberDTO;
-import com.hype.dto.OrderDTO;
 import com.hype.dto.PayListDTO;
 
 public class PayDAO {
@@ -109,9 +111,9 @@ public class PayDAO {
 				pstmt.setString(1, dto.getUser_id());
 				pstmt.setString(2, dto.getDeli_name());
 				pstmt.setString(3, dto.getDeli_place());
-				pstmt.setString(4, dto.getDeli_phone());
-				pstmt.setString(5, dto.getDeli_postCode());
-				pstmt.setString(6, dto.getDeli_address());
+				pstmt.setString(4, dto.getDeli_postCode());
+				pstmt.setString(5, dto.getDeli_address());
+				pstmt.setString(6, dto.getDeli_phone());
 				
 				int rs = pstmt.executeUpdate();
 				return rs;
@@ -163,24 +165,17 @@ public class PayDAO {
 		}
 		String allStr = String.join(",", str);
 		
-		String sql = "select a.* \r\n"
-				+ "        ,b.seq_cart \r\n"
-				+ "        ,b.cart_quantity \r\n"
-				+ "        ,c.image_path\r\n"
-				+ "from tbl_product a inner join tbl_cart b \r\n"
-				+ "                 on b.seq_product = a.seq_product\r\n"
-				+ "                   inner join tbl_image c\r\n"
-				+ "                 on c.seq_product = a.seq_product  \r\n"
-				+ "where b.seq_cart in ";
+		String sql = "select a.* ,b.seq_cart ,b.cart_quantity ,c.image_path from tbl_product a inner join tbl_cart b on b.seq_product = a.seq_product inner join tbl_image c on c.seq_product = a.seq_product where b.seq_cart in ";
 		
 		String sql_where = "and b.user_id = ?";
-		sql += "(" + allStr + ")" +sql_where;
+		sql += "(" + allStr + ") " +sql_where;
 		
 		ArrayList<PayListDTO> pay_list = new ArrayList<>();
 		
 		try(Connection con = bds.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql)){
-		
+			
+			
 			for (int i = 0; i < cart_list.length; i++) {
 				pstmt.setInt(i + 1, cart_list[i]);
 				
@@ -236,8 +231,7 @@ public class PayDAO {
 				String cart_name = rs.getString("cart_name");
 				int cart_quantity = rs.getInt("cart_quantity");
 				int cart_price = rs.getInt("cart_price");
-				int cart_total = rs.getInt("cart_price")*cart_quantity; //수정필요
-				list.add(new CartDTO(seq_cart,seq_product,user_id, cart_name, cart_quantity, cart_price, cart_total ));
+				list.add(new CartDTO(seq_cart,seq_product,user_id, cart_name, cart_quantity, cart_price ));
 			}
 			return list;
 		}
@@ -292,23 +286,54 @@ public class PayDAO {
 	}
 	
 	public int buyInsert(int seq, ArrayList<CartDTO> list) throws Exception{
-	      String sql = "insert into tbl_buy values(seq_buy.nextval, ?, ?, ?, ?, sysdate)";
-	      int rs = 0;
-	      for(int i = 0 ; i < list.size() ; i++) {
-	         try(Connection con = bds.getConnection();
-	         PreparedStatement pstmt = con.prepareStatement(sql)){
-	         
-	            pstmt.setInt(1, seq);
-	            pstmt.setString(2, list.get(i).getCart_name());
-	            pstmt.setInt(3, list.get(i).getCart_quantity());
-	            pstmt.setInt(4, list.get(i).getCart_price());
-	            
-	            rs += pstmt.executeUpdate();
-	         }
-	      }
-	      return rs;
-	   }
+		String sql = "insert into tbl_buy values(seq_buy.nextval, ?, ?, ?, ?, sysdate)";
+		int rs = 0;
+		for(int i = 0 ; i < list.size() ; i++) {
+			try(Connection con = bds.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql)){
+			
+				pstmt.setInt(1, seq);
+				pstmt.setString(2, list.get(i).getCart_name());
+				pstmt.setInt(3, list.get(i).getCart_quantity());
+				pstmt.setInt(4, list.get(i).getCart_price());
+				
+				rs += pstmt.executeUpdate();
+			}
+		}
+		return rs;
+	}
+	
+	public ArrayList<BuyDTO> selectTblbuyid(String user_id) throws Exception{ 
+        String sql = "select * from tbl_buy where seq_order in(select seq_order from tbl_order where user_id = ?) order by 2 desc";
 
+        try(Connection con = bds.getConnection();
+            PreparedStatement pstmt = con.prepareStatement(sql)){
+
+            pstmt.setString(1, user_id);
+
+            ResultSet rs = pstmt.executeQuery();
+            ArrayList<BuyDTO> list = new ArrayList<>();
+
+            while(rs.next()) {
+                int seq_buy = rs.getInt("seq_buy");
+                int seq_order = rs.getInt("seq_order");
+                String buy_name = rs.getString("buy_name");
+                int buy_qty  = rs.getInt("buy_qty");
+                int buy_price = rs.getInt("buy_price");
+                String buy_create = getStringDate(rs.getDate("buy_create"));
+
+                list.add(new BuyDTO(seq_buy,seq_order,buy_name,buy_qty,buy_price, buy_create));
+            }
+            return list;
+        }
+
+    }
+	
+	public String getStringDate(Date date) {
+        // 1900-02-02
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return sdf.format(date);
+    }
 	
 	
 	

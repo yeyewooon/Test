@@ -105,8 +105,8 @@ public class DeliveryController extends HttpServlet {
 			PayDAO dao = new PayDAO();
 			
 			try {
-				int rs = dao.deliInsert(new DeliveryDTO(0,user_id, deli_place, deli_name,
-									deli_phone, deli_postCode, deli_address));
+				int rs = dao.deliInsert(new DeliveryDTO(0,user_id,  deli_name,deli_place,
+									deli_phone, deli_address, deli_postCode));
 
 				if(rs > 0) {
 					System.out.println("주소지 생성성공");

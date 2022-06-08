@@ -92,6 +92,9 @@ checkAll.addEventListener('click', e => {
   toggleSubmitButton();
 });
 
+const total = document.getElementById('total');
+const total2 = document.getElementById('total2');
+
 $('#checkId').on('click', function () {
   if ($('#user_id').val() === '') {
     alert('아이디를 입력해주세요.');
@@ -117,18 +120,16 @@ $('#checkId').on('click', function () {
         return;
       }
       alert('사용가능한 아이디입니다.');
-      $('#submitBtn').attr('disabled', false);
+      total.value = '1';
+      if (total.value == '1' && total2.value == '1') {
+        $('#submitBtn').attr('disabled', false);
+      }
       return;
     },
     error: function (e) {
       console.log(e);
     }
   });
-});
-
-$('#user_id').keyup(function () {
-  $('#submitBtn').attr('disabled', true);
-  return;
 });
 
 function emailOptionBox(e) {
@@ -144,6 +145,15 @@ function emailOptionBox(e) {
     email = $('#emailAdress').val() + '@' + e.options[e.selectedIndex].text;
     $('#user_email').val(email);
   }
+  e.addEventListener('change', function () {
+    if (document.getElementById('emailAdress').value !== '') {
+      if (total2.value == '1') {
+        $('#submitBtn').attr('disabled', true);
+        total2.value = '';
+        return;
+      }
+    }
+  });
 }
 
 $('#emailAdress2').focusout(function () {
@@ -151,6 +161,75 @@ $('#emailAdress2').focusout(function () {
   if ($('#emailAdress').val() !== '') {
     email = $('#emailAdress').val() + '@' + $('#emailAdress2').val();
     $('#user_email').val(email);
+  }
+});
+
+$('#checkEmail').on('click', function () {
+  if ($('#emailAdress').val() === '') {
+    alert('이메일을 입력해주세요.');
+    return;
+  } else if (
+    $('#selectEmail option:selected').val() == 99 &&
+    $('#emailAdress2').val() === ''
+  ) {
+    alert('도메인을 입력해주세요.');
+    return;
+  } else if ($('#selectEmail option:selected').val() == 1) {
+    alert('도메인을 선택해주세요.');
+    return;
+  }
+
+  $.ajax({
+    url: '/checkEmail.mem',
+    type: 'post',
+    data: { user_email: $('#user_email').val() },
+    dataType: 'text',
+    success: function (data) {
+      console.log(data);
+      if (data == 'false') {
+        alert('이미 사용중인 이메일입니다.');
+        return;
+      }
+      alert('사용가능한 이메일입니다.');
+      total2.value = '1';
+      if (total.value == '1' && total2.value == '1') {
+        $('#submitBtn').attr('disabled', false);
+      }
+      return;
+    },
+    error: function (e) {
+      console.log(e);
+    }
+  });
+});
+
+$('#user_id').change(function () {
+  if (document.getElementById('user_id').value !== '') {
+    if (total.value == '1') {
+      $('#submitBtn').attr('disabled', true);
+      total.value = '';
+      return;
+    }
+  }
+});
+
+$('#emailAdress').change(function () {
+  if (document.getElementById('emailAdress').value !== '') {
+    if (total2.value == '1') {
+      $('#submitBtn').attr('disabled', true);
+      total2.value = '';
+      return;
+    }
+  }
+});
+
+$('#emailAdress2').change(function () {
+  if (document.getElementById('emailAdress2').value !== '') {
+    if (total2.value == '1') {
+      $('#submitBtn').attr('disabled', true);
+      total2.value = '';
+      return;
+    }
   }
 });
 

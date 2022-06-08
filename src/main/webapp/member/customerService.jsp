@@ -5,9 +5,8 @@
 
     <head>
       <meta charset="UTF-8">
-      <!-- css -->
-      <link rel="stylesheet" href="<%=request.getContextPath()%>/member/css/customerService.css">
-      <title>고객센터</title>
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <!-- Favicon-->
       <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
       <!-- Bootstrap icons-->
@@ -29,31 +28,32 @@
       <script src="https://kit.fontawesome.com/241134516c.js" crossorigin="anonymous"></script>
       <script src="https://code.jquery.com/jquery-3.6.0.js"
         integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+      <link rel="stylesheet" href="<%=request.getContextPath()%>/member/css/customerService.css">
+      <title>장바구니</title>
     </head>
 
     <body>
-      <input id="url" name="url" type="hidden" value="/toCs.mem" />
-      <div class="container MainBox">
+      <div class="container MainBox mb-5">
         <!-- 네비바 -->
         <nav class="navbar navbar-light bg-light fixed">
           <div class="container">
-            <a class="navbar-brand" href="/toPay.pay" id="logo">로고</a>
+            <a class="navbar-brand" href="/Tohome" id="logo"><img id="logo" src="/resources/images/Logo.png" alt="HypeFriend"></a>
             <div class="col-md-1  navbar-anchor"><a href="/">COMPANY</a></div>
             <div class="dropdown ">
               <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"
                 style="font-weight: bold;">
                 CLOTHES
               </button>
-              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+              <ul class="dropdown-menu nav-category" aria-labelledby="dropdownMenuButton1">
                 <li><a class="dropdown-item" href="#">Top</a></li>
                 <li><a class="dropdown-item" href="#">Bottom</a></li>
                 <li><a class="dropdown-item" href="#">Accessory</a></li>
               </ul>
             </div>
-            <div class="col-md-1 navbar-anchor"><a href="/">매장찾기</a></div>
-            <div class="col-md-1 navbar-anchor"><a href="/toCs.mem">고객센터</a></div>
+            <div class="col-md-1 navbar-anchor"><a href="/">Shop</a></div>
+            <div class="col-md-1 navbar-anchor"><a href="/toCs.mem">CS</a></div>
             <!-- 네비바 검색창 -->
-            <div class="col-md-4 navbar-anchor" id="navbar-search">
+            <!-- <%-- <div class="col-md-4 navbar-anchor" id="navbar-search">
               <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
                 <div class="input-group">
                   <button class="btn btn-link" style="border: 1px solid lightgrey;" id="btnSearch" type="button"><i
@@ -62,8 +62,8 @@
                 </div>
               </form>
               </button>
-            </div>
-            <div class="col-md-2 navbar-anchor" id="userIcon">
+            </div> --%> -->
+            <div class="col-md-4 navbar-anchor" id="userIcon">
               <c:choose>
                 <c:when test="${not empty loginSession}">
                   <!-- 로그인했으면 -->
@@ -102,6 +102,8 @@
           </div>
         </nav>
       </div>
+      <input id="url" name="url" type="hidden" value="/toCs.mem">
+
       <!-- 바디-->
       <header class="masthead w-100">
         <div class="container no-lineBox justify-content align-items">

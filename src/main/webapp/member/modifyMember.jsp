@@ -30,7 +30,6 @@
       <script src="https://code.jquery.com/jquery-3.6.0.js"
         integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
       <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-      <link rel="stylesheet" href="<%=request.getContextPath()%>/member/css/modifyMember.css">
       <title>회원정보수정</title>
 
     </head>
@@ -38,6 +37,7 @@
       @charset "UTF-8";
 
       i {
+        cursor: pointer;
         margin: 5px;
       }
 
@@ -45,15 +45,10 @@
         width: 100%;
         position: fixed;
         top: 0;
-        z-index: 1;
+        z-index: 99;
         left: 0%;
       }
 
-      body {
-        padding-top: 100px;
-      }
-
-      /*네비바 속성*/
       .navbar-anchor a {
         text-decoration: none;
         color: black;
@@ -61,17 +56,14 @@
       }
 
       #userIcon {
-        text-align: right;
+        text-align: center;
         font-size: 25px;
         padding: 5px;
       }
 
-      #navbar-search {
-        text-align: right;
-      }
-
-      #searchIcon {
-        color: lightgrey;
+      #logo {
+        width: 60px;
+        height: 50px;
       }
 
       /* 네비바 드롭다운 */
@@ -80,7 +72,7 @@
         border-color: aliceblue;
       }
 
-      .dropdown:hover .dropdown-menu {
+      .dropdown:hover .nav-category {
         display: block;
         margin-top: 0;
         font-weight: bold;
@@ -129,7 +121,8 @@
       .btn-primary {
         font-size: 0.8rem;
       }
-      .button{
+
+      .button {
         width: 150px;
       }
 
@@ -155,45 +148,68 @@
     </style>
 
     <body>
-      <div class="container MainBox" id="header">
+      <div class="container MainBox">
         <!-- 네비바 -->
         <nav class="navbar navbar-light bg-light fixed">
-          <div class="container navbar-head">
-            <a class="navbar-brand" href="#!" id="logo">로고</a>
-            <div class="col-md-1 navbar-anchor"><a href="/">COMPANY</a></div>
-
+          <div class="container">
+            <a class="navbar-brand" href="/Tohome" id="logo"><img id="logo" src="/resources/images/Logo3.png"
+                alt="HypeFriend"></a>
+            <div class="col-md-1  navbar-anchor"><a href="/">COMPANY</a></div>
             <div class="dropdown ">
               <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"
                 style="font-weight: bold;">
                 CLOTHES
               </button>
-              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+              <ul class="dropdown-menu nav-category" aria-labelledby="dropdownMenuButton1">
                 <li><a class="dropdown-item" href="#">Top</a></li>
                 <li><a class="dropdown-item" href="#">Bottom</a></li>
                 <li><a class="dropdown-item" href="#">Accessory</a></li>
               </ul>
             </div>
+            <div class="col-md-1 navbar-anchor"><a href="/">Shop</a></div>
+            <div class="col-md-1 navbar-anchor"><a href="/toCs.mem">CS</a></div>
 
-            <div class="col-md-1 navbar-anchor"><a href="/">매장찾기</a></div>
-            <div class="col-md-1 navbar-anchor"><a href="/">고객센터</a></div>
-            <!-- 네비바 검색창 -->
-            <div class="col-md-4 navbar-anchor" id="navbar-search">
-              <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-                <div class="input-group">
-                  <button class="btn btn-link" style="border: 1px solid lightgrey;" id="btnSearch" type="button"><i
-                      id="searchIcon" class="fas fa-search"></i></button>
-                  <input class="form-control" type="text" aria-describedby="btnNavbarSearch" />
-                </div>
-              </form>
-              </button>
-            </div>
-            <div class="col-md-2 navbar-anchor" id="userIcon">
-              <a href=""><i class="fa-solid fa-cart-plus"></i></a>
-              <a href=""><i class="fa-solid fa-user"></i></a>
+            <div class="col-md-4 navbar-anchor" id="userIcon">
+              <c:choose>
+                <c:when test="${not empty loginSession}">
+                  <!-- 로그인했으면 -->
+                  <a href="/toCart.mem"><i class="fa-solid fa-cart-plus"></i></a>
+                  <div class="dropdown" style="display: inline;">
+                    <i class="fa-solid fa-user" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                      <li><a class="dropdown-item" href="/toMypage.mem">마이페이지</a></li>
+                      <li><a class="dropdown-item" href="/logoutProc.mem">로그아웃</a></li>
+                    </ul>
+                  </div>
+                  <span style="font-size: 10px;">${loginSession.user_id}님</span>
+                </c:when>
+
+                <c:otherwise>
+                  <!-- 로그인 안하면 -->
+                  <i id="loginIcon" class="fa-solid fa-cart-plus"></i></a>
+                  <i id="loginIcon2" class="fa-solid fa-user"></i>
+                  <script>
+                    document.getElementById("loginIcon2").onclick = function () {
+                      let url = "/toLogin.mem";
+                      let name = "로그인";
+                      let option = "width=600, height=700, left=700, top=300";
+                      window.open(url, name, option);
+                    }
+                    document.getElementById("loginIcon").onclick = function () {
+                      let url = "/toLogin.mem";
+                      let name = "로그인";
+                      let option = "width=600, height=700, left=700, top=300";
+                      window.open(url, name, option);
+                    }
+                  </script>
+                </c:otherwise>
+              </c:choose>
             </div>
           </div>
         </nav>
       </div>
+
+      <input id="url" name="url" type="hidden" value="/toMypage.mem">
 
       <div class="container">
 
@@ -232,7 +248,7 @@
                 <td>
                   <input type="password" id="pw" name="pw">
                 </td>
-                
+
               </tr>
               <tr style="height: 70px;">
                 <th>
@@ -284,10 +300,15 @@
                     <div class="col">
                       <input type="text" id="emailAdress" value="${email1}" style="width: 150px; font-size: 0.8rem;"> @
                       <input type="text" id="emailAdress2" value="${email2}" style="width: 100px; font-size: 0.8rem;">
+                      <button type="button" class="btn btn-dark" id="checkEmail" style="height: 30px; font-size: 13px;"
+                        disabled>중복확인</button>
+
                 </td>
               </tr>
               <div class="col d-none">
                 <input type="text" id="user_email" name="user_email">
+                <input type="hidden" id="total2" value="">
+
               </div>
 
               <tr>
@@ -414,11 +435,74 @@
         }).open();
       });
 
+      const total2 = document.getElementById('total2');
+
       $('#emailAdress2').focusout(function () {
         let email = '';
         if ($('#emailAdress').val() !== '') {
           email = $('#emailAdress').val() + '@' + $('#emailAdress2').val();
           $('#user_email').val(email);
+        }
+        $('#checkEmail').attr('disabled', false);
+      });
+
+      $('#emailAdress').focusout(function () {
+        let email = '';
+        if ($('#emailAdress').val() !== '') {
+          email = $('#emailAdress').val() + '@' + $('#emailAdress2').val();
+          $('#user_email').val(email);
+        }
+        $('#checkEmail').attr('disabled', false);
+      });
+
+      $('#checkEmail').on('click', function () {
+        if ($('#emailAdress').val() === '') {
+          alert('이메일을 입력해주세요.');
+          return;
+        } else if ($('#emailAdress2').val() === '') {
+          alert('도메인을 입력해주세요.');
+          return;
+        }
+
+        $.ajax({
+          url: '/checkEmail.mem',
+          type: 'post',
+          data: { user_email: $('#user_email').val() },
+          dataType: 'text',
+          success: function (data) {
+            console.log(data);
+            if (data == 'false') {
+              alert('이미 사용중인 이메일입니다.');
+              return;
+            }
+            alert('사용가능한 이메일입니다.');
+            total2.value = '1';
+            $('#submitBtn').attr('disabled', false);
+            return;
+          },
+          error: function (e) {
+            console.log(e);
+          }
+        });
+      });
+
+      $('#emailAdress').change(function () {
+        if (document.getElementById('emailAdress').value !== '') {
+          if (total2.value == '1') {
+            $('#submitBtn').attr('disabled', true);
+            total2.value = '';
+            return;
+          }
+        }
+      });
+
+      $('#emailAdress2').change(function () {
+        if (document.getElementById('emailAdress2').value !== '') {
+          if (total2.value == '1') {
+            $('#submitBtn').attr('disabled', true);
+            total2.value = '';
+            return;
+          }
         }
       });
 
@@ -448,23 +532,33 @@
         } else if ($('#postCode').val() === '' || $('#roadAddr').val() === '') {
           alert('주소를 입력해 주세요.');
           return;
+        } else if (total2.value !== '1') {
+          alert('이메일을 필수로 수정하지 않으면 수정이 불가능합니다.');
+          alert('이메일 중복체크를 진행해주세요.');
+          return;
         }
 
         let email = $('#emailAdress').val() + '@' + $('#emailAdress2').val();;
         $('#user_email').val(email);
 
-        let data = $('#signupForm').serialize();
-
         $.ajax({
           url: '/toLoginProc.mem',
           type: 'post',
-          data: data,
+          data: { id: '${dto.user_id}', pw: $('#pw').val() },
           success: function (resultData) {
             console.log('받아온 id', resultData);
             if (resultData === 'loginSuccess') {
               //form 제출
-              document.getElementById('signupForm').submit();
+              let check = confirm('정말 수정하시겠습니까?');
+              if (check) {
+                document.getElementById('signupForm').submit();
+                return;
+              }else{
+                return;
+              }
             }
+            alert('아이디와 비밀번호가 상이합니다.');
+            return;
           },
           error: function (e) {
             console.log(e);
@@ -472,7 +566,7 @@
         });
       });
 
-      $('#btnBack').on("click", function() {
+      $('#btnBack').on("click", function () {
         location.href = "/toMypage.mem";
       })
 

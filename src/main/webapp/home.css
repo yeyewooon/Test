@@ -20,11 +20,9 @@ i{	cursor: pointer;
     font-size: 25px;
     padding: 5px;
 }
-#navbar-search{
-    text-align: right;
-}
-#searchIcon{
-    color: lightgrey;
+#logo{
+    width: 60px;
+    height: 50px;
 }
 /* 네비바 드롭다운 */
 .dropdown-toggle:hover{color: #83bf7b; border-color: aliceblue;}

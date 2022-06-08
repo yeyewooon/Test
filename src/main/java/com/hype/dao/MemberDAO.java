@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,6 +18,7 @@ import com.hype.dto.CartDTO;
 import com.hype.dto.MemberDTO;
 import com.hype.dto.OrderDTO;
 import com.hype.dto.QnaDTO;
+import com.hype.dto.ReplyDTO;
 
 public class MemberDAO {
 private BasicDataSource bds;
@@ -75,6 +75,27 @@ private BasicDataSource bds;
 			}
 		}
 	}
+	
+	public boolean checkEmail(String email) throws Exception{
+		String sql = "select count(*) from tbl_member where user_email = ?";
+		
+		try(Connection con = bds.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql)){
+			
+			pstmt.setString(1, email);
+			ResultSet rs = pstmt.executeQuery();
+			
+			int result = 0;
+			if(rs.next()) {
+				result = rs.getInt(1);
+			}
+			if(result == 0) {
+				return true;
+			}else {
+				return false;
+			}
+		}
+	}
 
 	public MemberDTO login(String id, String pw) throws Exception { // 로그인 메소드
 		String sql = "select * from tbl_member where user_id = ? and user_password = ?";
@@ -101,6 +122,20 @@ private BasicDataSource bds;
 				return null;
 			}
 
+		}
+	}
+	
+	public int kakaoId(String email) throws Exception{
+		String sql = "insert into tbl_member values(?, 'kajwh4go1iawkofkjnbla4kxjed4he45hgnvm4als4ldfjgnbm4al5kslfjgn4baks6lkd', 'x', '01/01/01', 'x','x', 'x', 'x', ?, default)";
+		
+		try(Connection con = bds.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql)){
+			
+			pstmt.setString(1, email);
+			pstmt.setString(2, email);
+			
+			int rs = pstmt.executeUpdate();
+			return rs;
 		}
 	}
 
@@ -155,7 +190,6 @@ private BasicDataSource bds;
 
 			pstmt.setString(1, id);
 			ResultSet rs = pstmt.executeQuery();
-//			DecimalFormat decFormat = new DecimalFormat("###,###");
 
 			ArrayList<CartDTO> list = new ArrayList<>();
 
@@ -165,10 +199,9 @@ private BasicDataSource bds;
 				String user_id = rs.getString(3);
 				String cart_name = rs.getString(4);
 				int cart_quantity = rs.getInt(5);
-				int	cart_price = rs.getInt(6); //decFormat.format(rs.getInt(6));
-				int cart_total = rs.getInt(6) * cart_quantity; //decFormat.format(rs.getInt(6) * cart_quantity);
+				int	cart_price = rs.getInt(6);
 
-				list.add(new CartDTO(seq_cart, seq_product, user_id, cart_name, cart_quantity, cart_price, cart_total));
+				list.add(new CartDTO(seq_cart, seq_product, user_id, cart_name, cart_quantity, cart_price));
 			}
 			return list;
 
@@ -312,10 +345,10 @@ private BasicDataSource bds;
 		String allStr = String.join(",", str);
 		
 		String sql1 = "select  \r\n"
-				+ "(select count(a.seq_order) from tbl_order a where a.order_status = '상품준비중' and user_id= ?) as totalCnt,\r\n"
-				+ "(select count(b.seq_order) from tbl_order b where b.order_status = '배송중' and user_id= ?) as deliveryCnt,\r\n"
-				+ "(select count(c.seq_order) from tbl_order c where c.order_status = '배송완료' and user_id= ?) as deliveryCompleteCnt,";
-		String sql2 = "(select SUM(buy_price) from tbl_buy where seq_order in ";
+				+ "(select count(a.seq_order) from tbl_order a where a.order_status = '상품 준비중' and user_id= ?) as totalCnt,\r\n"
+				+ "(select count(b.seq_order) from tbl_order b where b.order_status = '배송 중' and user_id= ?) as deliveryCnt,\r\n"
+				+ "(select count(c.seq_order) from tbl_order c where c.order_status = '배송 완료' and user_id= ?) as deliveryCompleteCnt,";
+		String sql2 = "(select SUM(buy_price*buy_qty) from tbl_buy where seq_order in ";
 		sql2 += "(" + allStr + ")";
 		String sql3 = ") as totalPrice from dual";
 		String sql = sql1 + sql2 + sql3;
@@ -433,7 +466,7 @@ private BasicDataSource bds;
 			 * 3-1 = 2 / 5 = 0 * 5 = 0 + 1 = 1
 			 * 5-1 = 4 / 5 = 0 * 5 = 0 + 1 = 1
 			 * */
-			int startNavi = ((curPage) / naviCntPerPage) + 1;
+			int startNavi = ((curPage-1) / naviCntPerPage) * naviCntPerPage + 1;
 			int endNavi = startNavi + naviCntPerPage -1;
 			
 			// endNavi 가 전체페이지를 넘어갈 수 없음
@@ -462,6 +495,128 @@ private BasicDataSource bds;
 			map.put("curPage", curPage);
 			
 			return map;
+		}
+	}
+	
+	public HashMap<String, Object> getPageNaviBykey(String id, String type, String searchKeyword,int curPage) throws Exception{
+		String sql = "select count(*) as totalCnt from tbl_qna where user_id=? and " + type + " like '%'||?||'%'";
+		
+		try( Connection con = bds.getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql)){
+			
+			pstmt.setString(1, id);
+			pstmt.setString(2, searchKeyword);
+			ResultSet rs = pstmt.executeQuery();
+			rs.next();
+			
+			int totalCnt = rs.getInt("totalCnt"); // 전체 게시글의 개수
+			int recordCntPerPage = 5; // 한 페이지에 몇개의 데이터(게시글)을 띄워줄지
+			int naviCntPerPage = 5; // 네비바에 몇개 단위로 페이징을 구성할지
+			int pageTotalCnt = 0; // 총 몇 페이지가 나올지
+			
+			if(totalCnt % recordCntPerPage > 0) { // 나머지가 생김(10의 배수가 아님x)
+				pageTotalCnt = totalCnt / recordCntPerPage + 1;
+			}else {
+				pageTotalCnt = totalCnt / recordCntPerPage;
+			}
+			
+			if(curPage < 1) { // 현재 페이지가 0이거나 혹은 음수일때
+				curPage = 1; // 무조건 첫페이지로 맞춰주기
+			}else if(curPage > pageTotalCnt) { // 현재 페이지가 총 페이지 수 보다 크다면
+				 curPage = pageTotalCnt;
+			}
+			
+			int startNavi = ((curPage-1) / naviCntPerPage) * naviCntPerPage + 1;
+			int endNavi = startNavi + naviCntPerPage -1;
+			
+			if(pageTotalCnt < endNavi) { // endNavi가 전체 페이지수보다 크다면
+				endNavi = pageTotalCnt; // end
+			}
+			
+			boolean needPrev = true; // starNavi가 1일 때 needPrev가 false
+			boolean needNext = true; // endNavi가 마지막 페이지(전체 페이지)와 같을 때 needNext가 false
+			
+			if(startNavi == 1) {
+				needPrev = false;
+			}
+			if(endNavi == pageTotalCnt) {
+				needNext = false;
+			}
+			
+			HashMap<String, Object> map = new HashMap<>();
+			map.put("startNavi", startNavi);
+			map.put("endNavi", endNavi);
+			map.put("needPrev", needPrev);
+			map.put("needNext", needNext);
+			map.put("curPage", curPage);
+			
+			return map;
+		}
+	}
+	
+	public ArrayList<QnaDTO> qnaBySearch(String id,String searchKeyword, String type ,int start, int end) throws Exception{
+		String sql = "select * from (select tbl_qna.*, row_number() over(order by seq_qna desc) as num from tbl_qna where user_id=? and " + type + " like '%'||?||'%') where num between ? and ?";
+
+		try (Connection con = bds.getConnection(); 
+			PreparedStatement pstmt = con.prepareStatement(sql)) {
+			
+			pstmt.setString(1, id);
+			pstmt.setString(2, searchKeyword);
+			pstmt.setInt(3, start);			
+			pstmt.setInt(4, end);			
+			ArrayList<QnaDTO> list = new ArrayList<>();
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				int seq_qna = rs.getInt(1);
+				int seq_order = rs.getInt(2);
+				String user_id = rs.getString(3);
+				String qna_type = rs.getString(4);
+				String qna_title = rs.getString(5);
+				String qna_content = rs.getString(6);
+				String qna_date = getStringDate(rs.getDate(7));
+				String qna_status = rs.getString(8);
+				
+				list.add(new QnaDTO(seq_qna, seq_order, user_id, qna_type, qna_title, qna_content, qna_status,qna_date));
+			}
+			return list;
+		}
+	}
+	
+	public ArrayList<ReplyDTO> replyByQna(String id, int[] num) throws Exception {
+		String[] str = new String[num.length];
+
+		for (int i = 0; i < num.length; i++) {
+			str[i] = "?";
+		}
+		String allStr = String.join(",", str);
+		String sql = "select * from tbl_reply where user_id = ? and seq_qna in ";
+		String sql2 = "order by seq_qna desc ";
+		sql += "(" + allStr + ") " + sql2;
+		
+		
+		
+		try (Connection con = bds.getConnection(); PreparedStatement pstmt = con.prepareStatement(sql)) {
+			
+			pstmt.setString(1, id);
+			for (int i = 0; i < num.length; i++) {
+				pstmt.setInt(i + 2, num[i]);
+			}
+			
+			ResultSet rs = pstmt.executeQuery();
+			ArrayList<ReplyDTO> list = new ArrayList<>();
+			
+			while(rs.next()) {
+				int seq_reply = rs.getInt(1);
+				String user_id = rs.getString(2);
+				int seq_qna = rs.getInt(3);
+				String qna_reply = rs.getString(4);
+				String reply_date = getStringDate(rs.getDate(5));
+				
+				list.add(new ReplyDTO(seq_reply, user_id, seq_qna, qna_reply, reply_date));
+			}
+			return list;
 		}
 	}
 
