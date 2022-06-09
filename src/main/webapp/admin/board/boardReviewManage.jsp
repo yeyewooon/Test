@@ -1,44 +1,316 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="EUC-KR">
-<title>¸®ºä °ü¸®</title>
+<title>ë¦¬ë·° ê´€ë¦¬</title>
+<script src="https://kit.fontawesome.com/f9358a6ceb.js"
+	crossorigin="anonymous"></script>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+	crossorigin="anonymous" />
 <script
-      src="https://kit.fontawesome.com/f9358a6ceb.js"
-      crossorigin="anonymous"
-    ></script>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
-      crossorigin="anonymous"
-    />
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://code.jquery.com/jquery-3.6.0.js"
-      integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
-      crossorigin="anonymous"
-    ></script>
-<link href="<%=request.getContextPath()%>css/boardReviewManage.css"
-	rel="stylesheet" />
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+	crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js"
+	integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+	crossorigin="anonymous"></script>
+
+<style>
+.logoImg{
+      	width:100px;
+      	height : 55px;
+      	cursor:pointer;
+      }
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: "Poppins", sans-serif;
+}
+
+/* navbar & maincontainer */
+.adminContainer {
+	height: 100vh;
+	background-color: black;
+}
+
+.adminNavbar {
+	margin: 0;
+	background-color: #212e41;
+	color: #fff;
+	height: 8%;
+}
+
+.adminNavbar-left {
+	font-size: 26px;
+}
+
+.adminNavbar-left span {
+	cursor: pointer;
+}
+
+.adminMain {
+	background-color: blue;
+}
+
+.adminContent {
+	margin: 0;
+	height: 92%;
+}
+
+.adminSidebarContainer {
+	background-color: #212e41;
+	color: #fff;
+}
+
+ul {
+	list-style: none;
+}
+
+.adminIcon {
+	margin-right: 30px;
+}
+
+.adminIconSpan {
+	margin-right: 12px;
+}
+
+.adminIconLogout {
+	margin-left: 26px;
+	cursor: pointer;
+}
+
+/* sidebar navlink */
+.adminSidebar {
+	height: 92%;
+	background: #fff;
+	transition: all 0.5s ease;
+}
+
+.adminSidebar .nav-links li a {
+	display: flex;
+	align-items: center;
+	text-decoration: none;
+}
+
+.adminSidebarContainer {
+	padding: 0;
+}
+
+.adminMainContainer {
+	padding: 0;
+}
+
+.nav-linksContainer {
+	margin-top: 25px;
+	transition: 0.5s ease;
+}
+
+.nav-linksContainer:hover {
+	background-color: #1d1b31;
+}
+
+.nav-links {
+	font-size: 16px;
+	padding-left: 0;
+}
+
+.icon-link {
+	color: #fff;
+}
+
+.icon-link .icon-link-left {
+	color: #fff;
+}
+
+.icon-link .icon-link-left i {
+	left: 0;
+	color: #fff;
+}
+
+.icon-link .icon-link-left span {
+	color: #fff;
+}
+
+.sub-menu {
+	margin-left: 16%;
+	list-style: none;
+	display: none;
+	text-decoration-line: none;
+}
+
+.sub-menu li {
+	margin: 10px 0px;
+}
+
+.sub-menu li a {
+	font-size: 14px;
+	color: #fff;
+	text-decoration-line: none;
+}
+
+.sub-menu li:hover {
+	border-left: 3px solid #fff;
+}
+
+.firstTable {
+	background-color: #fff;
+	margin-bottom: 0;
+}
+
+/* ë©”ì¸ í˜ì´ì§€  */
+.firstTable {
+	border: 0;
+}
+
+.MemberText, .searchMemberText {
+	font-size: 18px;
+	margin-left: 9px;
+	margin-bottom: 0;
+	border: 40px;
+}
+
+.searchMemberInput {
+	margin-left: auto;
+}
+
+.reviewContainer {
+	height: 450px;
+	overflow: auto;
+}
+
+tbody tr {
+	transition: 0.7s ease;
+}
+
+/* table hoverì‹œ color ë³€ê²½ */
+#tableBox:hover tbody tr:hover td {
+	background-color: #7f7f7f;
+	color: #fff;
+}
+
+/* ì´ëª¨í‹°ì½˜ cursor pointer */
+td span, .reviewDetailModalExitIcon {
+	cursor: pointer;
+}
+
+/* ë¦¬ë·° ë‚´ìš© */
+.form-group textarea {
+	overflow-y: scroll;
+}
+
+/* ë¦¬ë·° ë‚´ìš© ìŠ¤í¬ë¡¤ ì—†ì• ê¸° */
+.form-group textarea {
+	-ms-overflow-style: none;
+}
+
+.form-group textarea::-webkit-scrollbar {
+	display: none;
+}
+
+.selectAll:hover, i {
+	cursor: pointer;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:link {
+	color: black;
+	text-decoration: none;
+}
+
+a:visited {
+	color: black;
+	text-decoration: none;
+}
+
+a:hover {
+	color: black;
+	text-decoration: underline;
+}
+
+/* ìƒì„¸ ë‚´ìš© ëª¨ë‹¬*/
+.reviewDetailModal {
+	width: 400px;
+	height: 500px;
+	background-color: gray;
+	position: fixed;
+	top: 50%;
+	left: 60%;
+	transform: translate(-50%, -50%);
+	border-radius: 5px;
+	color: #e8ecef;
+	display: none;
+}
+
+.reviewModalBox {
+	padding: 10px;
+	height: 100%;
+}
+
+.reviewDetailModalTitle {
+	height: 10%;
+}
+
+.reviewDetailImg {
+	text-align: center;
+}
+
+.reviewDetailText {
+	margin-left: 13px;
+	word-break: break-all;
+}
+
+.reviewDetailModalTitle p {
+	font-size: 18px;
+}
+
+.reviewDetailModalImg {
+	height: 47%;
+}
+
+.reviewDetailModalText {
+	height: 38%
+}
+
+.reviewDetailModalFooter {
+	height: 10%;
+}
+
+/* ë¦¬ë·° ë”œë¦¬íŠ¸ ëª¨ë‹¬ */
+.reviewDeleteModal {
+	position: fixed;
+	top: 50%;
+	left: 60%;
+	transform: translate(-50%, -50%);
+	border-radius: 5px;
+	height: 120px;
+	width: 320px;
+	border: 1px solid black;
+	background-color: #e8ecef;
+	display: none;
+}
+</style>
 </head>
 <body>
 	<div class="adminContainer">
 		<div class="row adminNavbar d-flex align-items-center">
 			<div
 				class="col-md-2 adminNavbar-left d-flex justify-content-center align-items-lg-center">
-				<i class="fa-brands fa-yahoo"></i> <span adminNavbar-left-text>LAND</span>
+				<img class="logoImg" src="./resources/images/Logo3.png">
 			</div>
 			<div class="col-md-10 adminNavbar-right d-flex justify-content-end">
 				<div class="adminIcon">
 					<span class="adminIconSpan">Admin</span> <i
-						class="fa-solid fa-user-check"></i> <span class="adminIconLogout">·Î±×¾Æ¿ô</span>
+						class="fa-solid fa-user-check"></i> <span class="adminIconLogout">ë¡œê·¸ì•„ì›ƒ</span>
 				</div>
 			</div>
 		</div>
@@ -50,15 +322,15 @@
 							<i class="fa-solid fa-cart-shopping cart"></i>
 						</div>
 						<div class="icon-link-center col-md-6">
-							<span class="link_name cartManagement">»óÇ° °ü¸®</span>
+							<span class="link_name cartManagement">ìƒí’ˆ ê´€ë¦¬</span>
 						</div>
 						<div class="icon-link-right col-md-3">
 							<i class="fa-solid fa-caret-down arrow arrow1"></i>
 						</div>
 					</div>
 					<ul class="sub-menu sub-menu-first">
-						<li><a href="https://www.naver.com">»óÇ° µî·Ï</a></li>
-						<li><a href="#">»óÇ° ¼öÁ¤</a></li>
+						<li><a href="/admin/product/productInsert.jsp">ìƒí’ˆ ë“±ë¡</a></li>
+						<li><a href="/modify.pc?curPage=1">ìƒí’ˆ ì¡°íšŒ</a></li>
 					</ul>
 				</div>
 				<div class="nav-linksContainer nav-linksContainer2">
@@ -67,14 +339,14 @@
 							<i class="fa-solid fa-user-group"></i>
 						</div>
 						<div class="icon-link-center col-md-6">
-							<span class="link_name cartManagement">È¸¿ø °ü¸®</span>
+							<span class="link_name cartManagement">íšŒì› ê´€ë¦¬</span>
 						</div>
 						<div class="icon-link-right col-md-3">
 							<i class="fa-solid fa-caret-down arrow arrow2"></i>
 						</div>
 					</div>
 					<ul class="sub-menu sub-menu-second">
-						<li><a href="https://www.naver.com">È¸¿ø ¼öÁ¤ ¹× »èÁ¦</a></li>
+						<li><a href="/select.amem?curPage=1">íšŒì› ì¡°íšŒ</a></li>
 					</ul>
 				</div>
 				<div class="nav-linksContainer nav-linksContainer3">
@@ -83,14 +355,14 @@
 							<i class="fa-solid fa-truck"></i>
 						</div>
 						<div class="icon-link-center col-md-6">
-							<span class="link_name cartManagement">¹è¼Û °ü¸®</span>
+							<span class="link_name cartManagement">ë°°ì†¡ ê´€ë¦¬</span>
 						</div>
 						<div class="icon-link-right col-md-3">
 							<i class="fa-solid fa-caret-down arrow arrow3"></i>
 						</div>
 					</div>
 					<ul class="sub-menu sub-menu-third">
-						<li><a href="https://www.naver.com">¹è¼Û Á¤º¸ º¯°æ</a></li>
+						<li><a href="/shipManage.sh?curPage=1">ë°°ì†¡ ì •ë³´ ë³€ê²½</a></li>
 					</ul>
 				</div>
 				<div class="nav-linksContainer nav-linksContainer4">
@@ -99,141 +371,289 @@
 							<i class="fa-solid fa-clipboard-list"></i>
 						</div>
 						<div class="icon-link-center col-md-6">
-							<span class="link_name cartManagement">°Ô½ÃÆÇ °ü¸®</span>
+							<span class="link_name cartManagement">ê²Œì‹œíŒ ê´€ë¦¬</span>
 						</div>
 						<div class="icon-link-right col-md-3">
 							<i class="fa-solid fa-caret-down arrow arrow4"></i>
 						</div>
 					</div>
 					<ul class="sub-menu sub-menu-fourth">
-						<li><a href="#">¹®ÀÇ°ü¸®</a></li>
-						<li><a href="#">¸®ºä °ü¸®</a></li>
+						<li><a href="/boardQna.qna?curPage=1">ë¬¸ì˜ ê´€ë¦¬</a></li>
+						<li><a href="/review.rv?curPage=1">ë¦¬ë·° ê´€ë¦¬</a></li>
 					</ul>
 				</div>
 			</div>
 			<div class="col-md-10 adminMainContainer">
 				<div class="table firstTable">
-					<h3 class="text-center mt-3 firstTableTitle">¸®ºä °ü¸®</h3>
-					<div class="input-group rounded w-25 searchMemberInput mt-2 mb-3"
-						style="border-top-width: 0px">
-						<input type="search" class="form-control rounded"
-							placeholder="Search" aria-label="Search"
-							aria-describedby="search-addon" /> <span
-							class="input-group-text border-0" id="search-addon"> <i
-							class="fas fa-search"></i>
-						</span>
-					</div>
+					<h2 class="text-center mt-5 firstTableTitle">ë¦¬ë·° ê´€ë¦¬</h2>
+
+					<!-- ê²€ìƒ‰ ë²„íŠ¼ -->
+					<form id="searchForm" action="/searchProc.rv" method="post"
+						style="border-top-width: 0px;">
+						<div
+							class="input-group rounded w-25 searchMemberInput mt-2 mb-3 me-3"
+							style="border-top-width: 0px;">
+							<input type="search" class="form-control rounded"
+								placeholder="ì•„ì´ë””ë¥¼ ì…ë ¥í•˜ì„¸ìš”" id="searchKeyword" name="searchKeyword"
+								onKeypress="if(event.keyCode==13){enterKey()}" /> <span
+								class="input-group-text border-0" id="search-addon"> <i
+								class="fas fa-search" id="searchIcon"></i>
+							</span>
+						</div>
+					</form>
+					<!-- ì „ì²´ ì¡°íšŒ -->
 					<div class="selectAll ms-4" style="border-top-width: 0px">
-						<i class="fa-solid fa-folder-open"></i> <span class="ms-2">ÀüÃ¼Á¶È¸</span>
+						<i class="fa-solid fa-folder-open" id="selectAllIcon"></i> <span
+							class="ms-1">ì „ì²´ì¡°íšŒ</span>
 					</div>
-					<div class="reviewContainer" style="border-top-width: 0px">
-						<table class="table table-striped boardTable text-center mt-3"
+
+					<!-- í…Œì´ë¸” -->
+					<div class="MemberContainer" style="border-top-width: 0px">
+						<table class="table table-striped memberTable text-center mt-3"
 							id="tableBox">
 							<thead>
 								<tr>
-									<th scope="col">¸®ºä ¹øÈ£</th>
-									<th scope="col">È¸¿øID</th>
-									<th scope="col">ÀÌ¹ÌÁö</th>
-									<th scope="col">³»¿ë</th>
-									<th scope="col">µî·ÏÀÏ</th>
-									<th scope="col">ÆòÁ¡</th>
-									<th scope="col">»óÇ° ¹øÈ£</th>
-									<th scope="col">»ó¼¼ ³»¿ë º¸±â</th>
-									<th scope="col">»èÁ¦</th>
+									<th scope="col">ë¦¬ë·° ë²ˆí˜¸</th>
+									<th scope="col">ìƒí’ˆ ë²ˆí˜¸</th>
+									<th scope="col">íšŒì› ì•„ì´ë””</th>
+									<th scope="col">ë‚´ìš©</th>
+									<th scope="col">ë“±ë¡ì¼</th>
+									<th scope="col">í‰ì </th>
+									<th scope="col">ìƒì„¸ ë‚´ìš©ë³´ê¸°</th>
+									<th scope="col">ì‚­ì œ</th>
 								</tr>
 							</thead>
-							<tbody>
-								<tr>
-									<td class="align-middle">1</td>
-									<td class="align-middle">kh123</td>
-									<td class="align-middle">
-										<div>ÀÌ¹ÌÁö</div>
-									</td>
-									<td class="align-middle">
-										<div class="form-group">
-											<input class="replyContent form-control" readonly
-												value="Á¤¸» ÁÁ³×¿ä!" />
-										</div>
-									</td>
-									<td class="align-middle">2022³â 05³â 21ÀÏ 11½Ã 08ºĞ</td>
-									<td class="align-middle">2</td>
-									<td class="align-middle">ABC-123</td>
-									<td class="align-middle"><span
-										class="text-center reviewDetailIcon"><i
-											class="fa-solid fa-magnifying-glass"></i></span></td>
-									<td class="align-middle"><span
-										class="text-center reviewDelete"><i
-											class="fa-solid fa-trash"></i></span></td>
-								</tr>
+							<tbody class="table-body">
+								<c:choose>
+									<c:when test="${list.size() == 0}">
+										<tr>
+											<td colspan=8>ë“±ë¡ëœ ì •ë³´ê°€ ì—†ìŠµë‹ˆë‹¤.</td>
+										</tr>
+									</c:when>
+									<c:otherwise>
+										<c:forEach items="${list}" var="dto">
+											<tr>
+												<td class="align-middle">${dto.seq_review}</td>
+												<td class="align-middle">${dto.seq_product}</td>
+												<td class="align-middle">${dto.user_id }</td>
+												<td class="align-middle">${dto.review_content }</td>
+												<td class="align-middle">${dto.review_date}</td>
+												<td class="align-middle">${dto.review_rate}</td>
+												<td><a href="#"><i
+														class="fa-solid fa-magnifying-glass reviewDetailIcon"></i></a></td>
+												<td><a href="#"><i
+														class="fa-solid fa-trash reviewDeleteIcon"></i></a></td>
+												<td><input type="text" value="${dto.seq_review}"
+													class="reviewDetailInput d-none"></td>
+											</tr>
+										</c:forEach>
+									</c:otherwise>
+								</c:choose>
 							</tbody>
 						</table>
-
-						<!-- ÆäÀÌÁö³×ÀÌ¼Ç -->
-						<div
-							class="pageNationContainer d-flex justify-content-center mt-2">
-							<nav aria-label="Page navigation example">
-								<ul class="pagination">
-									<li class="page-item"><a class="page-link" href="#">Previous</a>
-									</li>
-									<li class="page-item"><a class="page-link" href="#">1</a>
-									</li>
-									<li class="page-item"><a class="page-link" href="#">2</a>
-									</li>
-									<li class="page-item"><a class="page-link" href="#">3</a>
-									</li>
-									<li class="page-item"><a class="page-link" href="#">4</a>
-									</li>
-									<li class="page-item"><a class="page-link" href="#">5</a>
-									</li>
-									<li class="page-item"><a class="page-link" href="#">Next</a>
-									</li>
-								</ul>
-							</nav>
-						</div>
 					</div>
-				</div>
 
-				<!-- ³»¿ë »ó¼¼º¸±â -->
-				<div class="reviewcontainerModal">
+					<!-- í˜ì´ì§€ë„¤ì´ì…˜ -->
+					<nav style="border-top-width: 0px;" class="PageNavigation">
+						<ul class="pagination justify-content-center">
+							<c:if test="${naviMap.needPrev eq true}">
+								<li class="page-item"><a class="page-link"
+									href="/review.rv?curPage=${naviMap.startNavi-1}">Prev</a></li>
+							</c:if>
+
+							<c:forEach var="pageNum" begin="${naviMap.startNavi}"
+								end="${naviMap.endNavi}" step="1">
+								<li class="page-item"><a
+									class="page-link pageActive${pageNum}"
+									href="/review.rv?curPage=${pageNum}">${pageNum}</a></li>
+							</c:forEach>
+
+							<c:if test="${naviMap.needNext eq true}">
+								<li class="page-item"><a class="page-link"
+									href="/review.rv?curPage=${naviMap.endNavi+1}">Next</a></li>
+							</c:if>
+						</ul>
+					</nav>
+					<!-- ë¦¬ë·° ë‚´ìš© ìƒì„¸ë³´ê¸° -->
 					<div class="reviewDetailModal">
-						<div class="row mt-1">
-							<div class="col d-flex justify-content-end me-3 mt-2">
-								<i class="fa-solid fa-xmark reviewDetailModalExitIcon"></i>
+						<div class="reviewModalBox">
+							<div class="row reviewDetailModalTitle d-flex">
+								<div class="col-10">
+									<h4>ë‚´ìš©</h4>
+								</div>
+								<div class="col-2 d-flex justify-content-end">
+									<i class="fa-solid fa-xmark closeBtn"></i>
+								</div>
 							</div>
-						</div>
-						<div class="row reviewDetailModalTitle">
-							<div class="col mt-2">
-								<h4 class="ms-2">³»¿ë</h4>
-							</div>
-						</div>
-						<div class="row mt-1">
 							<div
-								class="col d-flex justify-content-center reviewDetailModalContainer">
-								<textarea class="form-control w-100 reviewTextBox"
-									id="floatingTextarea">
-Á¤¸»ÁÁ³×¿ä</textarea>
+								class="row reviewDetailModalImg d-flex justify-content-center ">
+								<div class="col reviewDetailImg "></div>
+							</div>
+							<div
+								class="row reviewDetailModalText d-flex justify-content-center ">
+								<div class="col reviewDetailText w-100"></div>
+							</div>
+
+							<div class="row reviewDetailModalFooter ">
+								<div class="col d-flex justify-content-center reviewDetailDate">
+									2022,07ì›” 08ì¼</div>
 							</div>
 						</div>
 					</div>
 				</div>
 
-				<!-- »èÁ¦ ¸ğ´Ş  -->
+				<!-- ë¦¬ë·° ì‚­ì œí•˜ê¸° -->
 				<div class="reviewDeleteModal">
-					<div class="text-center mt-4">ÇØ´ç ¸®ºä¸¦ Á¤¸»·Î »èÁ¦ ÇÏ½Ã°Ú½À´Ï±î?</div>
+					<div class="text-center mt-4">í•´ë‹¹ ë¦¬ë·°ë¥¼ ì •ë§ë¡œ ì‚­ì œ í•˜ì‹œê² ìŠµë‹ˆê¹Œ?</div>
 					<div class="row mt-3">
 						<div class="col-md-6 d-flex justify-content-end">
 							<button type="button" class="btn btn-primary btn-sm"
-								id="reviewDeleteCancelBtn">Ãë¼Ò</button>
+								id="reviewDeleteCancelBtn">ì·¨ì†Œ</button>
 						</div>
 						<div class="col-md-6">
 							<button type="button" class="btn btn-danger btn-sm"
-								id="reviewDeleteBtn">»èÁ¦</button>
+								id="reviewDeleteBtn">ì‚­ì œ</button>
 						</div>
 					</div>
 				</div>
+
+
 			</div>
 		</div>
 	</div>
-	<script src="<%=request.getContextPath()%>script/boardReviewManage.js"></script>
+	<script>
+	$(".arrow1").on("click", function () {
+        $(".sub-menu-first").toggle("4000ms");
+      });
+
+      $(".arrow2").on("click", function () {
+        $(".sub-menu-second").toggle("4000ms");
+      });
+
+      $(".arrow3").on("click", function () {
+        $(".sub-menu-third").toggle("4000ms");
+      });
+
+      $(".arrow4").on("click", function () {
+        $(".sub-menu-fourth").toggle("4000ms");
+      });
+      $(".logoImg").on("click",function(){
+          location.href = "/admin.ad"
+       })
+       $(".adminIconLogout").on("click",function(){
+         location.href = "/Tohome";
+      })
+      // ì „ì²´ ì¡°íšŒ í´ë¦­ì‹œ 
+      $("#selectAllIcon").on("click",function(){
+    	  location.href = "/review.rv?curPage=1";
+      })
+     // ìƒì„¸ ë‚´ìš©ë³´ê¸° ì•„ì´ì½˜ ë²„íŠ¼ í´ë¦­ì‹œ 
+     $(".reviewDetailIcon").off().on("click",function(){
+    	 let thisRow = $(this).closest('tr'); 
+    	 let seq_review = thisRow.find('td:eq(8)').find('input').val();
+    	 let seq_product = thisRow.find('td:eq(1)').text();
+    	 
+    	$.ajax({
+    		url:"/checkReviewDetail.rv?&seq_review="+seq_review+"&seq_product="+seq_product,
+			type: "get",
+    		dataType: "json",
+    		success: function(data) {
+    			$(".reviewDetailImg").empty("");
+				console.log(data[1].image_path);
+				console.log(data[1].image_name);
+    			// ì €ì¥ëœ ê²½ë¡œ ê°’ ê°€ì ¸ì˜¤ê¸°
+    			
+    			const img = document.createElement('img');
+    			img.src = "./resource/imagesClothes/" + data[1].image_name;
+    			img.setAttribute("width","350");
+    			img.setAttribute("height","200");
+    			console.log(img.src); 
+    			$(".reviewDetailImg").append(img);
+
+    			// ë°ì´í„° ê°’ ë°›ì•„ì˜¤ê¸° 
+    			let review_content = data[0].review_content;
+    			let review_date = data[0].review_date;
+    			let image_name = data[1].image_name;
+    			let image_path = data[1].image_path;
+    			$(".reviewDetailText").html(review_content);
+    			$(".reviewDetailDate").html(review_date);
+    			
+    			// ëª¨ë‹¬ ì°½ ë„ìš°ê¸°
+    			$(".reviewDetailModal").fadeIn();
+				
+    	  		$(".closeBtn").off().on("click",function() {
+    	    		$(".reviewDetailModal").fadeOut();
+    	  		})
+    		},
+    		error : function(e) {
+    			console.log(e);
+    		}
+    	})
+      })   
+      // ë¦¬ë·° ì‚­ì œ ë²„íŠ¼ í´ë¦­ì‹œ 
+     $(".reviewDeleteIcon").on("click",function(){
+    	 
+    	 let thisRow = $(this).closest('tr'); 
+    	 let seq_review = thisRow.find('td:eq(8)').find('input').val();
+    	 
+    	 
+    	 $(".reviewDeleteModal").fadeIn();
+
+	     $("#reviewDeleteCancelBtn").off().on("click", function () {
+	              $(".reviewDeleteModal").fadeOut();
+	     });
+    	 
+    	 $("#reviewDeleteBtn").on("click",function(){
+    		 $.ajax({
+    	    		url:"/deleteReviewDetail.rv?seq_review="+seq_review,
+    				type: "post",
+    				data: {seq_review,seq_review},
+    	    		dataType: "json",
+    	    		success: function(data) {
+    	    			location.href="/review.rv?curPage=1";
+    	    		},
+    	    		error : function(e) {
+    	    			console.log(e);
+    	    		}
+    	    	})
+    	 })  	 
+      })
+      // enterKey
+		function enterKey(){
+ 			$("#searchIcon").click();
+ 		}
+  	
+   // í˜ì´ì§€ ë„¤ì´ì…˜ action
+		let active = $(".page-link").text();
+		let activePage = '${curPage}';
+		console.log("active : " + active);
+		console.log("active.length : " + active.length);
+		console.log("activePage : " + activePage);
+		for (let i = 0; i < active.length; i++) {
+			console.log("asdasd : " + active[i]);
+			if (active[i] == activePage) {
+				console.log(active[i]);
+				console.log(activePage);
+				$(".pageActive"+(i+1)).css({
+					"background-color" : "#13213c",
+					"color" : "white"
+				});
+				break;
+			}
+		}
+      // searchIcon í´ë¦­ì‹œ
+      $("#searchIcon").on("click",function(){
+    	  
+    	  // ê²€ìƒ‰ ë‚´ìš©ì´ ì—†ì„ ë•Œ
+    	  if($("#searchKeyword").val() === ""){
+  			alert("ë‚´ìš©ì„ ì…ë ¥í•˜ì„¸ìš”.");
+  			$("#searchKeyword").focus();
+  			return;
+  		}
+  			
+    	  console.log($("#searchKeyword").val());
+    	  $("#searchForm").submit();
+      })
+	</script>
 </body>
 </html>

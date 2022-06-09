@@ -1,246 +1,475 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="EUC-KR">
-<<<<<<< HEAD
-<title>Insert title here</title>
-=======
-<title>¹®ÀÇ °ü¸®</title>
- <script
-      src="https://kit.fontawesome.com/f9358a6ceb.js"
-      crossorigin="anonymous"
-    ></script>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
-      crossorigin="anonymous"
-    />
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://code.jquery.com/jquery-3.6.0.js"
-      integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
-      crossorigin="anonymous"
-    ></script>
-<link href="<%=request.getContextPath()%>css/boardManage.css" rel="stylesheet"/>
->>>>>>> 7ba77a9516e91d826e59737b05896dcb861e1211
+<title>ë¬¸ì˜ ê´€ë¦¬</title>
+<script src="https://kit.fontawesome.com/f9358a6ceb.js"
+	crossorigin="anonymous"></script>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+	crossorigin="anonymous" />
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+	crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js"
+	integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+	crossorigin="anonymous"></script>
+
+
+<style>
+.logoImg{
+      	width:100px;
+      	height : 55px;
+      	cursor:pointer;
+      }
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: "Poppins", sans-serif;
+}
+
+/* navbar & maincontainer */
+.adminContainer {
+	height: 100vh;
+	background-color: black;
+}
+
+.adminNavbar {
+	margin: 0;
+	background-color: #212e41;
+	color: #fff;
+	height: 8%;
+}
+
+.adminNavbar-left {
+	font-size: 26px;
+}
+
+.adminNavbar-left span {
+	cursor: pointer;
+}
+
+.adminMain {
+	background-color: blue;
+}
+
+.adminContent {
+	margin: 0;
+	height: 92%;
+}
+
+.adminSidebarContainer {
+	background-color: #212e41;
+	color: #fff;
+}
+
+ul {
+	list-style: none;
+}
+
+.adminIcon {
+	margin-right: 30px;
+}
+
+.adminIconSpan {
+	margin-right: 12px;
+}
+
+.adminIconLogout {
+	margin-left: 26px;
+	cursor: pointer;
+}
+
+/* sidebar navlink */
+.adminSidebar {
+	height: 92%;
+	background: #fff;
+	transition: all 0.5s ease;
+}
+
+.adminSidebar .nav-links li a {
+	display: flex;
+	align-items: center;
+	text-decoration: none;
+}
+
+.adminSidebarContainer {
+	padding: 0;
+}
+
+.adminMainContainer {
+	padding: 0;
+}
+
+.nav-linksContainer {
+	margin-top: 25px;
+	transition: 0.5s ease;
+}
+
+.nav-linksContainer:hover {
+	background-color: #1d1b31;
+}
+
+.nav-links {
+	font-size: 16px;
+	padding-left: 0;
+}
+
+.icon-link {
+	color: #fff;
+}
+
+.icon-link .icon-link-left {
+	color: #fff;
+}
+
+.icon-link .icon-link-left i {
+	left: 0;
+	color: #fff;
+}
+
+.icon-link .icon-link-left span {
+	color: #fff;
+}
+
+.sub-menu {
+	margin-left: 16%;
+	list-style: none;
+	display: none;
+	text-decoration-line: none;
+}
+
+.sub-menu li {
+	margin: 10px 0px;
+}
+
+.sub-menu li a {
+	font-size: 14px;
+	color: #fff;
+	text-decoration-line: none;
+}
+
+.sub-menu li:hover {
+	border-left: 3px solid #fff;
+}
+
+.firstTable {
+	background-color: #fff;
+	margin-bottom: 0;
+}
+
+/* ë©”ì¸ í˜ì´ì§€  */
+.firstTableTitle {
+	font-size: 24px;
+}
+
+.firstTable {
+	border: 0;
+}
+
+.MemberText, .searchMemberText {
+	font-size: 18px;
+	margin-left: 9px;
+	margin-bottom: 0;
+	border: 40px;
+}
+
+.searchMemberInput {
+	margin-left: 9px;
+}
+
+tbody tr {
+	transition: 0.7s ease;
+}
+
+/* table hoverì‹œ color ë³€ê²½ */
+#tableBox:hover tbody tr:hover td {
+	background-color: #7f7f7f;
+	color: #fff;
+}
+
+/* ì´ëª¨í‹°ì½˜ cursor pointer */
+td span, .replyExit {
+	cursor: pointer;
+}
+
+.selectAllIcon {
+	cursor: pointer;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:link {
+	color: black;
+	text-decoration: none;
+}
+
+a:visited {
+	color: black;
+	text-decoration: none;
+}
+
+a:hover {
+	color: black;
+	text-decoration: underline;
+}
+</style>
+
 </head>
+
+
 <body>
-<div class="adminContainer">
-      <div class="row adminNavbar d-flex align-items-center">
-        <div
-          class="col-md-2 adminNavbar-left d-flex justify-content-center align-items-lg-center"
-        >
-          <i class="fa-brands fa-yahoo"></i>
-          <span adminNavbar-left-text>LAND</span>
-        </div>
-        <div class="col-md-10 adminNavbar-right d-flex justify-content-end">
-          <div class="adminIcon">
-            <span class="adminIconSpan">Admin</span>
-            <i class="fa-solid fa-user-check"></i>
-            <span class="adminIconLogout">·Î±×¾Æ¿ô</span>
-          </div>
-        </div>
-      </div>
-      <div class="row adminSidebar adminContent d-flex">
-        <div class="col-md-2 adminSidebarContainer">
-          <div class="nav-linksContainer nav-linksContainer1">
-            <div class="icon-link row d-flex align-items-center">
-              <div class="icon-link-left col-md-3 d-flex justify-content-end">
-                <i class="fa-solid fa-cart-shopping cart"></i>
-              </div>
-              <div class="icon-link-center col-md-6">
-                <span class="link_name cartManagement">»óÇ° °ü¸®</span>
-              </div>
-              <div class="icon-link-right col-md-3">
-                <i class="fa-solid fa-caret-down arrow arrow1"></i>
-              </div>
-            </div>
-            <ul class="sub-menu sub-menu-first">
-              <li><a href="https://www.naver.com">»óÇ° µî·Ï</a></li>
-              <li><a href="#">»óÇ° ¼öÁ¤</a></li>
-            </ul>
-          </div>
-          <div class="nav-linksContainer nav-linksContainer2">
-            <div class="icon-link row d-flex align-items-center">
-              <div class="icon-link-left col-md-3 d-flex justify-content-end">
-                <i class="fa-solid fa-user-group"></i>
-              </div>
-              <div class="icon-link-center col-md-6">
-                <span class="link_name cartManagement">È¸¿ø °ü¸®</span>
-              </div>
-              <div class="icon-link-right col-md-3">
-                <i class="fa-solid fa-caret-down arrow arrow2"></i>
-              </div>
-            </div>
-            <ul class="sub-menu sub-menu-second">
-              <li><a href="https://www.naver.com">È¸¿ø ¼öÁ¤ ¹× »èÁ¦</a></li>
-            </ul>
-          </div>
-          <div class="nav-linksContainer nav-linksContainer3">
-            <div class="icon-link row d-flex align-items-center">
-              <div class="icon-link-left col-md-3 d-flex justify-content-end">
-                <i class="fa-solid fa-truck"></i>
-              </div>
-              <div class="icon-link-center col-md-6">
-                <span class="link_name cartManagement">¹è¼Û °ü¸®</span>
-              </div>
-              <div class="icon-link-right col-md-3">
-                <i class="fa-solid fa-caret-down arrow arrow3"></i>
-              </div>
-            </div>
-            <ul class="sub-menu sub-menu-third">
-              <li><a href="https://www.naver.com">¹è¼Û Á¤º¸ º¯°æ</a></li>
-            </ul>
-          </div>
-          <div class="nav-linksContainer nav-linksContainer4">
-            <div class="icon-link row d-flex align-items-center">
-              <div class="icon-link-left col-md-3 d-flex justify-content-end">
-                <i class="fa-solid fa-clipboard-list"></i>
-              </div>
-              <div class="icon-link-center col-md-6">
-                <span class="link_name cartManagement">°Ô½ÃÆÇ °ü¸®</span>
-              </div>
-              <div class="icon-link-right col-md-3">
-                <i class="fa-solid fa-caret-down arrow arrow4"></i>
-              </div>
-            </div>
-            <ul class="sub-menu sub-menu-fourth">
-              <li><a href="#">¹®ÀÇ°ü¸®</a></li>
-              <li><a href="#">¸®ºä °ü¸®</a></li>
-            </ul>
-          </div>
-        </div>
+	<div class="adminContainer">
+		<div class="row adminNavbar d-flex align-items-center">
+			<div
+				class="col-md-2 adminNavbar-left d-flex justify-content-center align-items-lg-center">
+				<img class="logoImg" src="./resources/images/Logo3.png">
+			</div>
+			<div class="col-md-10 adminNavbar-right d-flex justify-content-end">
+				<div class="adminIcon">
+					<span class="adminIconSpan">Admin</span> <i
+						class="fa-solid fa-user-check"></i> <span class="adminIconLogout">ë¡œê·¸ì•„ì›ƒ</span>
+				</div>
+			</div>
+		</div>
+		<div class="row adminSidebar adminContent d-flex">
+			<div class="col-md-2 adminSidebarContainer">
+				<div class="nav-linksContainer nav-linksContainer1">
+					<div class="icon-link row d-flex align-items-center">
+						<div class="icon-link-left col-md-3 d-flex justify-content-end">
+							<i class="fa-solid fa-cart-shopping cart"></i>
+						</div>
+						<div class="icon-link-center col-md-6">
+							<span class="link_name cartManagement">ìƒí’ˆ ê´€ë¦¬</span>
+						</div>
+						<div class="icon-link-right col-md-3">
+							<i class="fa-solid fa-caret-down arrow arrow1"></i>
+						</div>
+					</div>
+					<ul class="sub-menu sub-menu-first">
+						<li><a href="/admin/product/productInsert.jsp">ìƒí’ˆ ë“±ë¡</a></li>
+						<li><a href="/modify.pc?curPage=1">ìƒí’ˆ ì¡°íšŒ</a></li>
+					</ul>
+				</div>
+				<div class="nav-linksContainer nav-linksContainer2">
+					<div class="icon-link row d-flex align-items-center">
+						<div class="icon-link-left col-md-3 d-flex justify-content-end">
+							<i class="fa-solid fa-user-group"></i>
+						</div>
+						<div class="icon-link-center col-md-6">
+							<span class="link_name cartManagement">íšŒì› ê´€ë¦¬</span>
+						</div>
+						<div class="icon-link-right col-md-3">
+							<i class="fa-solid fa-caret-down arrow arrow2"></i>
+						</div>
+					</div>
+					<ul class="sub-menu sub-menu-second">
+						<li><a href="/select.amem?curPage=1">íšŒì› ì¡°íšŒ</a></li>
+					</ul>
+				</div>
+				<div class="nav-linksContainer nav-linksContainer3">
+					<div class="icon-link row d-flex align-items-center">
+						<div class="icon-link-left col-md-3 d-flex justify-content-end">
+							<i class="fa-solid fa-truck"></i>
+						</div>
+						<div class="icon-link-center col-md-6">
+							<span class="link_name cartManagement">ë°°ì†¡ ê´€ë¦¬</span>
+						</div>
+						<div class="icon-link-right col-md-3">
+							<i class="fa-solid fa-caret-down arrow arrow3"></i>
+						</div>
+					</div>
+					<ul class="sub-menu sub-menu-third">
+						<li><a href="/shipManage.sh?curPage=1">ë°°ì†¡ ì •ë³´ ë³€ê²½</a></li>
+					</ul>
+				</div>
+				<div class="nav-linksContainer nav-linksContainer4">
+					<div class="icon-link row d-flex align-items-center">
+						<div class="icon-link-left col-md-3 d-flex justify-content-end">
+							<i class="fa-solid fa-clipboard-list"></i>
+						</div>
+						<div class="icon-link-center col-md-6">
+							<span class="link_name cartManagement">ê²Œì‹œíŒ ê´€ë¦¬</span>
+						</div>
+						<div class="icon-link-right col-md-3">
+							<i class="fa-solid fa-caret-down arrow arrow4"></i>
+						</div>
+					</div>
+					<ul class="sub-menu sub-menu-fourth">
+						<li><a href="/boardQna.qna?curPage=1">ë¬¸ì˜ ê´€ë¦¬</a></li>
+						<li><a href="/review.rv?curPage=1">ë¦¬ë·° ê´€ë¦¬</a></li>
+					</ul>
+				</div>
+			</div>
 
-        <!-- ¸ŞÀÎ ºÎºĞ -->
-        <div class="col-md-10 adminMainContainer">
-          <div class="table firstTable">
-            <h3 class="text-center mt-3 firstTableTitle">¹®ÀÇ °ü¸®</h3>
-            <!-- <h3 class="MemberText" style="border-top-width: 0px;">È¸¿ø ¸ñ·Ï</h3> -->
-            <div
-              class="boardCategory d-flex justify-content-center mt-4"
-              style="border-top-width: 0px"
-            >
-              <select
-                class="form-select w-25"
-                aria-label="Default select example"
-                id="category-Selector"
-              >
-                <option value="shipment" class="category-Shipment">¹è¼Û</option>
-                <option value="payment" class="category-Payment">°áÁ¦</option>
-                <option value="event" class="category-Event">ÀÌº¥Æ®</option>
-              </select>
-            </div>
-            <div class="selectAll ms-4" style="border-top-width: 0px">
-              <i class="fa-solid fa-folder-open"></i>
-              <span class="ms-2">ÀüÃ¼Á¶È¸</span>
-            </div>
-            <div class="boardContainer" style="border-top-width: 0px">
-              <table
-                class="table table-striped boardTable text-center mt-3"
-                id="tableBox"
-              >
-                <thead>
-                  <tr>
-                    <th scope="col">¹®ÀÇ ¹øÈ£</th>
-                    <th scope="col">¹®ÀÇ À¯Çü</th>
-                    <th scope="col">È¸¿øID</th>
-                    <th scope="col">Á¦¸ñ</th>
-                    <th scope="col">³¯Â¥</th>
-                    <th scope="col">µî·Ï</th>
-                    <th scope="col">´äº¯ ¿©ºÎ</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>¹è¼Û</td>
-                    <td>kh123</td>
-                    <td>¹è¼Û °ü·Ã ¹®ÀÇµå¸³´Ï´Ù</td>
-                    <td>2022³â 05³â 21ÀÏ 11½Ã 08ºĞ</td>
-                    <td>
-                      <span class="boardRegister"
-                        ><i class="fa-solid fa-pen-to-square"></i
-                      ></span>
-                    </td>
-                    <td>
-                      <span class="replyCheck">´äº¯ ¿Ï·á</span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+			<!-- ë©”ì¸ ë¶€ë¶„ -->
+			<div class="col-md-10 adminMainContainer">
+				<div class="table firstTable">
+					<h2 class="text-center mt-5 firstTableTitle">ë¬¸ì˜ ê´€ë¦¬</h2>
 
-              <!-- ÆäÀÌÁö³×ÀÌ¼Ç -->
-              <div
-                class="pageNationContainer d-flex justify-content-center mt-2"
-              >
-                <nav aria-label="Page navigation example">
-                  <ul class="pagination">
-                    <li class="page-item">
-                      <a class="page-link" href="#">Previous</a>
-                    </li>
-                    <li class="page-item">
-                      <a class="page-link" href="#">1</a>
-                    </li>
-                    <li class="page-item">
-                      <a class="page-link" href="#">2</a>
-                    </li>
-                    <li class="page-item">
-                      <a class="page-link" href="#">3</a>
-                    </li>
-                    <li class="page-item">
-                      <a class="page-link" href="#">4</a>
-                    </li>
-                    <li class="page-item">
-                      <a class="page-link" href="#">5</a>
-                    </li>
-                    <li class="page-item">
-                      <a class="page-link" href="#">Next</a>
-                    </li>
-                  </ul>
-                </nav>
-              </div>
-            </div>
-          </div>
+					<!-- ë¬¸ì˜ ê³ ë¥´ê¸° -->
+					<div class="boardCategory d-flex justify-content-center mt-4"
+						style="border-top-width: 0px">
+						<select class="form-select w-25" id="category-Selector">
+							<option>ë¬¸ì˜ ìœ í˜•</option>
+							<option value="ë°°ì†¡" class="category-Shipment" name="shipment">ë°°ì†¡</option>
+							<option value="ê²°ì œ" class="category-Payment" name="payment">ê²°ì œ</option>
+						</select>
+					</div>
 
-          <!-- »èÁ¦ ¸ğ´Ş  -->
-          <div class="boardDeleteModal">
-            <div class="text-center mt-4">
-              ÇØ´ç ±ÛÀ» Á¤¸»·Î »èÁ¦ ÇÏ½Ã°Ú½À´Ï±î?
-            </div>
-            <div class="row mt-3">
-              <div class="col-md-6 d-flex justify-content-end">
-                <button
-                  type="button"
-                  class="btn btn-primary btn-sm"
-                  id="boardDeleteCancelBtn"
-                >
-                  Ãë¼Ò
-                </button>
-              </div>
-              <div class="col-md-6">
-                <button
-                  type="button"
-                  class="btn btn-danger btn-sm"
-                  id="boardDeleteBtn"
-                >
-                  »èÁ¦
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-<<<<<<< HEAD
-=======
-    <script src="<%=request.getContextPath()%>script/boardManage.js"></script>
->>>>>>> 7ba77a9516e91d826e59737b05896dcb861e1211
+					<!-- ì „ì²´ ì¡°íšŒ ë²„íŠ¼ -->
+					<div class="selectAll ms-4" style="border-top-width: 0px">
+						<i class="fa-solid fa-folder-open"></i> <span
+							class="ms-2 selectAllIcon">ì „ì²´ì¡°íšŒ</span>
+					</div>
+
+					<!-- í…Œì´ë¸” ìƒì„± -->
+					<div class="boardContainer" style="border-top-width: 0px">
+						<table class="table table-striped boardTable text-center mt-3"
+							id="tableBox">
+							<thead>
+								<tr>
+									<th scope="col">ë¬¸ì˜ ë²ˆí˜¸</th>
+									<th scope="col">ë¬¸ì˜ ìœ í˜•</th>
+									<th scope="col">íšŒì›ID</th>
+									<th scope="col">ì œëª©</th>
+									<th scope="col">ë‚ ì§œ</th>
+									<th scope="col">ë“±ë¡</th>
+									<th scope="col">ë‹µë³€ìœ ë¬´</th>
+								</tr>
+							</thead>
+							<tbody class="table-body">
+								<c:choose>
+									<c:when test="${list.size() == 0}">
+										<tr>
+											<td colspan=7>ë“±ë¡ëœ ì •ë³´ê°€ ì—†ìŠµë‹ˆë‹¤.</td>
+										</tr>
+									</c:when>
+									<c:otherwise>
+										<c:forEach items="${list}" var="dto">
+											<tr>
+												<td class="align-middle">${dto.seq_qna}</td>
+												<td class="align-middle">${dto.qna_type}</td>
+												<td class="align-middle">${dto.user_id}</td>
+												<td class="align-middle">${dto.qna_title}</td>
+												<td class="align-middle">${dto.qna_date}</td>
+												<td><a
+													href="/boardQnaRegister.qna?seq_qna=${dto.seq_qna}"><i
+														class="fa-solid fa-pen-to-square"></i>
+												</a></td>
+												<c:if test="${dto.qna_status eq 'ë‹µë³€ëŒ€ê¸°'}">
+													<td class="align-middle">ë‹µë³€ëŒ€ê¸°</td>
+												</c:if>
+												<c:if test="${dto.qna_status eq 'ë‹µë³€ì™„ë£Œ'}">
+													<td class="align-middle">ë‹µë³€ì™„ë£Œ</td>
+												</c:if>
+											</tr>
+										</c:forEach>
+									</c:otherwise>
+								</c:choose>
+							</tbody>
+						</table>
+					</div>
+
+					<!-- í˜ì´ì§€ë„¤ì´ì…˜ -->
+					<nav style="border-top-width: 0px;" class="PageNavigation">
+						<ul class="pagination justify-content-center">
+							<c:if test="${naviMap.needPrev eq true}">
+								<li class="page-item"><a class="page-link pageBtn1"
+									href="/boardQna.qna?curPage=${naviMap.startNavi-1}">Prev</a></li>
+							</c:if>
+
+							<c:forEach var="pageNum" begin="${naviMap.startNavi}"
+								end="${naviMap.endNavi}" step="1">
+								<li class="page-item"><a
+									class="page-link pageActive${pageNum}"
+									href="/boardQna.qna?curPage=${pageNum}">${pageNum}</a></li>
+							</c:forEach>
+
+							<c:if test="${naviMap.needNext eq true}">
+								<li class="page-item"><a class="page-link pageBtn3"
+									href="/boardQna.qna?curPage=${naviMap.endNavi+1}">Next</a></li>
+							</c:if>
+						</ul>
+					</nav>
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+	</div>
+	</div>
+	<script>
+		// ì‚¬ì´ë“œ ë„¤ë¸Œë°”
+		$(".arrow1").on("click", function() {
+			$(".sub-menu-first").toggle("4000ms");
+		});
+
+		$(".arrow2").on("click", function() {
+			$(".sub-menu-second").toggle("4000ms");
+		});
+
+		$(".arrow3").on("click", function() {
+			$(".sub-menu-third").toggle("4000ms");
+		});
+
+		$(".arrow4").on("click", function() {
+			$(".sub-menu-fourth").toggle("4000ms");
+		});
+		$(".logoImg").on("click",function(){
+	          location.href = "/admin.ad"
+	       })
+	       $(".adminIconLogout").on("click",function(){
+	         location.href = "/Tohome";
+	      })
+		// í˜ì´ì§€ ë„¤ì´ì…˜ action
+		let active = $(".page-link").text();
+		let activePage = '${curPage}';
+		console.log("active : " + active);
+		console.log("active.length : " + active.length);
+		console.log("activePage : " + activePage);
+		for (let i = 0; i < active.length; i++) {
+			console.log("asdasd : " + active[i]);
+			if (active[i] == activePage) {
+				console.log(active[i]);
+				console.log(activePage);
+				$(".pageActive" + (i + 1)).css({
+					"background-color" : "#13213c",
+					"color" : "white"
+				});
+				break;
+			}
+		}
+		// ì „ì²´ì¡°íšŒ í´ë¦­ì‹œ ì´ë™
+		$(".selectAllIcon").on("click", function() {
+			location.href = "/boardQna.qna?curPage=1";
+		})
+
+		// selectì—ì„œ ì„ íƒëœ í•´ë‹¹ valueë¥¼ ì´ìš©í•´ í˜ì´ì§€ ì´ë™
+		$(document)
+				.ready(
+						function() {
+							$("#category-Selector")
+									.change(
+											function() {
+												let selectedVal = $(this).val();
+												console.log("hello");
+												console.log(selectedVal);
+												location.href = "/selectedProc.qna?curPage=1&selectedVal="
+														+ selectedVal;
+											});
+						})
+	</script>
+
 </body>
 </html>

@@ -1,11 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+pageEncoding="UTF-8"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core"
+prefix="c"%>
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="EUC-KR">
-<title>ªÛ«∞ ºˆ¡§ π◊ ªË¡¶</title>
-<script
+  <head>
+    <meta charset="EUC-KR" />
+    <title>ÏÉÅÌíà Ï°∞Ìöå</title>
+    <script
       src="https://kit.fontawesome.com/f9358a6ceb.js"
       crossorigin="anonymous"
     ></script>
@@ -25,237 +26,451 @@
       integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
       crossorigin="anonymous"
     ></script>
-<link href="<%=request.getContextPath()%>css/productModify.css" rel="stylesheet"/>
-</head>
-<body>
-	<div class="adminContainer">
-		<div class="row adminNavbar d-flex align-items-center">
-			<div
-				class="col-md-2 adminNavbar-left d-flex justify-content-center align-items-lg-center">
-				<i class="fa-brands fa-yahoo"></i> <span adminNavbar-left-text>LAND</span>
-			</div>
-			<div class="col-md-10 adminNavbar-right d-flex justify-content-end">
-				<div class="adminIcon">
-					<span class="adminIconSpan">Admin</span> <i
-						class="fa-solid fa-user-check"></i> <span class="adminIconLogout">∑Œ±◊æ∆øÙ</span>
-				</div>
-			</div>
-		</div>
-		<div class="row adminSidebar adminContent d-flex">
-			<div class="col-md-2 adminSidebarContainer">
-				<div class="nav-linksContainer nav-linksContainer1">
-					<div class="icon-link row d-flex align-items-center">
-						<div class="icon-link-left col-md-3 d-flex justify-content-end">
-							<i class="fa-solid fa-cart-shopping cart"></i>
-						</div>
-						<div class="icon-link-center col-md-6">
-							<span class="link_name cartManagement">ªÛ«∞ ∞¸∏Æ</span>
-						</div>
-						<div class="icon-link-right col-md-3">
-							<i class="fa-solid fa-caret-down arrow arrow1"></i>
-						</div>
-					</div>
-					<ul class="sub-menu sub-menu-first">
-						<li><a href="https://www.naver.com">ªÛ«∞ µÓ∑œ</a></li>
-						<li><a href="#">ªÛ«∞ ºˆ¡§</a></li>
-					</ul>
-				</div>
-				<div class="nav-linksContainer nav-linksContainer2">
-					<div class="icon-link row d-flex align-items-center">
-						<div class="icon-link-left col-md-3 d-flex justify-content-end">
-							<i class="fa-solid fa-user-group"></i>
-						</div>
-						<div class="icon-link-center col-md-6">
-							<span class="link_name cartManagement">»∏ø¯ ∞¸∏Æ</span>
-						</div>
-						<div class="icon-link-right col-md-3">
-							<i class="fa-solid fa-caret-down arrow arrow2"></i>
-						</div>
-					</div>
-					<ul class="sub-menu sub-menu-second">
-						<li><a href="https://www.naver.com">»∏ø¯ ºˆ¡§ π◊ ªË¡¶</a></li>
-					</ul>
-				</div>
-				<div class="nav-linksContainer nav-linksContainer3">
-					<div class="icon-link row d-flex align-items-center">
-						<div class="icon-link-left col-md-3 d-flex justify-content-end">
-							<i class="fa-solid fa-truck"></i>
-						</div>
-						<div class="icon-link-center col-md-6">
-							<span class="link_name cartManagement">πËº€ ∞¸∏Æ</span>
-						</div>
-						<div class="icon-link-right col-md-3">
-							<i class="fa-solid fa-caret-down arrow arrow3"></i>
-						</div>
-					</div>
-					<ul class="sub-menu sub-menu-third">
-						<li><a href="https://www.naver.com">πËº€ ¡§∫∏ ∫Ø∞Ê</a></li>
-					</ul>
-				</div>
-				<div class="nav-linksContainer nav-linksContainer4">
-					<div class="icon-link row d-flex align-items-center">
-						<div class="icon-link-left col-md-3 d-flex justify-content-end">
-							<i class="fa-solid fa-clipboard-list"></i>
-						</div>
-						<div class="icon-link-center col-md-6">
-							<span class="link_name cartManagement">∞‘Ω√∆« ∞¸∏Æ</span>
-						</div>
-						<div class="icon-link-right col-md-3">
-							<i class="fa-solid fa-caret-down arrow arrow4"></i>
-						</div>
-					</div>
-					<ul class="sub-menu sub-menu-fourth">
-						<li><a href="#">πÆ¿« ∞¸∏Æ</a></li>
-						<li><a href="#">∏Æ∫‰ ∞¸∏Æ</a></li>
-					</ul>
-				</div>
-			</div>
-			<div class="col-md-10 adminMainContainer">
-				<div class="table firstTable">
-					<h3 class="text-center mt-3 firstTableTitle">ªÛ«∞ ºˆ¡§ π◊ ªË¡¶</h3>
-					<div class="input-group rounded w-25 searchMemberInput mt-2 mb-3">
-						<input type="search" class="form-control rounded"
-							placeholder="Search" aria-label="Search"
-							aria-describedby="search-addon" /> <span
-							class="input-group-text border-0" id="search-addon"> <i
-							class="fas fa-search"></i>
-						</span>
-					</div>
-					<div class="selectAll ms-4" style="border-top-width: 0px">
-						<i class="fa-solid fa-folder-open"></i> <span class="ms-2">¿¸√º¡∂»∏</span>
-					</div>
-					<div class="MemberContainer" style="border-top-width: 0px">
-						<table class="table table-striped memberTable text-center mt-3"
-							id="tableBox">
-							<thead>
-								<tr>
-									<th scope="col">ªÛ«∞ ƒ´≈◊∞Ì∏Æ</th>
-									<th scope="col">ªÛ«∞ ƒ⁄µÂ</th>
-									<th scope="col">ªÛ«∞ ¿Ã∏ß</th>
-									<th scope="col">ªÛ«∞ ∞°∞›</th>
-									<th scope="col">ªË¡¶</th>
-									<th scope="col">ºˆ¡§</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td id="category">»ƒµÂ∆º</td>
-									<td>B0209128FF12</td>
-									<td>∫£¿Ã¡˜ ∫Ú∑Œ∞Ì »ƒµÂ∆º ¥∫øÂæÁ≈∞Ω∫</td>
-									<td>9,900</td>
-									<td id="icon"><span class="text-center memberDelete"><i
-											class="fa-solid fa-trash"></i></span></td>
-									<td id="icon"><span class="memberModify"><i
-											class="fa-solid fa-pencil"></i></span></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-					<div class="modal">
-						<div class="modal_content">
-							<div class="row">
-								<div class="col d-flex justify-content-center">
-									<h4>ªÛ«∞ºˆ¡§</h4>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-4 d-flex justify-content-start">
-									<h5>ªÛ«∞ ƒ´≈◊∞Ì∏Æ</h5>
-								</div>
-								<div class="col-8 d-flex justify-content-start">
-									<select class="form-select" aria-label="Default select example">
-										<option selected>ƒ´≈◊∞Ì∏Æ º≥¡§</option>
-										<option value="1">∏«≈ı∏«</option>
-										<option value="2">»ƒµÂ∆º</option>
-										<option value="3">º≈√˜</option>
-									</select>
-								</div>
-							</div>
-							<div class="row content-body">
-								<div class="col-md-4 d-flex justify-content-start">
-									<h5>ªÛ«∞ ¿Ã∏ß</h5>
-								</div>
-								<div class="col-md-8 d-flex justify-content-start">
-									<input type="text" id="product_name" name=""
-										class="form-control" />
-								</div>
-							</div>
-							<div class="row content-body">
-								<div class="col-md-4 d-flex justify-content-start">
-									<h5>ªÛ«∞ ∞°∞›</h5>
-								</div>
-								<div class="col-md-7 d-flex justify-content-start">
-									<input type="text" id="product_price" name=""
-										onkeyup="inputNumberFormat(this) " class="form-control" />
-								</div>
-								<div class="col-md-1 d-flex justify-content-end price_text">
-									<h4>ø¯</h4>
-								</div>
-							</div>
-							<div class="row content-body">
-								<div class="col-md-4 d-flex justify-content-start">
-									<h5>ªÛ«∞ ƒ⁄µÂ</h5>
-								</div>
-								<div class="col-md-8 d-flex justify-content-start">
-									<input type="text" id="product_code" name=""
-										class="form-control" />
-								</div>
-							</div>
-							<div class="row content-body">
-								<div class="col-md-4 d-flex justify-content-start">
-									<h5>ªÛ«∞ ªÁ¿Ã¡Ó</h5>
-								</div>
-								<div class="col-md-8 d-flex justify-content-start">
-									<input type="text" id="product_size" name=""
-										class="form-control" value="FREE" readonly />
-								</div>
-							</div>
-							<div class="row content-body">
-								<div class="col-md-4 d-flex justify-content-start">
-									<h5>ªÛ«∞ º≥∏Ì</h5>
-								</div>
-								<div class="col-md-8 d-flex justify-content-start">
-									<textarea type="text" id="product_explain" name=""
-										class="form-control"></textarea>
-								</div>
-							</div>
-							<div class="row content-body">
-								<div class="col-md-4 d-flex justify-content-start mb-5 mt-4">
-									<h5>¿ÃπÃ¡ˆ</h5>
-								</div>
-								<div class="col-md-8 d-flex justify-content-start">
-									<input class="form-control" type="file" name="" id="" multiple />
-								</div>
-							</div>
-							<div class="row content-body">
-								<div class="col-md-12 d-flex justify-content-center">
-									<button type="button" id="cancelBtn"
-										class="btn btn-secondary btn-lg m-2">
-										√Îº“</button>
-									<button type="button" id="submitBtn"
-										class="btn btn-primary btn-lg m-2">
-										µÓ∑œ</button>
-								</div>
-							</div>
-						</div>
-					</div>
-					<nav aria-label="Page navigation example">
-						<ul class="pagination justify-content-center">
-							<li class="page-item"><a class="page-link" href="#"
-								aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-							</a></li>
-							<li class="page-item"><a class="page-link" href="#">1</a></li>
-							<li class="page-item"><a class="page-link" href="#">2</a></li>
-							<li class="page-item"><a class="page-link" href="#">3</a></li>
-							<li class="page-item"><a class="page-link" href="#"
-								aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-							</a></li>
-						</ul>
-					</nav>
-				</div>
-			</div>
-		</div>
-	</div>
-	<script src="<%=request.getContextPath()%>script/productModify.js"></script>
-</body>
+    <%--
+    <link
+      href="<%=request.getContextPath()%>css/productModify.css"
+      rel="stylesheet"
+    />
+    --%>
+    <style>
+      /* navbar & maincontainer */
+      .logoImg{
+      	width:100px;
+      	height : 55px;
+      	cursor:pointer;
+      }
+      .adminContainer {
+        height: 100vh;
+        background-color: black;
+      }
+
+      .titleLogo {
+        cursor: pointer;
+      }
+
+      .adminNavbar {
+        margin: 0;
+        background-color: #212e41;
+        color: #fff;
+        height: 8%;
+      }
+
+      .adminNavbar-left {
+        font-size: 26px;
+      }
+
+      .adminNavbar-left span {
+        cursor: pointer;
+      }
+
+      .adminMain {
+        background-color: blue;
+      }
+
+      .adminContent {
+        margin: 0;
+        height: 92%;
+      }
+
+      .adminSidebarContainer {
+        background-color: #212e41;
+        color: #fff;
+      }
+
+      .adminMainContainer {
+        background-color: none;
+      }
+
+      ul {
+        list-style: none;
+      }
+
+      .adminIcon {
+        margin-right: 30px;
+      }
+
+      .adminIconSpan {
+        margin-right: 12px;
+      }
+
+      .adminIconLogout {
+        margin-left: 26px;
+        cursor: pointer;
+      }
+
+      /* sidebar navlink */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      .adminSidebar {
+        height: 92%;
+        background: #fff;
+        transition: all 0.5s ease;
+      }
+
+      .adminSidebar .nav-links li a {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+      }
+
+      .nav-linksContainer {
+        margin-top: 25px;
+        transition: 0.5s ease;
+      }
+
+      .nav-linksContainer:hover {
+        background-color: #1d1b31;
+      }
+
+      .nav-links {
+        font-size: 16px;
+        padding-left: 0;
+      }
+
+      .icon-link {
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        color: #fff;
+      }
+
+      .icon-link .icon-link-left {
+        color: #fff;
+      }
+
+      .icon-link .icon-link-left i {
+        left: 0;
+        margin-right: 16px;
+        color: #fff;
+      }
+
+      .icon-link .icon-link-left span {
+        color: #fff;
+      }
+
+      .sub-menu {
+        margin-left: 36px;
+        list-style: none;
+        display: none;
+      }
+
+      .sub-menu li {
+        margin: 10px 0px;
+      }
+
+      .sub-menu li a {
+        font-size: 14px;
+        color: #fff;
+      }
+
+      .sub-menu li:hover {
+        border-left: 3px solid #fff;
+      }
+
+      a {
+        text-decoration: none;
+      }
+
+      a:link {
+        color: black;
+        text-decoration: none;
+      }
+
+      a:visited {
+        color: black;
+        text-decoration: none;
+      }
+
+      a:hover {
+        color: black;
+        text-decoration: underline;
+      }
+      /* Î©îÏù∏ ÌéòÏù¥ÏßÄ */
+      .table > :not(:first-child) {
+        border-top: none;
+      }
+
+      .productModify {
+        cursor: pointer;
+      }
+
+      .searchMemberInput {
+        margin-left: auto;
+      }
+
+      #searchBtn {
+        cursor: pointer;
+      }
+
+      #tableBox > tbody > tr {
+        height: 41px;
+      }
+
+      #textAllSelect {
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="adminContainer">
+      <div class="row adminNavbar d-flex align-items-center">
+        <div
+          class="col-md-2 adminNavbar-left d-flex justify-content-center align-items-lg-center"
+        >
+          <img class="logoImg" src="./resources/images/Logo3.png">
+        </div>
+        <div class="col-md-10 adminNavbar-right d-flex justify-content-end">
+          <div class="adminIcon">
+            <span class="adminIconSpan">Admin</span>
+            <i class="fa-solid fa-user-check"></i>
+            <span class="adminIconLogout">Î°úÍ∑∏ÏïÑÏõÉ</span>
+          </div>
+        </div>
+      </div>
+      <div class="row adminSidebar adminContent d-flex">
+        <div class="col-md-2 adminSidebarContainer">
+          <div class="nav-linksContainer nav-linksContainer1">
+            <div class="icon-link row d-flex align-items-center">
+              <div class="icon-link-left col-md-3 d-flex justify-content-end">
+                <i class="fa-solid fa-cart-shopping cart"></i>
+              </div>
+              <div class="icon-link-center col-md-6">
+                <span class="link_name cartManagement">ÏÉÅÌíà Í¥ÄÎ¶¨</span>
+              </div>
+              <div class="icon-link-right col-md-3">
+                <i class="fa-solid fa-caret-down arrow arrow1"></i>
+              </div>
+            </div>
+            <ul class="sub-menu sub-menu-first">
+              <li><a href="/admin/product/productInsert.jsp">ÏÉÅÌíà Îì±Î°ù</a></li>
+              <li><a href="/modify.pc?curPage=1">ÏÉÅÌíà Ï°∞Ìöå</a></li>
+            </ul>
+          </div>
+          <div class="nav-linksContainer nav-linksContainer2">
+            <div class="icon-link row d-flex align-items-center">
+              <div class="icon-link-left col-md-3 d-flex justify-content-end">
+                <i class="fa-solid fa-user-group"></i>
+              </div>
+              <div class="icon-link-center col-md-6">
+                <span class="link_name cartManagement">ÌöåÏõê Í¥ÄÎ¶¨</span>
+              </div>
+              <div class="icon-link-right col-md-3">
+                <i class="fa-solid fa-caret-down arrow arrow2"></i>
+              </div>
+            </div>
+            <ul class="sub-menu sub-menu-second">
+              <li><a href="/select.amem?curPage=1">ÌöåÏõê Ï°∞Ìöå</a></li>
+            </ul>
+          </div>
+          <div class="nav-linksContainer nav-linksContainer3">
+            <div class="icon-link row d-flex align-items-center">
+              <div class="icon-link-left col-md-3 d-flex justify-content-end">
+                <i class="fa-solid fa-truck"></i>
+              </div>
+              <div class="icon-link-center col-md-6">
+                <span class="link_name cartManagement">Î∞∞ÏÜ° Í¥ÄÎ¶¨</span>
+              </div>
+              <div class="icon-link-right col-md-3">
+                <i class="fa-solid fa-caret-down arrow arrow3"></i>
+              </div>
+            </div>
+            <ul class="sub-menu sub-menu-third">
+              <li><a href="/shipManage.sh?curPage=1">Î∞∞ÏÜ° Ï†ïÎ≥¥ Î≥ÄÍ≤Ω</a></li>
+            </ul>
+          </div>
+          <div class="nav-linksContainer nav-linksContainer4">
+            <div class="icon-link row d-flex align-items-center">
+              <div class="icon-link-left col-md-3 d-flex justify-content-end">
+                <i class="fa-solid fa-clipboard-list"></i>
+              </div>
+              <div class="icon-link-center col-md-6">
+                <span class="link_name cartManagement">Í≤åÏãúÌåê Í¥ÄÎ¶¨</span>
+              </div>
+              <div class="icon-link-right col-md-3">
+                <i class="fa-solid fa-caret-down arrow arrow4"></i>
+              </div>
+            </div>
+            <ul class="sub-menu sub-menu-fourth">
+              <li><a href="/boardQna.qna?curPage=1">Î¨∏Ïùò Í¥ÄÎ¶¨</a></li>
+              <li><a href="/review.rv?curPage=1">Î¶¨Î∑∞ Í¥ÄÎ¶¨</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-10 adminMainContainer">
+          <div class="table firstTable">
+            <h2 class="text-center mt-5 firstTableTitle">ÏÉÅÌíà Ï°∞Ìöå</h2>
+            <div class="input-group rounded w-25 searchMemberInput mt-2 mb-3">
+              <input
+                type="text"
+                class="form-control rounded"
+                placeholder="ÏÉÅÌíàÏΩîÎìú ÏûÖÎ†•"
+                aria-label="Search"
+                id="searchWord"
+                name="searchWord"
+                aria-describedby="search-addon"
+                onKeypress="if(event.keyCode==13){enterKey()}"
+              />
+              <span class="input-group-text border-0" id="searchBtn">
+                <i class="fas fa-search"></i>
+              </span>
+            </div>
+            <div class="selectAll ms-4" style="border-top-width: 0px">
+              <i class="fa-solid fa-folder-open"></i>
+              <span class="ms-2" id="textAllSelect">Ï†ÑÏ≤¥Ï°∞Ìöå</span>
+            </div>
+            <div class="MemberContainer" style="border-top-width: 0px">
+              <table
+                class="table table-striped memberTable text-center mt-3"
+                id="tableBox"
+              >
+                <thead>
+                  <tr>
+                    <th scope="col">ÏÉÅÌíà Î≤àÌò∏</th>
+                    <th scope="col">ÏÉÅÌíà Ïπ¥ÌÖåÍ≥†Î¶¨</th>
+                    <th scope="col">ÏÉÅÌíà ÏΩîÎìú</th>
+                    <th scope="col">ÏÉÅÌíà Ïù¥Î¶Ñ</th>
+                    <th scope="col">ÏÉÅÌíà Í∞ÄÍ≤©</th>
+                    <th scope="col">ÏàòÏ†ï</th>
+                  </tr>
+                </thead>
+                <tbody class="productBoard">
+                  <c:choose>
+                    <c:when test="${list.size() == 0}">
+                      <tr>
+                        <td colspan="6">Îì±Î°ùÎêú ÏÉÅÌíàÏù¥ ÏóÜÏäµÎãàÎã§.</td>
+                      </tr>
+                    </c:when>
+                    <c:otherwise>
+                      <c:forEach items="${list}" var="dto">
+                        <tr>
+                          <td>${dto.getSeq_product()}</td>
+                          <td>${dto.getCategory()}</td>
+                          <td>${dto.getProduct_code()}</td>
+                          <td>${dto.getProduct_name()}</td>
+                          <td>${dto.getProduct_price()}</td>
+                          <td id="icon">
+                            <span class="productModify"
+                              ><i class="fa-solid fa-pencil"></i
+                            ></span>
+                          </td>
+                        </tr>
+                      </c:forEach>
+                    </c:otherwise>
+                  </c:choose>
+                </tbody>
+              </table>
+            </div>
+            <nav aria-label="Page navigation example">
+              <ul class="pagination justify-content-center">
+                <c:if test="${naviMap.Prev eq true}">
+                  <li class="page-item">
+                    <a
+                      class="page-link"
+                      href="/modify.pc?curPage=${naviMap.startNavi-1}"
+                      aria-label="Previous"
+                    >
+                      <span aria-hidden="true">&laquo;</span>
+                    </a>
+                  </li>
+                </c:if>
+                <c:forEach
+                  var="pageNum"
+                  begin="${naviMap.startNavi}"
+                  end="${naviMap.endNavi}"
+                  step="1"
+                >
+                  <li class="page-item">
+                    <a
+                      class="page-link pageActive${pageNum}"
+                      value="pageActive"
+                      href="/modify.pc?curPage=${pageNum}"
+                      >${pageNum}</a
+                    >
+                  </li>
+                </c:forEach>
+                <c:if test="${naviMap.Next eq true}">
+                  <li class="page-item">
+                    <a
+                      class="page-link"
+                      href="/modify.pc?curPage=${naviMap.endNavi+1}"
+                      aria-label="Next"
+                    >
+                      <span aria-hidden="true">&raquo;</span>
+                    </a>
+                  </li>
+                </c:if>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      $(".arrow1").on("click", function () {
+        $(".sub-menu-first").toggle("4000ms");
+      });
+
+      $(".arrow2").on("click", function () {
+        $(".sub-menu-second").toggle("4000ms");
+      });
+
+      $(".arrow3").on("click", function () {
+        $(".sub-menu-third").toggle("4000ms");
+      });
+      $(".arrow4").on("click", function () {
+        $(".sub-menu-fourth").toggle("4000ms");
+      });
+      $(".logoImg").on("click",function(){
+          location.href = "/admin.ad"
+       })
+       $(".adminIconLogout").on("click",function(){
+         location.href = "/Tohome";
+      })
+      $("#textAllSelect").on("click", function () {
+        location.href = "/modify.pc?curPage=1";
+      });
+      // ÏàòÏ†ï ÌÅ¥Î¶≠Ïãú
+      $(".productModify").on("click", function () {
+        let thisRow = $(this).closest("tr");
+        let seq_product = thisRow.find("td:eq(0)").html();
+        location.href = "/productmodify.pc?seq_product=" + seq_product;
+      });
+      function enterKey() {
+        $("#searchBtn").click();
+      }
+
+      // ÌéòÏù¥ÏßÄ ÎÑ§Ïù¥ÏÖò action
+      let active = $(".page-link").text();
+      let activePage = "${curPage}";
+      console.log("active : " + active);
+      console.log("active.length : " + active.length);
+      console.log("activePage : " + activePage);
+      for (let i = 0; i < active.length; i++) {
+        console.log("asdasd : " + active[i]);
+        if (active[i] == activePage) {
+          console.log(active[i]);
+          console.log(activePage);
+          $(".pageActive" + (i + 1)).css({
+            "background-color": "#13213c",
+            color: "white",
+          });
+          break;
+        }
+      }
+      $("#searchBtn").on("click", function () {
+        let searchWord = $("#searchWord").val();
+        if (searchWord == "") {
+          location.href = "/modify.pc?curPage=1";
+        } else if (searchWord != "") {
+          location.href = "/search.pc?&curPage=1&&searchWord=" + searchWord;
+        }
+      });
+    </script>
+  </body>
 </html>

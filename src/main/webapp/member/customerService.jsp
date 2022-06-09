@@ -29,40 +29,31 @@
       <script src="https://code.jquery.com/jquery-3.6.0.js"
         integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
       <link rel="stylesheet" href="<%=request.getContextPath()%>/member/css/customerService.css">
-      <title>장바구니</title>
+      <title>CS</title>
     </head>
 
     <body>
-      <div class="container MainBox mb-5">
+      <div class="container MainBox">
         <!-- 네비바 -->
         <nav class="navbar navbar-light bg-light fixed">
           <div class="container">
-            <a class="navbar-brand" href="/Tohome" id="logo"><img id="logo" src="/resources/images/Logo.png" alt="HypeFriend"></a>
-            <div class="col-md-1  navbar-anchor"><a href="/">COMPANY</a></div>
+            <a class="navbar-brand" href="/Tohome" id="logo"><img id="logo" src="/resources/images/Logo3.png" alt="HypeFriend"></a>
+            <div class="col-md-1  navbar-anchor"><a href="/ToCompany.page">COMPANY</a></div>
             <div class="dropdown ">
               <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"
                 style="font-weight: bold;">
                 CLOTHES
               </button>
               <ul class="dropdown-menu nav-category" aria-labelledby="dropdownMenuButton1">
-                <li><a class="dropdown-item" href="#">Top</a></li>
-                <li><a class="dropdown-item" href="#">Bottom</a></li>
-                <li><a class="dropdown-item" href="#">Accessory</a></li>
+                <li><a class="dropdown-item" href="/ToPage.page?category=TOP">TOP</a></li>
+				<li><a class="dropdown-item" href="/ToPage.page?category=BOTTOM">BOTTOM</a></li>
+				<li><a class="dropdown-item" href="/ToPage.page?category=ACCESSORY">ACCESSORY</a></li>
+				<li><a class="dropdown-item" href="/ToPage.page?category=BAG">BAG</a></li>
               </ul>
             </div>
-            <div class="col-md-1 navbar-anchor"><a href="/">Shop</a></div>
+            <div class="col-md-1 navbar-anchor"><a href="/TosearchMap.page">Shop</a></div>
             <div class="col-md-1 navbar-anchor"><a href="/toCs.mem">CS</a></div>
-            <!-- 네비바 검색창 -->
-            <!-- <%-- <div class="col-md-4 navbar-anchor" id="navbar-search">
-              <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-                <div class="input-group">
-                  <button class="btn btn-link" style="border: 1px solid lightgrey;" id="btnSearch" type="button"><i
-                      id="searchIcon" class="fas fa-search"></i></button>
-                  <input class="form-control" type="text" aria-describedby="btnNavbarSearch" />
-                </div>
-              </form>
-              </button>
-            </div> --%> -->
+            
             <div class="col-md-4 navbar-anchor" id="userIcon">
               <c:choose>
                 <c:when test="${not empty loginSession}">
@@ -102,6 +93,7 @@
           </div>
         </nav>
       </div>
+
       <input id="url" name="url" type="hidden" value="/toCs.mem">
 
       <!-- 바디-->
@@ -109,20 +101,23 @@
         <div class="container no-lineBox justify-content align-items">
           <div style="margin-top:100px; text-align: left;">
             <div>
-              <p>하잇프랜드 고객센터</p>
+              <p>HypeFriend CS</p>
             </div>
           </div>
         </div>
         <div class="container contentBox justify-content align-items">
           <div class="row">
-            <div class="col-12 col-sm-3">
+            <div class="col-12 col-sm-3 mt-5">
               <div>
-                <img class="d-inline-block" src="images/Logo.png" alt="">
+                <img class="d-inline-block" src="/resources/images/Logo3.png" alt="">
               </div>
             </div>
             <div class="col-12 col-sm-9">
               <div class="greetBox">
-                <P>고객센터 인사말</P>
+                <p style="font-size: 2rem; margin: 0 0 10px 0;"><strong>도움이 필요하세요?</strong></p>
+                <span style="font-size: 1rem;">고객님이 자주 찾는 질문에 대한 궁금증을 해결해 드립니다. <br>
+                  귀하께서 보내주시는 의견이나 질문은 <br>
+                  향후 상품 개발 및 서비스 개선에 도움이 됩니다.</span>
               </div>
             </div>
           </div>
@@ -131,7 +126,7 @@
         <div class="container no-lineBox2 justify-content align-items">
           <div style="margin-top:0px; text-align: left; ">
             <div>
-              <p>대표적인 Q&A</p>
+              <p>FAQ</p>
             </div>
           </div>
         </div>
@@ -144,7 +139,7 @@
                 <div class="accordion-item">
                   <h2 class="accordion-header" id="FAQToggle">
                     <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                      data-bs-target="#collapseFAQ" aria-expanded="true" aria-controls="collapseOne">
+                      data-bs-target="#collapseFAQ" aria-expanded="true" aria-controls="collapseOne" style="background: #d3d3d330;">
                       <h6><Strong>대표적인 Q&A</Strong></h6>
                     </button>
                   </h2>
@@ -284,8 +279,8 @@
             <div class="container hrefBox justify-content align-items" style="margin-bottom: 50px"
               onclick="location.href='/toWrite.mem'">
               <div class="row">
-                <div class="col-12">
-                  <h6 style="padding-top: 16px; padding-bottom: 16px;"><strong>1 : 1 문의 작성하기</strong></h6>
+                <div class="col-12" style="background: #d3d3d330;">
+                  <h6 style="padding-top: 16px; padding-bottom: 16px; "><strong>1 : 1 문의 작성하기</strong></h6>
                 </div>
               </div>
             </div>
@@ -294,7 +289,7 @@
             <div id="loginIcon3" class="container hrefBox justify-content align-items" style="margin-bottom: 50px"
               onclick="location.href='/toLoginProc.mem'">
               <div class="row">
-                <div class="col-12">
+                <div class="col-12" style="background: #d3d3d330;">
                   <h6 style="padding-top: 16px; padding-bottom: 16px;"><strong>1 : 1 문의 작성하기</strong></h6>
                 </div>
               </div>

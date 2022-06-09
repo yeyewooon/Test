@@ -65,6 +65,8 @@ i {
     border: none;
     width: 70%;
     height: auto;  
+    font-size: 25px;
+    font-weight: bold;
 }
 .no-lineBox2 div{
     text-align: left;
@@ -140,9 +142,9 @@ i {
 .greetBox{
     margin: 20px;
     width: 90%;
-    border: 1px solid lightgray;
-    height: 100px;
-    text-align: center; 
+    height: 160px;
+    text-align: left; 
+    padding: 15px 0 20px 20px;
 }
 .greetBox p{
     margin: 25px;

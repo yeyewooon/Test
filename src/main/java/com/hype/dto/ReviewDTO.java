@@ -8,6 +8,7 @@ public class ReviewDTO {
 	private String review_date;
 	private int review_rate;
 	
+	public ReviewDTO() {}
 	public ReviewDTO(int seq_review, int seq_product, String user_id, String review_content, String review_date,
 			int review_rate) {
 		super();
@@ -54,6 +55,13 @@ public class ReviewDTO {
 	public void setReview_rate(int review_rate) {
 		this.review_rate = review_rate;
 	}
+	@Override
+	public String toString() {
+		return "ReviewDTO [seq_review=" + seq_review + ", seq_product=" + seq_product + ", user_id=" + user_id
+				+ ", review_content=" + review_content + ", review_date=" + review_date + ", review_rate=" + review_rate
+				+ "]";
+	}
+	
 	
 	
 	

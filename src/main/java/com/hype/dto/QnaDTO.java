@@ -7,8 +7,8 @@ public class QnaDTO {
 	private String qna_type;
 	private String qna_title;
 	private String qna_content;
-	private String qna_date;
 	private String qna_status;
+	private String qna_date;
 	
 	public QnaDTO() {}
 
