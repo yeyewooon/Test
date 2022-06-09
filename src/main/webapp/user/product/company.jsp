@@ -34,7 +34,7 @@
 <!-- fontAwessome-->
 <script src="https://kit.fontawesome.com/241134516c.js"
 	crossorigin="anonymous"></script>
-<title>매장찾기</title>
+<title>회사 소개</title>
 <style>
 i {
 	margin: 5px;
@@ -49,7 +49,7 @@ i {
 }
 
 body {
-	padding-top: 100px;
+	margin-top: 100px;
 }
 
 /*네비바 속성*/
@@ -78,19 +78,27 @@ body {
 	width: 100%;
 	height: 600px;
 }
-.comimg{
-	width:100%;
-	height:100%;
+
+.comimg {
+	width: 100%;
+	height: 100%;
 }
+
 /*컨텐츠*/
 .container-content {
 	width: 100%;
-	height: 600px;
+	margin-bottom: 100px;
 }
 
-
 .menubar {
-	background-color: black;
+	font-weight: 150px;
+	font-size: 60px;
+}
+
+.detail {
+	text-align: center;
+	font-weight: 60px;
+	font-size: 20px;
 }
 
 /* 네비바 드롭다운 */
@@ -121,10 +129,7 @@ footer.footer {
 	font-weight: 40px;
 	font-weight: bold;
 }
-.comimg{
-	width:100%;
-	height:600px;
-}
+
 </style>
 </head>
 <body>
@@ -179,14 +184,31 @@ footer.footer {
 		<div class="container-body">
 			<div class="row">
 				<div class="col d-flex">
-					<img src="/resources/images/company1.jpg" class="comimg">
+					<img src="/resources/images/company2.jpg" class="comimg">
 				</div>
 			</div>
 		</div>
 		<div class="container-content">
 			<div class="row">
-				<div class="col-2 menubar">메뉴</div>
-				<div class="col-10 content"></div>
+				<div class="col menubar d-flex justify-content-center">ABOUT
+					HYPELAND</div>
+			</div>
+			<div class="row">
+				<div class="col d-flex justify-content-center m-4 detail">
+					Youth Culture 대표 아이콘<br> 전통적으로 견고함과 실용성을 강조했던 워크웨어와 데님으로부터 얻은<br>
+					모티브를 바탕으로 트랜디한 스타일을 전개하는 라이프 스타일 캐주얼 브랜드입니다.<br> 다양한 시대의
+					유스컬처(Youth Culture)를 대표하는 아이콘으로 사랑받았던<br> ‘HYPELAND’는 끊임없이
+					혁신하는 브랜드로 기억되고자 합니다.
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-6 p-2">
+					<img src="/resources/images/company.jpg" class="smallimg w-100">
+				</div>
+				<div class="col-6 p-2">
+					<img src="/resources/images/company4.jpg"
+						class="smallimg w-100 h-100">
+				</div>
 			</div>
 		</div>
 	</div>

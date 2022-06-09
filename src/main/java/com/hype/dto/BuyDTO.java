@@ -10,13 +10,13 @@ public class BuyDTO {
 	
 	public BuyDTO() {}
 
-	public BuyDTO(int seq_buy, int seq_order, String buy_name, int buy_price, int buy_qty, String buy_create) {
+	public BuyDTO(int seq_buy, int seq_order, String buy_name, int buy_qty, int buy_price, String buy_create) {
 		super();
 		this.seq_buy = seq_buy;
 		this.seq_order = seq_order;
 		this.buy_name = buy_name;
-		this.buy_price = buy_price;
 		this.buy_qty = buy_qty;
+		this.buy_price = buy_price;
 		this.buy_create = buy_create;
 	}
 
@@ -43,6 +43,13 @@ public class BuyDTO {
 	public void setBuy_name(String buy_name) {
 		this.buy_name = buy_name;
 	}
+	public int getBuy_qty() {
+		return buy_qty;
+	}
+	
+	public void setBuy_qty(int buy_qty) {
+		this.buy_qty = buy_qty;
+	}
 
 	public int getBuy_price() {
 		return buy_price;
@@ -52,13 +59,6 @@ public class BuyDTO {
 		this.buy_price = buy_price;
 	}
 
-	public int getBuy_qty() {
-		return buy_qty;
-	}
-
-	public void setBuy_qty(int buy_qty) {
-		this.buy_qty = buy_qty;
-	}
 
 	public String getBuy_create() {
 		return buy_create;

@@ -101,10 +101,10 @@ body {
 
 /* 상품 캐러셀 */
 .content1 {
-	margin-top:20px;
-	border: 2px solid black;
+	background-color:#f1f2ed;
 	width: 100%;
 	height: 600px;
+	border:none;
 }
 
 p {
@@ -131,7 +131,7 @@ a {
 	width: 100%;
 	height: 400px;
 	border: none;
-	padding: 10px;
+	<!--background-color:#f1f2ed;-->
 }
 
 .cardimg {
@@ -165,7 +165,7 @@ a {
 }
 
 .ranknum {
-	background-color: dodgerblue;
+	background-color: #b0323d;
 }
 
 .ranknum>span {
@@ -178,6 +178,14 @@ a {
 	height: 415px;
 }
 
+.productName>p{
+	font-size: 50px;
+	font-weight: 60px;
+}
+.productName>span{
+	font-size: 25px;
+	font-weight: bold;
+}
 /*content2*/
 .imgBox #Cimg {
 	width: 400px;
@@ -196,6 +204,8 @@ a {
 .imgText {
 	text-align: center;
 	font-size: 18px;
+	font-size: 25px;
+	font-weight: 40px;
 }
 /* 3열 */
 .clothes {
@@ -204,6 +214,10 @@ a {
 
 .imgContainer {
 	text-align: center;
+}
+.category>p{
+	font-size: 60px;
+	font-weight: 60px;
 }
 /*풋터 영역*/
 .footerBox {
@@ -234,7 +248,7 @@ footer.footer {
 			<div class="container navbar-head">
 				<a class="navbar-brand" href="#!" id="logo">로고</a>
 				<div class="col-md-1 navbar-anchor">
-					<a href="/">COMPANY</a>
+					<a href="/ToCompany.page">COMPANY</a>
 				</div>
 
 				<div class="dropdown ">
@@ -245,11 +259,12 @@ footer.footer {
 						<li><a class="dropdown-item" href="/ToPage.page?category=top">Top</a></li>
 						<li><a class="dropdown-item" href="/ToPage.page?category=bt">Bottom</a></li>
 						<li><a class="dropdown-item" href="/ToPage.page?category=acc">Accessory</a></li>
+						<li><a class="dropdown-item" href="/ToPage.page?category=BAG">Bag</a></li>
 					</ul>
 				</div>
 
 				<div class="col-md-1 navbar-anchor">
-					<a href="/">매장찾기</a>
+					<a href="/TosearchMap.page">매장찾기</a>
 				</div>
 				<div class="col-md-1 navbar-anchor">
 					<a href="/">고객센터</a>
@@ -280,7 +295,7 @@ footer.footer {
 	<div class="content1">
 		<div class="row">
 			<div class="col productName">
-				<p>랭킹</p>
+				<p>RANKING</p>
 			</div>
 		</div>
 
@@ -313,8 +328,7 @@ footer.footer {
 													</div>
 													<div class="row card-text">
 														<div class="col-12 productName">
-															<span>${pList[status.index].product_name }</span><br>
-															${proList[status.index].product_price }
+															<span>${pList[status.index].product_name }</span>
 														</div>
 													</div>
 												</div>
@@ -347,8 +361,7 @@ footer.footer {
 													</div>
 													<div class="row card-text">
 														<div class="col-12 productName">
-															<span>${proList[status.index].product_name }</span><br>
-															${proList[status.index].product_price }
+															<span>${proList[status.index].product_name }</span>
 														</div>
 													</div>
 												</div>
@@ -358,7 +371,7 @@ footer.footer {
 								</c:forEach>
 							</div>
 						</div>
-
+					
 					</div>
 					<div class="btnClass">
 						<button class="carousel-c-prev btnImg" type="button"
@@ -373,13 +386,13 @@ footer.footer {
 				</div>
 			</div>
 		</div>
-
+	</div>
 		<!--3열 옷사진-->
 		<div class="row clothes">
 			<div class="col">
 				<div class="content2">
 					<div class="row title">
-						<div class="col p-4 d-flex justify-content-center">
+						<div class="col p-4 d-flex justify-content-center category">
 							<p>${category}</p>
 						</div>
 					</div>
@@ -502,6 +515,6 @@ footer.footer {
 				</div>
 			</div>
 		</footer>
-	</div>
+	
 </body>
 </html>

@@ -44,7 +44,7 @@ public class ReviewDAO {
    }
 
    public ArrayList<ReviewDTO> selectBySeq(int seq_product) throws Exception { // 상품번호로 리뷰 출력
-      String sql = "select * from tbl_review where seq_product = ?";
+      String sql = "select * from (select * from tbl_review order by 5 desc) where seq_product = ?";
 
       try (Connection con = bds.getConnection(); PreparedStatement pstmt = con.prepareStatement(sql)) {
 
@@ -65,27 +65,7 @@ public class ReviewDAO {
       }
    }
 
-   /*
-    * public ArrayList<ReviewDTO> reviewAll(int start, int end) throws Exception {
-    * // 전체 출력 String sql =
-    * "select * from (select tbl_review.*, row_number() over(order by seq_review desc) as num from tbl_review)"
-    * + "where num between ? and ?";
-    * 
-    * try (Connection con = bds.getConnection(); PreparedStatement pstmt =
-    * con.prepareStatement(sql)) {
-    * 
-    * pstmt.setInt(1, start); pstmt.setInt(2, end);
-    * 
-    * ResultSet rs = pstmt.executeQuery(); ArrayList<ReviewDTO> list = new
-    * ArrayList<>(); while (rs.next()) { int seq_review = rs.getInt("seq_review");
-    * int seq_product = rs.getInt("seq_product"); String user_id =
-    * rs.getString("user_id"); String review_content =
-    * rs.getString("review_content"); String review_date =
-    * rs.getString("review_date"); int review_rate = rs.getInt("review_rate");
-    * list.add(new ReviewDTO(seq_review, seq_product, user_id, review_content,
-    * review_date, review_rate)); } return list; } }
-    */
-
+   
    public int countReview(int seq_review) throws Exception { // 상품에 맞는 리뷰 개수 출력
       String sql = "select count(*) cnt from tbl_review where seq_product = ?";
 

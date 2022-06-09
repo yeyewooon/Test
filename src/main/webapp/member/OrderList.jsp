@@ -64,6 +64,7 @@
 						<li><a class="dropdown-item" href="#">Top</a></li>
 						<li><a class="dropdown-item" href="#">Bottom</a></li>
 						<li><a class="dropdown-item" href="#">Accessory</a></li>
+						<li><a class="dropdown-item" href="/ToPage.page?category=BAG">Bag</a></li>
 					</ul>
 				</div>
 				<div class="col-md-1 navbar-anchor">
@@ -72,20 +73,7 @@
 				<div class="col-md-1 navbar-anchor">
 					<a href="/toCs.mem">고객센터</a>
 				</div>
-				<!-- 네비바 검색창 -->
-				<div class="col-md-4 navbar-anchor" id="navbar-search">
-					<form
-						class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-						<div class="input-group">
-							<button class="btn btn-link" style="border: 1px solid lightgrey;"
-								id="btnSearch" type="button">
-								<i id="searchIcon" class="fas fa-search"></i>
-							</button>
-							<input class="form-control" type="text"
-								aria-describedby="btnNavbarSearch" />
-						</div>
-					</form>
-				</div>
+				
 				<div class="col-md-2 navbar-anchor" id="userIcon">
 					<a href=""><i class="fa-solid fa-cart-plus"></i></a> <a href=""><i
 						class="fa-solid fa-user"></i></a>

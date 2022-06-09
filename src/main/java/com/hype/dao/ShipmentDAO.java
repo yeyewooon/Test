@@ -10,7 +10,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -31,7 +30,7 @@ public class ShipmentDAO {
 	
 	//orderList에 넣을 값 받아오기
 	
-	//user_id로 seq_order 다 받아오기
+	//user_id로 seq_order 다 받아오기-> 안씀
 	public ArrayList<Integer> SelectSeqOrderbyId(String user_id) throws Exception{
 		String sql = "select seq_order from tbl_order where user_id = ? order by 1 desc";
 		
@@ -52,7 +51,7 @@ public class ShipmentDAO {
 		}
 	}
 	
-	//seq_order로 tbl_buy받아오기
+	//seq_order로 tbl_buy받아오기 -> 안씀
 	public ArrayList<BuyDTO> selecttblBuybySeq(int seq_order) throws Exception{ 
 		String sql = "select * from tbl_buy where seq_order = ? order by 2 desc";
 		
@@ -105,24 +104,6 @@ public class ShipmentDAO {
 			
 		}
 	
-	//seq_order로 행 개수 세기
-	public ArrayList<Integer> countRow(int seq_order) throws Exception{
-		String sql = "select count(*) cnt from tbl_buy where seq_order=?";
-		
-		try(Connection con = bds.getConnection();
-			PreparedStatement pstmt = con.prepareStatement(sql)){
-			pstmt.setInt(1, seq_order);
-			
-			ResultSet rs = pstmt.executeQuery();
-			ArrayList<Integer> list =  new ArrayList<>();
-			
-			while(rs.next()) {
-				int cnt = rs.getInt("cnt");
-				list.add(cnt);
-			}
-			return list;
-		}
-	}
 	
 	public String getStringDate(Date date) {
 		// 1900-02-02
