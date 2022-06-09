@@ -31,6 +31,12 @@
 }
 
 /* navbar & maincontainer */
+.logoImg {
+	width: 100px;
+	height: 55px;
+	cursor: pointer;
+}
+
 .adminContainer {
 	height: 100vh;
 	background-color: black;
@@ -264,8 +270,7 @@ td span {
 		<div class="row adminNavbar d-flex align-items-center">
 			<div
 				class="col-md-2 adminNavbar-left d-flex justify-content-center align-items-lg-center">
-				<i class="fa-brands fa-yahoo"></i> <span adminNavbar-left-text
-					id="logo">LAND</span>
+				<img class="logoImg" src="./resources/images/Logo3.png">
 			</div>
 			<div class="col-md-10 adminNavbar-right d-flex justify-content-end">
 				<div class="adminIcon">
@@ -418,7 +423,8 @@ td span {
 						</c:if>
 						<c:forEach var="pageNum" begin="${naviMap.startNavi}"
 							end="${naviMap.endNavi}" step="1">
-							<li class="page-item"><a class="page-link pageActive${pageNum}" id="pageNum"
+							<li class="page-item"><a
+								class="page-link pageActive${pageNum}" id="pageNum"
 								href="/select.amem?curPage=${pageNum}">${pageNum}</a></li>
 						</c:forEach>
 						<c:if test="${naviMap.Next eq true}">
@@ -469,12 +475,15 @@ td span {
 		$(".arrow4").on("click", function() {
 			$(".sub-menu-fourth").toggle("4000ms");
 		});	
-		$("#logo").on("click",function(){
-			location.href = "/admin.ad"
-		})
 		$("#textAllSelect").on("click",function(){
 			location.href="/select.amem?curPage=1";
 		})
+		 $(".logoImg").on("click",function(){
+          location.href = "/admin.ad"
+       })
+       $(".adminIconLogout").on("click",function(){
+         location.href = "/Tohome";
+      })
 		// 수정 클릭시
 	 	$(".memberModify").on("click", function(){
 	 		let thisRow = $(this).closest('tr');

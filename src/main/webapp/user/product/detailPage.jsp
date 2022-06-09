@@ -367,13 +367,13 @@ footer.footer {
 								<c:choose>
 									<c:when test="${status.index eq 0}">
 										<div class="carousel-item active">
-											<img src="${image.image_path}${image.image_name}"
+											<img src="../resource/imagesClothes/${image.image_name}"
 												class="d-block w-100" alt="...">
 										</div>
 									</c:when>
 									<c:otherwise>
 										<div class="carousel-item">
-											<img src="${image.image_path}${image.image_name}"
+											<img src="../resource/imagesClothes/${image.image_name}"
 												class="d-block w-100" alt="...">
 										</div>
 									</c:otherwise>
@@ -477,7 +477,7 @@ footer.footer {
 	<div class="row clothesDetail" id="clothesDetail">
 		<c:forEach items="${imageList}" var="image">
 			<div class="col-md-12 p-2">
-				<img src="${image.image_path}${image.image_name}">
+				<img src="../resource/imagesClothes/${image.image_name}">
 			</div>
 		</c:forEach>
 	</div>

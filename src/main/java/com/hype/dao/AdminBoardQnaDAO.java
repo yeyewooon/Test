@@ -55,7 +55,7 @@ public class AdminBoardQnaDAO {
 				String qna_date = getStringDate(rs.getDate("qna_date"));
 				String qna_status = rs.getString("qna_status");
 
-				list.add(new QnaDTO(seq_qna,seq_order, user_id, qna_type, qna_title, qna_content, qna_date,qna_status));
+				list.add(new QnaDTO(seq_qna,seq_order, user_id, qna_type, qna_title, qna_content, qna_status ,qna_date));
 			}
 			return list;
 		}
@@ -195,7 +195,7 @@ public class AdminBoardQnaDAO {
 	// 날짜 타입 변경
 	public String getStringDate(Date date) {
 		// 1900년 02월 02일 00시 00분 00초
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일 HH시 mm분 ss초");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		return sdf.format(date);
 	}
 

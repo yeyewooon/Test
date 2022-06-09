@@ -31,6 +31,11 @@
 }
 
 /* navbar & maincontainer */
+.logoImg{
+      	width:100px;
+      	height : 55px;
+      	cursor:pointer;
+      }
 .adminContainer {
 	height: 100vh;
 	background-color: black;
@@ -250,7 +255,7 @@ td span {
 		<div class="row adminNavbar d-flex align-items-center">
 			<div
 				class="col-md-2 adminNavbar-left d-flex justify-content-center align-items-lg-center">
-				<i class="fa-brands fa-yahoo"></i> <span adminNavbar-left-text id="logo">LAND</span>
+				<img class="logoImg" src="./resources/images/Logo3.png">
 			</div>
 			<div class="col-md-10 adminNavbar-right d-flex justify-content-end">
 				<div class="adminIcon">
@@ -356,9 +361,10 @@ td span {
 									<select class="form-select" name="category"
 										aria-label="Default select example">
 										<option selected>${dto.category}</option>
-										<option value="top">맨투맨</option>
-										<option value="hood">후드티</option>
-										<option value="shirt">셔츠</option>
+										<option value="TOP">상의</option>
+										<option value="BOTTOM">하의</option>
+										<option value="ACCESSORY">악세서리</option>
+										<option value="BAG">가방</option>
 									</select>
 								</div>
 
@@ -416,9 +422,12 @@ td span {
 									<h4>이미지</h4>
 								</div>
 								<div class="col-md-9 d-flex justify-content-start">
-									<input class="form-control" type="file" name="product_file"
+									<input class="form-control fileInput" type="file" name="product_file"
 										id="product_file" multiple />
 								</div>
+							</div>
+							<div class="imgText22 d-none">
+							
 							</div>
 							<div class="row content-body" style="align-items: flex-start;">
 								<div class="col-md-3 d-flex justify-content-start mb-5 mt-4">
@@ -469,9 +478,12 @@ td span {
 		$(".arrow4").on("click", function() {
 			$(".sub-menu-fourth").toggle("4000ms");
 		});
-		$("#logo").on("click",function(){
-			location.href = "/admin.ad"
-		})
+		$(".logoImg").on("click",function(){
+	          location.href = "/admin.ad"
+	       })
+	       $(".adminIconLogout").on("click",function(){
+	         location.href = "/Tohome";
+	      })
 		let now = new Date(); // 현재 날짜 및 시간
 		console.log("현재 : ", now);
 
@@ -484,6 +496,31 @@ td span {
 				location.href = "deleteProduct.pc?seq_product=" + seq_product;
 			}
 		})
+		
+		$(".fileInput").change(function(){
+			var fileInput = document.getElementById("product_file");
+			var files = fileInput.files;
+			var file;
+			let list =[];
+			
+			for(var i=0; i<files.length;i++){
+				file = files[i];
+				list.push(file.name);
+			}
+			
+			for(i = 0; i < list.length; i++) {
+				$(".imgText22").append("<input type='text' name='imageName' value=''>");
+				let imageClass = $(".imgText22").children("input:last-child").addClass('hello'+(i+1));
+				
+				$(".imgText22").append(imageClass);
+				/* let a = imageClass.html("asdsasd");
+				console.log(a);
+				 */
+				imageClass.attr("value",list[i]); 
+				
+			}
+		})
+		
 		$("#submitBtn").on("click", function() {
 			if ($("#product_name").val() === "") {
 				alert("상품 이름을 기입해주세요");
@@ -503,6 +540,8 @@ td span {
 		$("#backBtn").on("click", function() {
 			location.href = "/modify.pc?curPage=1";
 		})
+		
+		
 	</script>
 </body>
 </html>

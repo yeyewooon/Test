@@ -24,11 +24,11 @@ private BasicDataSource bds;
 	}
 	
 	public int insert(ImageDTO dto) throws Exception{
-		String sql = "insert into tbl_image values(seq_image.nextval,?,?,?)";
+		String sql = "insert into tbl_image values(?,?,?)";
 		try(Connection con = bds.getConnection();
 				PreparedStatement pstmt = con.prepareStatement(sql);){
-			pstmt.setInt(1, dto.getSeq_product());
-			pstmt.setString(2, dto.getImage_name());
+			pstmt.setInt(2, dto.getSeq_product());
+			pstmt.setString(1, dto.getImage_name());
 			pstmt.setString(3, dto.getImage_path());
 			
 			int rs = pstmt.executeUpdate();
