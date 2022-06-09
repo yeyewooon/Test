@@ -324,7 +324,7 @@ footer.footer {
 													<div class="row">
 														<div class="col">
 															<div class="cardimg">
-																<img src="${rimgList.image_path}${rimgList.image_name}"
+																<img src="../resource/imagesClothes/${rimgList.image_name}"
 																	class="cardimg">
 															</div>
 														</div>
@@ -357,7 +357,7 @@ footer.footer {
 													<div class="row">
 														<div class="col">
 															<div class="cardimg">
-																<img src="${rimgList.image_path}${rimgList.image_name}"
+																<img src="../resource/imagesClothes/${rimgList.image_name}"
 																	class="cardimg">
 															</div>
 														</div>
@@ -407,7 +407,7 @@ footer.footer {
 										<a
 											href="detailPage.page?seq_product=${proList[status.index].seq_product }">
 											<div class="imgBox">
-												<img src="${imgList.image_path}${imgList.image_name}"
+												<img src="../resource/imagesClothes/${imgList.image_name}"
 													id="Cimg">
 											</div>
 											<div class="imgText">
@@ -427,7 +427,7 @@ footer.footer {
 											<div class="imgBox">
 												<a
 													href="detailPage.page?seq_product=${proList[status.index].seq_product }">
-													<img src="${imgList.image_path}${imgList.image_name}"
+													<img src="../resource/imagesClothes/${imgList.image_name}"
 													id="Cimg">
 												</a>
 											</div>
@@ -442,7 +442,7 @@ footer.footer {
 										<div class="imgBox">
 											<a
 												href="detailPage.page?seq_product=${proList[status.index].seq_product }">
-												<img src="${imgList.image_path}${imgList.image_name}"
+												<img src="../resource/imagesClothes/${imgList.image_name}"
 												id="Cimg">
 											</a>
 										</div>
@@ -457,7 +457,7 @@ footer.footer {
 										<div class="imgBox">
 											<a
 												href="detailPage.page?seq_product=${proList[status.index].seq_product }">
-												<img src="${imgList.image_path}${imgList.image_name}"
+												<img src="../resource/imagesClothes/${imgList.image_name}"
 												id="Cimg">
 											</a>
 										</div>

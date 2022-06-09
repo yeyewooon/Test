@@ -40,6 +40,11 @@ pageEncoding="UTF-8"%>
       }
 
       /* navbar & maincontainer */
+      .logoImg{
+      	width:100px;
+      	height : 55px;
+      	cursor:pointer;
+      }
       .adminContainer {
         height: 100vh;
         background-color: black;
@@ -254,8 +259,7 @@ pageEncoding="UTF-8"%>
         <div
           class="col-md-2 adminNavbar-left d-flex justify-content-center align-items-lg-center"
         >
-          <i class="fa-brands fa-yahoo"></i>
-          <span adminNavbar-left-text id="logo">LAND</span>
+          <img class="logoImg" src="/resources/images/Logo3.png">
         </div>
         <div class="col-md-10 adminNavbar-right d-flex justify-content-end">
           <div class="adminIcon">
@@ -360,10 +364,10 @@ pageEncoding="UTF-8"%>
                       aria-label="Default select example"
                     >
                       <option selected>카테고리 설정</option>
-                      <option value="top">상의</option>
-                      <option value="bottom">하의</option>
-                      <option value="accessory">악세서리</option>
-                      <option value="bag">가방</option>
+                      <option value="TOP">상의</option>
+                      <option value="BOTTOM">하의</option>
+                      <option value="ACCESSORY">악세서리</option>
+                      <option value="BAG">가방</option>
                     </select>
                   </div>
                 </div>
@@ -481,9 +485,12 @@ pageEncoding="UTF-8"%>
       $(".arrow4").on("click", function () {
         $(".sub-menu-fourth").toggle("4000ms");
       });
-      $("#logo").on("click", function () {
-        location.href = "/admin.ad";
-      });
+      $(".logoImg").on("click",function(){
+          location.href = "/admin.ad"
+       })
+       $(".adminIconLogout").on("click",function(){
+         location.href = "/Tohome";
+      })
       let now = new Date(); // 현재 날짜 및 시간
       console.log("현재 : ", now);
       let comfirm = "";

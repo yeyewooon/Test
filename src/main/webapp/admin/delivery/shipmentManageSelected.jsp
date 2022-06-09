@@ -22,6 +22,11 @@
 	crossorigin="anonymous"></script>
 
 <style>
+.logoImg{
+      	width:100px;
+      	height : 55px;
+      	cursor:pointer;
+      }
 .adminContainer {
 	height: 100vh;
 	background-color: black;
@@ -229,7 +234,7 @@ a:hover {
 		<div class="row adminNavbar d-flex align-items-center">
 			<div
 				class="col-md-2 adminNavbar-left d-flex justify-content-center align-items-lg-center">
-				<i class="fa-brands fa-yahoo"></i> <span adminNavbar-left-text>LAND</span>
+				<img class="logoImg" src="./resources/images/Logo3.png">
 			</div>
 			<div class="col-md-10 adminNavbar-right d-flex justify-content-end">
 				<div class="adminIcon">
@@ -429,7 +434,12 @@ a:hover {
   	$(".arrow4").on("click", function () {
     	$(".sub-menu-fourth").toggle("4000ms");
   	});
-
+  	 $(".logoImg").on("click",function(){
+         location.href = "/admin.ad"
+      })
+      $(".adminIconLogout").on("click",function(){
+        location.href = "/Tohome";
+     })
   	// 검색 했을 때 출력
 	$("#searchIcon").on("click",function() {
 		let searchKeyword = $("#searchKeyword").val();
