@@ -1,6 +1,7 @@
 package com.hype.dto;
 
 public class MemberDTO {
+	
 	private String user_id;
 	private String user_password;
 	private String user_name;
@@ -12,9 +13,10 @@ public class MemberDTO {
 	private String user_email;
 	private String user_blacklist;
 	
-	
 	public MemberDTO() {}
-	public MemberDTO(String user_id, String user_password, String user_name, String user_date, String user_postCode, String user_roadAddr, String user_detailAddr, String user_phone, String user_email,String user_blacklist) {
+
+	public MemberDTO(String user_id, String user_password, String user_name, String user_date, String user_postCode,
+			String user_roadAddr, String user_detailAddr, String user_phone, String user_email, String user_blacklist) {
 		super();
 		this.user_id = user_id;
 		this.user_password = user_password;

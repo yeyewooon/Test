@@ -1,7 +1,7 @@
 package com.hype.dto;
 
 public class ProductDTO {
-
+	
 	private int seq_product;
 	private String product_code;
 	private String category;
