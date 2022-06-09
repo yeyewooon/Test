@@ -1,10 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>상품 등록</title>
+<title>상품 수정</title>
 <script src="https://kit.fontawesome.com/f9358a6ceb.js"
 	crossorigin="anonymous"></script>
 <link
@@ -193,9 +194,14 @@ tbody tr {
 }
 
 .content-header {
-	margin:45px;
 	padding: 30px;
+	padding-right: 0px;
 	text-align: center;
+}
+
+#deleteProduct {
+	padding-left: 10px;
+	cursor: pointer;
 }
 
 .content-wrapper {
@@ -203,12 +209,11 @@ tbody tr {
 }
 
 .content-body {
-	height: 100px;
+	height: 80px;
 }
 /* body */
 .content-body {
 	width: 60%;
-	height:100px;
 	align-items: baseline;
 }
 
@@ -224,7 +229,10 @@ tbody tr {
 #submitBtn {
 	width: 30%;
 }
-
+/* font */
+.imageText{
+	color:#adb5bd;
+}
 /* table hover시 color 변경 */
 #tableBox:hover tbody tr:hover td {
 	background-color: #7f7f7f;
@@ -242,8 +250,7 @@ td span {
 		<div class="row adminNavbar d-flex align-items-center">
 			<div
 				class="col-md-2 adminNavbar-left d-flex justify-content-center align-items-lg-center">
-				<i class="fa-brands fa-yahoo"></i> <span adminNavbar-left-text
-					id="logo">LAND</span>
+				<i class="fa-brands fa-yahoo"></i> <span adminNavbar-left-text id="logo">LAND</span>
 			</div>
 			<div class="col-md-10 adminNavbar-right d-flex justify-content-end">
 				<div class="adminIcon">
@@ -324,14 +331,23 @@ td span {
 			<div class="col-md-10 adminMainContainer">
 				<div class="table firstTable">
 					<div class="col-md-10 adminMainContainer content-wrapper">
-						<form action="/insert.pc" method="post" id="insertForm">
-							<div class="content-header">
-								<h2>새 상품 등록</h2>
+						<form action="/productmodifyDetail.pc" method="post"
+							id="modifyDetailForm" enctype="multipart/form-data">
+							<div class="row">
+								<div class=" col-md-6 d-flex justify-content-end content-header">
+									<h2>상품 수정</h2>
+								</div>
+								<div
+									class="col-md-6 d-flex justify-content-center content-header">
+									<span class="text-center productDelete"><i
+										class="fa-solid fa-trash"></i></span>
+									<p id="deleteProduct">상품 삭제</p>
+								</div>
 							</div>
 							<div class="row content-body">
-								<div class="d-none">
-									<input type="text" id="seq_proudct" name="seq_proudct"
-										class="form-control" />
+								<div class="col d-none">
+									<input type="text" id="seq_product" name="seq_product"
+										value="${dto.seq_product }">
 								</div>
 								<div class="col-md-3 d-flex justify-content-start mb-5">
 									<h4>상품 카테고리</h4>
@@ -339,11 +355,10 @@ td span {
 								<div class="col-md-9 d-flex justify-content-start">
 									<select class="form-select" name="category"
 										aria-label="Default select example">
-										<option selected>카테고리 설정</option>
-										<option value="top">상의</option>
-										<option value="bottom">하의</option>
-										<option value="accessory">악세서리</option>
-										<option value="bag">가방</option>
+										<option selected>${dto.category}</option>
+										<option value="top">맨투맨</option>
+										<option value="hood">후드티</option>
+										<option value="shirt">셔츠</option>
 									</select>
 								</div>
 
@@ -354,7 +369,7 @@ td span {
 								</div>
 								<div class="col-md-9 d-flex justify-content-start">
 									<input type="text" id="product_name" name="product_name"
-										class="form-control" />
+										value="${dto.product_name}" class="form-control" />
 								</div>
 							</div>
 							<div class="row content-body">
@@ -363,7 +378,7 @@ td span {
 								</div>
 								<div class="col-md-8 d-flex justify-content-start">
 									<input type="text" id="product_price" name="product_price"
-										class="form-control" />
+										value="${dto.product_price}" class="form-control" />
 								</div>
 								<div class="col-md-1 d-flex justify-content-end price_text">
 									<h4>원</h4>
@@ -373,12 +388,9 @@ td span {
 								<div class="col-md-3 d-flex justify-content-start mb-5">
 									<h4>상품 코드</h4>
 								</div>
-								<div class="col-md-7 d-flex justify-content-start">
+								<div class="col-md-9 d-flex justify-content-start">
 									<input type="text" id="product_code" name="product_code"
-										class="form-control" />
-								</div>
-								<div class="col-md-2 d-flex justify-content-end">
-									<button type="button" id="checkBtn" class="btn btn-warning btn">중복확인</button>
+										value="${dto.product_code}" class="form-control" />
 								</div>
 							</div>
 							<div class="row content-body">
@@ -396,19 +408,49 @@ td span {
 								</div>
 								<div class="col-md-9 d-flex justify-content-start">
 									<textarea type="text" id="product_content"
-										name="product_content" class="form-control"></textarea>
+										name="product_content" class="form-control">${dto.product_content}</textarea>
 								</div>
 							</div>
 							<div class="row content-body">
-								<div class="col-md-12 d-flex justify-content-end">
+								<div class="col-md-3 d-flex justify-content-start mb-5 mt-4">
+									<h4>이미지</h4>
+								</div>
+								<div class="col-md-9 d-flex justify-content-start">
+									<input class="form-control" type="file" name="product_file"
+										id="product_file" multiple />
+								</div>
+							</div>
+							<div class="row content-body" style="align-items: flex-start;">
+								<div class="col-md-3 d-flex justify-content-start mb-5 mt-4">
+									<h4>이미지 목록</h4>
+								</div>
+								<div class="col-md-7 d-flex justify-content-start">
+									<c:if test="${empty list}">
+										<p class="imageText">등록된 이미지가 없습니다.</p>
+									</c:if>
+									<c:if test="${not empty list}">
+										<c:forEach items="${list}" var="dtoImage">
+											<p name="${dtoImage.image_name}">${dtoImage.image_name}</p></tab> /
+										</c:forEach>
+
+									</c:if>
+								</div>
+							</div>
+							<div class="row content-body">
+								<div class="col-md-6 d-flex justify-content-end">
+									<button type="button" id="backBtn"
+										class="btn btn-secondary btn-lg">뒤로가기</button>
+								</div>
+								<div class="col-md-6 d-flex justify-content-start">
 									<button type="button" id="submitBtn"
-										class="btn btn-primary btn-lg">등록</button>
+										class="btn btn-primary btn-lg">완료</button>
 								</div>
 							</div>
 						</form>
 					</div>
 				</div>
 			</div>
+			<!-- 삭제 모달  -->
 		</div>
 	</div>
 	<%-- 	<script src="<%=request.getContextPath()%>script/productInsert.js"></script> --%>
@@ -432,30 +474,17 @@ td span {
 		})
 		let now = new Date(); // 현재 날짜 및 시간
 		console.log("현재 : ", now);
-		let comfirm ="";
-		$("#checkBtn").on("click", function(){
-			let product_code = $("#product_code").val();
-			console.log(product_code);
-			$.ajax({
-				url:"/selectProduct.pc?product_code="+product_code,
-				type: "get",
-	    		dataType: "text",
-	    		success: function(data) {
-	    			if(data == "false"){
-	    				alert("상품 코드를 중복되었습니다.");
-	    			}else if(data == "true"){
-	    				confirm = 1;
-	    				alert("상품 코드 사용가능합니다");
-	    			}
-	    		},
-	    		error : function(e) {
-	    			console.log(e);
-	    		}
-			})
-		})
 
+		// 삭제 클릭시
+		$("#deleteProduct").on("click", function() {
+			let seq_product = $("#seq_product").val();
+			let answer = confirm("정말 상품을 삭제하시겠습니까?");
+			console.log(answer);
+			if (answer) {
+				location.href = "deleteProduct.pc?seq_product=" + seq_product;
+			}
+		})
 		$("#submitBtn").on("click", function() {
-			
 			if ($("#product_name").val() === "") {
 				alert("상품 이름을 기입해주세요");
 				return;
@@ -469,11 +498,10 @@ td span {
 				alert("상품 설명을 기입해주세요");
 				return;
 			}
-			if(confirm == 1){
-				$("#insertForm").submit(); 				
-			}else{
-				alert("중복검사가 완료안됬습니다.")
-			}
+			$("#modifyDetailForm").submit();
+		})
+		$("#backBtn").on("click", function() {
+			location.href = "/modify.pc?curPage=1";
 		})
 	</script>
 </body>

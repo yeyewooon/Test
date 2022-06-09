@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="EUC-KR">
-<title>문의 관리</title>
+<title>리뷰 관리</title>
 <script src="https://kit.fontawesome.com/f9358a6ceb.js"
 	crossorigin="anonymous"></script>
 <link
@@ -20,7 +20,6 @@
 <script src="https://code.jquery.com/jquery-3.6.0.js"
 	integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
 	crossorigin="anonymous"></script>
-
 
 <style>
 * {
@@ -177,7 +176,12 @@ ul {
 }
 
 .searchMemberInput {
-	margin-left: 9px;
+	margin-left: auto;
+}
+
+.reviewContainer {
+	height: 450px;
+	overflow: auto;
 }
 
 tbody tr {
@@ -191,11 +195,25 @@ tbody tr {
 }
 
 /* 이모티콘 cursor pointer */
-td span, .replyExit {
+td span, .reviewDetailModalExitIcon {
 	cursor: pointer;
 }
 
-.selectAllIcon {
+/* 리뷰 내용 */
+.form-group textarea {
+	overflow-y: scroll;
+}
+
+/* 리뷰 내용 스크롤 없애기 */
+.form-group textarea {
+	-ms-overflow-style: none;
+}
+
+.form-group textarea::-webkit-scrollbar {
+	display: none;
+}
+
+.selectAll:hover, i {
 	cursor: pointer;
 }
 
@@ -217,11 +235,64 @@ a:hover {
 	color: black;
 	text-decoration: underline;
 }
+
+/* 상세 내용 모달*/
+.reviewDetailModal {
+	width: 360px;
+	height: 400px;
+	background-color: gray;
+	position: fixed;
+	top: 50%;
+	left: 60%;
+	transform: translate(-50%, -50%);
+	border-radius: 5px;
+	color: #e8ecef;
+	display: none;
+}
+
+.reviewModalBox {
+	padding: 20px;
+	height: 100%;
+}
+
+.reviewDetailModalTitle {
+	height: 20%;
+}
+
+.reviewDetailModalTitle p {
+	font-size: 18px;
+}
+
+.reviewDetailModalContent {
+	height: 70%;
+}
+
+.reviewDetailText {
+	word-break: break-all;
+}
+
+.reviewDetailModalFooter {
+	height: 10%;
+}
+
+/* 리뷰 딜리트 모달 */
+.reviewDeleteModal {
+	position: fixed;
+	top: 50%;
+	left: 60%;
+	transform: translate(-50%, -50%);
+	border-radius: 5px;
+	height: 120px;
+	width: 320px;
+	border: 1px solid black;
+	background-color: #e8ecef;
+	display: none;
+}
 </style>
 
+
+
 </head>
-
-
 <body>
 	<div class="adminContainer">
 		<div class="row adminNavbar d-flex align-items-center">
@@ -305,68 +376,70 @@ a:hover {
 					</ul>
 				</div>
 			</div>
-
-			<!-- 메인 부분 -->
 			<div class="col-md-10 adminMainContainer">
 				<div class="table firstTable">
-					<h2 class="text-center mt-5 firstTableTitle">문의 관리</h2>
+					<h2 class="text-center mt-3 firstTableTitle">리뷰 관리</h2>
 
-					<!-- 문의 고르기 -->
-					<div class="boardCategory d-flex justify-content-center mt-4"
-						style="border-top-width: 0px">
-						<select class="form-select w-25" id="category-Selector">
-							<option>문의 유형</option>
-							<option value="배송" class="category-Shipment" name="shipment">배송</option>
-							<option value="결제" class="category-Payment" name="payment">결제</option>
-						</select>
-					</div>
+					<!-- 검색 버튼 -->
+					<form id="searchForm" action="/searchProc.rv" method="post"
+						style="border-top-width: 0px;">
+						<div
+							class="input-group rounded w-25 searchMemberInput mt-2 mb-3 me-3"
+							style="border-top-width: 0px;">
+							<input type="search" class="form-control rounded"
+								placeholder="아이디를 입력하세요" id="searchKeyword" name="searchKeyword"
+								onKeypress="if(event.keyCode==13){enterKey()}" /> <span
+								class="input-group-text border-0" id="search-addon"> <i
+								class="fas fa-search" id="searchIcon"></i>
+							</span>
+						</div>
+					</form>
 
-					<!-- 전체 조회 버튼 -->
+
+					<!-- 전체 조회 -->
 					<div class="selectAll ms-4" style="border-top-width: 0px">
-						<i class="fa-solid fa-folder-open"></i> <span
-							class="ms-2 selectAllIcon">전체조회</span>
+						<i class="fa-solid fa-folder-open"></i> <span class="ms-1"
+							id="selectAllIcon">전체조회</span>
 					</div>
 
-					<!-- 테이블 생성 -->
-					<div class="boardContainer" style="border-top-width: 0px">
-						<table class="table table-striped boardTable text-center mt-3"
+					<!-- 테이블 -->
+					<div class="MemberContainer" style="border-top-width: 0px">
+						<table class="table table-striped memberTable text-center mt-3"
 							id="tableBox">
 							<thead>
 								<tr>
-									<th scope="col">문의 번호</th>
-									<th scope="col">문의 유형</th>
-									<th scope="col">회원ID</th>
-									<th scope="col">제목</th>
-									<th scope="col">날짜</th>
-									<th scope="col">등록</th>
-									<th scope="col">답변유무</th>
+									<th scope="col">리뷰 번호</th>
+									<th scope="col">상품 번호</th>
+									<th scope="col">회원 아이디</th>
+									<th scope="col">내용</th>
+									<th scope="col">등록일</th>
+									<th scope="col">평점</th>
+									<th scope="col">상세 내용보기</th>
+									<th scope="col">삭제</th>
 								</tr>
 							</thead>
 							<tbody class="table-body">
 								<c:choose>
 									<c:when test="${list.size() == 0}">
 										<tr>
-											<td colspan=7>등록된 정보가 없습니다.</td>
+											<td colspan=8>등록된 정보가 없습니다.</td>
 										</tr>
 									</c:when>
 									<c:otherwise>
 										<c:forEach items="${list}" var="dto">
 											<tr>
-												<td class="align-middle">${dto.seq_qna}</td>
-												<td class="align-middle">${dto.qna_type}</td>
-												<td class="align-middle">${dto.user_id}</td>
-												<td class="align-middle">${dto.qna_title}</td>
-												<td class="align-middle">${dto.qna_date}</td>
-												<td><a
-													href="/boardQnaRegister.qna?seq_qna=${dto.seq_qna}"> <i
-														class="fa-solid fa-pen-to-square"></i>
-												</a></td>
-												<c:if test="${dto.qna_status eq '답변대기'}">
-													<td class="align-middle">답변대기</td>
-												</c:if>
-												<c:if test="${dto.qna_status eq '답변완료'}">
-													<td class="align-middle">답변완료</td>
-												</c:if>
+												<td class="align-middle">${dto.seq_review}</td>
+												<td class="align-middle">${dto.seq_product}</td>
+												<td class="align-middle">${dto.user_id }</td>
+												<td class="align-middle">${dto.review_content }</td>
+												<td class="align-middle">${dto.review_date}</td>
+												<td class="align-middle">${dto.review_rate}</td>
+												<td><a href="#"><i
+														class="fa-solid fa-magnifying-glass reviewDetailIcon"></i></a></td>
+												<td><a href="#"><i
+														class="fa-solid fa-trash reviewDeleteIcon"></i></a></td>
+												<td><input type="text" value="${dto.seq_review}"
+													class="reviewDetailInput d-none"></td>
 											</tr>
 										</c:forEach>
 									</c:otherwise>
@@ -379,50 +452,160 @@ a:hover {
 					<nav style="border-top-width: 0px;" class="PageNavigation">
 						<ul class="pagination justify-content-center">
 							<c:if test="${naviMap.needPrev eq true}">
-								<li class="page-item"><a class="page-link pageBtn1"
-									href="/boardQna.qna?curPage=${naviMap.startNavi-1}">Prev</a></li>
+								<li class="page-item"><a class="page-link"
+									href="/review.rv?curPage=${naviMap.startNavi-1}">Prev</a></li>
 							</c:if>
 
 							<c:forEach var="pageNum" begin="${naviMap.startNavi}"
 								end="${naviMap.endNavi}" step="1">
 								<li class="page-item"><a
 									class="page-link pageActive${pageNum}"
-									href="/boardQna.qna?curPage=${pageNum}">${pageNum}</a></li>
+									href="/review.rv?curPage=${pageNum}">${pageNum}</a></li>
 							</c:forEach>
 
 							<c:if test="${naviMap.needNext eq true}">
-								<li class="page-item"><a class="page-link pageBtn3"
-									href="/boardQna.qna?curPage=${naviMap.endNavi+1}">Next</a></li>
+								<li class="page-item"><a class="page-link"
+									href="/review.rv?curPage=${naviMap.endNavi+1}">Next</a></li>
 							</c:if>
 						</ul>
 					</nav>
 
-				</div>
 
+
+					<!-- 리뷰 내용 상세보기 -->
+					<div class="reviewDetailModal">
+						<div class="reviewModalBox">
+							<div class="row reviewDetailModalTitle d-flex">
+								<div class="col">
+									<h4>내용</h4>
+								</div>
+								<div class="col d-flex justify-content-end">
+									<i class="fa-solid fa-xmark closeBtn"></i>
+								</div>
+							</div>
+							<div class="row reviewDetailModalContent d-flex flex-column ">
+								<div class="col reviewDetailText w-100"></div>
+								<div class="col reviewDetailImg bg-primary w-100"></div>
+							</div>
+							<div class="row reviewDetailModalFooter ">
+								<div class="col d-flex justify-content-center reviewDetailDate">
+									2022,07월 08일</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- 리뷰 삭제하기 -->
+					<div class="reviewDeleteModal">
+						<div class="text-center mt-4">해당 리뷰를 정말로 삭제 하시겠습니까?</div>
+						<div class="row mt-3">
+							<div class="col-md-6 d-flex justify-content-end">
+								<button type="button" class="btn btn-primary btn-sm"
+									id="reviewDeleteCancelBtn">취소</button>
+							</div>
+							<div class="col-md-6">
+								<button type="button" class="btn btn-danger btn-sm"
+									id="reviewDeleteBtn">삭제</button>
+							</div>
+						</div>
+					</div>
+
+
+				</div>
 			</div>
 		</div>
-	</div>
-	</div>
-	</div>
-	<script>
-		// 사이드 네브바
-		$(".arrow1").on("click", function() {
-			$(".sub-menu-first").toggle("4000ms");
-		});
 
-		$(".arrow2").on("click", function() {
-			$(".sub-menu-second").toggle("4000ms");
-		});
 
-		$(".arrow3").on("click", function() {
-			$(".sub-menu-third").toggle("4000ms");
-		});
+		<script>
+	$(".arrow1").on("click", function () {
+        $(".sub-menu-first").toggle("4000ms");
+      });
 
-		$(".arrow4").on("click", function() {
-			$(".sub-menu-fourth").toggle("4000ms");
-		});
+      $(".arrow2").on("click", function () {
+        $(".sub-menu-second").toggle("4000ms");
+      });
 
-		// 페이지 네이션 action
+      $(".arrow3").on("click", function () {
+        $(".sub-menu-third").toggle("4000ms");
+      });
+
+      $(".arrow4").on("click", function () {
+        $(".sub-menu-fourth").toggle("4000ms");
+      });
+      
+      // 전체 조회 클릭시 
+      $("#selectAllIcon").on("click",function(){
+    	  location.href = "/review.rv?curPage=1";
+      })
+      
+
+     // 상세 내용보기 아이콘 버튼 클릭시 
+     $(".reviewDetailIcon").on("click",function(){
+    	 let thisRow = $(this).closest('tr'); 
+    	 let seq_review = thisRow.find('td:eq(8)').find('input').val();
+    	 
+    	$.ajax({
+    		url:"/checkReviewDetail.rv?seq_review="+seq_review,
+			type: "get",
+    		dataType: "json",
+    		success: function(data) {
+    			
+    			console.log(data);
+    			// 데이터 값 받아오기 
+    			let review_content = data[0].review_content;
+    			let review_date = data[0].review_date;
+    			$(".reviewDetailText").html(review_content);
+    			$(".reviewDetailDate").html(review_date);
+    			
+    			// 모달 창 띄우기 
+    			$(".reviewDetailModal").fadeIn();
+
+    	  		$(".closeBtn").off().on("click",function() {
+    	    		$(".reviewDetailModal").fadeOut();
+    	  		})
+    		},
+    		error : function(e) {
+    			console.log(e);
+    		}
+    	})
+      })
+      
+      
+      
+      
+      // 리뷰 삭제 버튼 클릭시 
+     $(".reviewDeleteIcon").on("click",function(){
+    	 
+    	 let thisRow = $(this).closest('tr'); 
+    	 let seq_review = thisRow.find('td:eq(8)').find('input').val();
+    	 
+    	 
+    	 $(".reviewDeleteModal").fadeIn();
+
+	     $("#reviewDeleteCancelBtn").off().on("click", function () {
+	              $(".reviewDeleteModal").fadeOut();
+	     });
+    	 
+    	 $("#reviewDeleteBtn").on("click",function(){
+    		 $.ajax({
+    	    		url:"/deleteReviewDetail.rv?seq_review="+seq_review,
+    				type: "post",
+    				data: {seq_review,seq_review},
+    	    		dataType: "json",
+    	    		success: function(data) {
+    	    			location.href="/review.rv?curPage=1";
+    	    		},
+    	    		error : function(e) {
+    	    			console.log(e);
+    	    		}
+    	    	})
+    	 })
+    	 
+      })
+      // enterKey
+		function enterKey(){
+ 			$("#searchIcon").click();
+ 		}
+   // 페이지 네이션 action
 		let active = $(".page-link").text();
 		let activePage = '${curPage}';
 		console.log("active : " + active);
@@ -433,35 +616,26 @@ a:hover {
 			if (active[i] == activePage) {
 				console.log(active[i]);
 				console.log(activePage);
-				$(".pageActive" + (i + 1)).css({
+				$(".pageActive"+(i+1)).css({
 					"background-color" : "#13213c",
 					"color" : "white"
 				});
 				break;
 			}
 		}
-		// 전체조회 클릭시 이동
-		$(".selectAllIcon").on("click", function() {
-			location.href = "/boardQna.qna?curPage=1";
-		})
-
-		// select에서 선택된 해당 value를 이용해 페이지 이동
-		$(document)
-				.ready(
-						function() {
-							$("#category-Selector")
-									.change(
-											function() {
-												let selectedVal = $(this).val();
-												console.log("hello");
-												console.log(selectedVal);
-												location.href = "/selectedProc.qna?curPage=1&selectedVal="
-														+ selectedVal;
-											});
-						})
+      // searchIcon 클릭시
+      $("#searchIcon").on("click",function(){
+    	  
+    	  // 검색 내용이 없을 때
+    	  if($("#searchKeyword").val() === ""){
+  			alert("내용을 입력하세요.");
+  			$("#searchKeyword").focus();
+  			return;
+  		}
+  			
+    	  console.log($("#searchKeyword").val());
+    	  $("#searchForm").submit();
+      })
 	</script>
-
-
-
 </body>
 </html>

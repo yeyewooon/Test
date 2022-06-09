@@ -10,11 +10,11 @@ public class MemberDTO {
 	private String user_detailAddr;
 	private String user_phone;
 	private String user_email;
-	private int user_point;
+	private String user_blacklist;
 	
 	
 	public MemberDTO() {}
-	public MemberDTO(String user_id, String user_password, String user_name, String user_date, String user_postCode, String user_roadAddr, String user_detailAddr, String user_phone, String user_email, int user_point) {
+	public MemberDTO(String user_id, String user_password, String user_name, String user_date, String user_postCode, String user_roadAddr, String user_detailAddr, String user_phone, String user_email,String user_blacklist) {
 		super();
 		this.user_id = user_id;
 		this.user_password = user_password;
@@ -25,7 +25,7 @@ public class MemberDTO {
 		this.user_detailAddr = user_detailAddr;
 		this.user_phone = user_phone;
 		this.user_email = user_email;
-		this.user_point = user_point;
+		this.user_blacklist = user_blacklist;
 	}
 	public String getUser_id() {
 		return user_id;
@@ -81,18 +81,17 @@ public class MemberDTO {
 	public void setUser_email(String user_email) {
 		this.user_email = user_email;
 	}
-	public int getUser_point() {
-		return user_point;
+	public String getUser_blacklist() {
+		return user_blacklist;
 	}
-	public void setUser_point(int user_point) {
-		this.user_point = user_point;
+	public void setUser_blacklist(String user_blacklist) {
+		this.user_blacklist = user_blacklist;
 	}
 	@Override
 	public String toString() {
 		return user_id + " : " + user_password + " : " + user_name
 				+ " : " + user_date + " : " + user_postCode + " : " + user_roadAddr
-				+ " : " + user_detailAddr + " : " + user_phone + " : " + user_email
-				+ " : " + user_point;
+				+ " : " + user_detailAddr + " : " + user_phone + " : " + user_email+ " : " + user_blacklist;
 	}
 	
 	

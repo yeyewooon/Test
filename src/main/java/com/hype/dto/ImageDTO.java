@@ -2,18 +2,18 @@ package com.hype.dto;
 
 public class ImageDTO {
 	private int seq_image;
-	private int product_seq;
-	private String image_main;
-	private int image_section;
+	private int seq_product;
+	private String image_name;
+	private String image_path;
 	
 	public ImageDTO() {}
 	
-	public ImageDTO(int seq_image, int product_seq, String image_main, int image_section) {
+	public ImageDTO(int seq_image, int seq_product, String image_name, String image_path) {
 		super();
 		this.seq_image = seq_image;
-		this.product_seq = product_seq;
-		this.image_main = image_main;
-		this.image_section = image_section;
+		this.seq_product = seq_product;
+		this.image_name = image_name;
+		this.image_path = image_path;
 	}
 	public int getSeq_image() {
 		return seq_image;
@@ -21,29 +21,27 @@ public class ImageDTO {
 	public void setSeq_image(int seq_image) {
 		this.seq_image = seq_image;
 	}
-	public int getProduct_seq() {
-		return product_seq;
+	public int getSeq_product() {
+		return seq_product;
 	}
-	public void setProduct_seq(int product_seq) {
-		this.product_seq = product_seq;
+	public void setSeq_product(int seq_product) {
+		this.seq_product = seq_product;
 	}
-	public String getImage_main() {
-		return image_main;
+	public String getImage_name() {
+		return image_name;
 	}
-	public void setImage_main(String image_main) {
-		this.image_main = image_main;
+	public void setImage_name(String image_name) {
+		this.image_name = image_name;
 	}
-	public int getImage_section() {
-		return image_section;
+	public String getImage_path() {
+		return image_path;
 	}
-	public void setImage_section(int image_section) {
-		this.image_section = image_section;
+	public void setImage_path(String image_path) {
+		this.image_path = image_path;
 	}
 	@Override
 	public String toString() {
-		return seq_image + " : " + product_seq + " : " + image_main
-				+ " : " + image_section;
+		return seq_image + " : " + seq_product + " : " + image_name
+				+ " : " + image_path;
 	}
-	
-	
 }

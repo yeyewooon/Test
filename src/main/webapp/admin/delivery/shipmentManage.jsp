@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,7 +21,208 @@
 	integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
 	crossorigin="anonymous"></script>
 
-<link href="<%=request.getContextPath()%>css/shipmentManage.css" rel="stylesheet"/>
+<style>
+.adminContainer {
+	height: 100vh;
+	background-color: black;
+}
+
+.titleLogo, .shipmentModify, #selectAllIcon, #searchIcon {
+	cursor: pointer;
+}
+
+.adminNavbar {
+	margin: 0;
+	background-color: #212e41;
+	color: #fff;
+	height: 8%;
+}
+
+.adminNavbar-left {
+	font-size: 26px;
+}
+
+.adminNavbar-left span {
+	cursor: pointer;
+}
+
+.adminMain {
+	background-color: blue;
+}
+
+.adminContent {
+	margin: 0;
+	height: 92%;
+}
+
+.adminSidebarContainer {
+	background-color: #212e41;
+	color: #fff;
+}
+
+.adminMainContainer {
+	background-color: none;
+}
+
+ul {
+	list-style: none;
+}
+
+.adminIcon {
+	margin-right: 30px;
+}
+
+.adminIconSpan {
+	margin-right: 12px;
+}
+
+.adminIconLogout {
+	margin-left: 26px;
+	cursor: pointer;
+}
+
+/* sidebar navlink */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: "Poppins", sans-serif;
+}
+
+.adminSidebar {
+	height: 92%;
+	background: #fff;
+	transition: all 0.5s ease;
+}
+
+.adminSidebar .nav-links li a {
+	display: flex;
+	align-items: center;
+	text-decoration: none;
+}
+
+.nav-linksContainer {
+	margin-top: 25px;
+	transition: 0.5s ease;
+}
+
+.nav-linksContainer:hover {
+	background-color: #1d1b31;
+}
+
+.nav-links {
+	font-size: 16px;
+	padding-left: 0;
+}
+
+.icon-link {
+	display: flex;
+	align-items: center;
+	justify-content: space-evenly;
+	color: #fff;
+}
+
+.icon-link .icon-link-left {
+	color: #fff;
+}
+
+.icon-link .icon-link-left i {
+	left: 0;
+	margin-right: 16px;
+	color: #fff;
+}
+
+.icon-link .icon-link-left span {
+	color: #fff;
+}
+
+.sub-menu {
+	margin-left: 16%;
+	list-style: none;
+	display: none;
+}
+
+.sub-menu li {
+	margin: 10px 0px;
+}
+
+.sub-menu li a {
+	font-size: 14px;
+	color: #fff;
+}
+
+.sub-menu li:hover {
+	border-left: 3px solid #fff;
+}
+/* 메인 페이지 */
+.table>:not(:first-child) {
+	border-top: none;
+}
+
+.memberDelete, .memberModify, .selectAllIcon {
+	cursor: pointer;
+}
+
+.searchMemberInput {
+	margin-left: auto;
+}
+
+#tableBox>tbody>tr {
+	height: 41px;
+}
+
+/* 수정 모달창 */
+.modal {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.8);
+	top: 0;
+	left: 0;
+	display: none;
+}
+
+.modal_content {
+	width: 650px;
+	height: 650px;
+	background: #fff;
+	border-radius: 10px;
+	position: relative;
+	top: 20%;
+	left: 50%;
+	margin-top: -100px;
+	margin-left: -200px;
+	text-align: center;
+	box-sizing: border-box;
+	padding: 30px 0;
+	line-height: 23px;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:link {
+	color: black;
+	text-decoration: none;
+}
+
+a:visited {
+	color: black;
+	text-decoration: none;
+}
+
+a:hover {
+	color: black;
+	text-decoration: underline;
+}
+</style>
+
+
+
+
+
+
 </head>
 <body>
 	<div class="adminContainer">
@@ -51,8 +253,8 @@
 						</div>
 					</div>
 					<ul class="sub-menu sub-menu-first">
-						<li><a href="https://www.naver.com">상품 등록</a></li>
-						<li><a href="#">상품 수정</a></li>
+						<li><a href="/admin/product/productInsert.jsp">상품 등록</a></li>
+						<li><a href="/modify.pc?curPage=1">상품 조회</a></li>
 					</ul>
 				</div>
 				<div class="nav-linksContainer nav-linksContainer2">
@@ -68,7 +270,7 @@
 						</div>
 					</div>
 					<ul class="sub-menu sub-menu-second">
-						<li><a href="https://www.naver.com">회원 수정 및 삭제</a></li>
+						<li><a href="/select.amem?curPage=1">회원 조회</a></li>
 					</ul>
 				</div>
 				<div class="nav-linksContainer nav-linksContainer3">
@@ -84,7 +286,7 @@
 						</div>
 					</div>
 					<ul class="sub-menu sub-menu-third">
-						<li><a href="https://www.naver.com">배송 정보 변경</a></li>
+						<li><a href="/shipManage.sh?curPage=1">배송 정보 변경</a></li>
 					</ul>
 				</div>
 				<div class="nav-linksContainer nav-linksContainer4">
@@ -100,64 +302,79 @@
 						</div>
 					</div>
 					<ul class="sub-menu sub-menu-fourth">
-						<li><a href="#">문의 관리</a></li>
-						<li><a href="#">리뷰 관리</a></li>
+						<li><a href="/boardQna.qna?curPage=1">문의 관리</a></li>
+						<li><a href="/review.rv?curPage=1">리뷰 관리</a></li>
 					</ul>
 				</div>
 			</div>
 			<div class="col-md-10 adminMainContainer">
 				<div class="table firstTable">
-					<h3 class="text-center mt-3 firstTableTitle">배송 정보</h3>
-					
+					<h2 class="text-center mt-5 firstTableTitle">배송 정보</h2>
+
+					<!-- 배송 상태 고르기 -->
+					<div class="boardCategory d-flex justify-content-center mt-4"
+						style="border-top-width: 0px">
+						<select class="form-select w-25" id="category-Selector">
+							<option>배송 상태를 선택하세요</option>
+							<option value="상품 준비중" class="productReady" name="productReady">상품
+								준비중</option>
+							<option value="상품 출발" class="productStart" name="productStart">상품
+								출발</option>
+							<option value="상품 도착" class="productArrive" name="productArrive">상품
+								도착</option>
+						</select>
+					</div>
+
+
 					<!-- 검색 버튼 -->
-					<form action="" method="get">
 					<div class="input-group rounded w-25 searchMemberInput mt-2 mb-3">
-						<input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" /> 
-						<span class="input-group-text border-0" id="search-addon"> 
-							<i class="fas fa-search" id="searchIcon"></i>
+						<input type="search" class="form-control rounded"
+							placeholder="ID를 입력하세요" id="searchKeyword" onKeypress="if(event.keyCode==13){enterKey()}"/> <span
+							class="input-group-text border-0" id="search-addon"> <i
+							class="fas fa-search" id="searchIcon"></i>
 						</span>
 					</div>
-					</form>
-					
+
+					<!-- 전체 조회 -->
+					<div class="selectAll ms-4" style="border-top-width: 0px">
+						<i class="fa-solid fa-folder-open"></i> <span class="ms-1"
+							id="selectAllIcon">전체조회</span>
+					</div>
+
+					<!-- 테이블 -->
 					<div class="MemberContainer" style="border-top-width: 0px">
 						<table class="table table-striped memberTable text-center mt-3"
 							id="tableBox">
 							<thead>
 								<tr>
-									<th scope="col">주문번호</th>
-									<th scope="col">회원ID</th>
-									<th scope="col">배송지</th>
-									<th scope="col">주문 금액</th>
+									<th scope="col">주문 번호</th>
+									<th scope="col">회원 아이디</th>
+									<th scope="col">회원 이름</th>
+									<th scope="col">주소</th>
 									<th scope="col">배송 상태</th>
-									<th scope="col">주문일</th>
 									<th scope="col">수정</th>
 								</tr>
 							</thead>
-							<tbody>
+							<tbody class="table-body">
 								<c:choose>
 									<c:when test="${list.size() == 0}">
 										<tr>
-											<td colspan=7>등록된 정보가 없습니다.</td>
+											<td colspan=6>등록된 정보가 없습니다.</td>
 										</tr>
 									</c:when>
 									<c:otherwise>
 										<c:forEach items="${list}" var="dto">
 											<tr>
-												<td class="align-middle">d42015</td>
-												<td class="align-middle">kh123</td>
+												<td class="align-middle">${dto.seq_order}</td>
+												<td class="align-middle">${dto.user_id}</td>
+												<td class="align-middle">${dto.order_name }</td>
+												<td class="align-middle">${dto.order_address }</td>
+												<td class="align-middle">${dto.order_status}</td>
 												<td class="align-middle">
-													<div class="d-flex align-self-center">
-														<input type="text" id="shipmentAddressInput"
-															class="form-control" value="파주시 파주읍 파주면 583-6"
-															aria-label="Username" aria-describedby="basic-addon1"
-															readonly />
-													</div>
+													<a href="/shipModify.sh?seq_order=${dto.seq_order}">
+														<i class="fa-solid fa-pencil shipmentModify"></i>
+													</a>
 												</td>
-												<td class="align-middle">150000원</td>
-												<td class="align-middle"><span>상품준비중</span></td>
-												<td class="align-middle">2022년 05월 21일 18시 42분</td>
-												<td class="align-middle"><i
-													class="fa-solid fa-pencil shipmentModify"></i></td>
 											</tr>
 										</c:forEach>
 									</c:otherwise>
@@ -165,28 +382,141 @@
 							</tbody>
 						</table>
 					</div>
-					<nav aria-label="Page navigation example">
+
+					<!-- 페이지네이션 -->
+					<nav class="navPagination">
 						<ul class="pagination justify-content-center">
-							<li class="page-item"><a class="page-link" href="#"
-								aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-							</a></li>
-							<li class="page-item"><a class="page-link" href="#">1</a></li>
-							<li class="page-item"><a class="page-link" href="#">2</a></li>
-							<li class="page-item"><a class="page-link" href="#">3</a></li>
-							<li class="page-item"><a class="page-link" href="#"
-								aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-							</a></li>
+							<c:if test="${naviMap.needPrev eq true}">
+								<li class="page-item"><a class="page-link"
+									href="/shipManage.sh?curPage=${naviMap.startNavi-1}">Prev</a></li>
+							</c:if>
+
+							<c:forEach var="pageNum" begin="${naviMap.startNavi}"
+								end="${naviMap.endNavi}" step="1">
+								<li class="page-item"><a class="page-link pageActive${pageNum}"
+									href="/shipManage.sh?curPage=${pageNum}">${pageNum}</a></li>
+							</c:forEach>
+
+							<c:if test="${naviMap.needNext eq true}">
+								<li class="page-item"><a class="page-link"
+									href="/shipManage.sh?curPage=${naviMap.endNavi+1}">Next</a></li>
+							</c:if>
 						</ul>
 					</nav>
+
 				</div>
 			</div>
 		</div>
 	</div>
 
+	<script>
 
+// 왼쪽 네브바 클릭
 
-<script src="<%=request.getContextPath()%>script/shipmentManage.js"></script>
+	$(".arrow1").on("click", function () {
+		$(".sub-menu-first").toggle("4000ms");
+  	});
 
+  	$(".arrow2").on("click", function () {
+    	$(".sub-menu-second").toggle("4000ms");
+  	});
+
+  	$(".arrow3").on("click", function () {
+    	$(".sub-menu-third").toggle("4000ms");
+  	});
+
+  	$(".arrow4").on("click", function () {
+    	$(".sub-menu-fourth").toggle("4000ms");
+  	});
+
+  	// 검색 했을 때 출력
+	$("#searchIcon").on("click",function() {
+		let searchKeyword = $("#searchKeyword").val();
+		console.log(searchKeyword);
+		
+		 $.ajax({
+			url:"/searchProc.sh?searchKeyword="+searchKeyword,
+			type: "get",
+    		dataType: "json",
+    		success: function(data) {
+    			 $(".table-body").empty(); // 기존 게시글 다 삭제
+    			
+    			if(data.length == 0){
+					let tr = $("<tr>");
+					let td = $("<td colspan=6>").html("검색된 배송정보가 없습니다.");
+					tr.append(td);
+					$(".table-body").append(tr);
+				}else{
+					for(let dto of data){ 
+						let tr = $("<tr>");
+						let td1 = $("<td>").html(dto.seq_order);
+						let td2 = $("<td>").html(dto.user_id);
+						let td3 = $("<td>").html(dto.order_name);
+						let td4 = $("<td>").html(dto.order_address);
+						let td5 = $("<td>").html(dto.order_status);
+						let iTag = $("<i>").attr("class","fa-solid fa-pencil shipmentModify");
+						let tempATag = $("<a>").attr("href", "/shipModify.sh?seq_order="+dto.seq_order);
+						let aTag = tempATag.append(iTag);
+						let td6 = $("<td>").append(aTag);
+						tr.append(td1, td2, td3, td4, td5, td6);
+						$(".table-body").append(tr);
+					}   					
+					
+					// 기존 페이지네이션 삭제
+					$(".navPagination").attr("class","d-none");
+				}	 
+    		},
+    		error : function(e) {
+    			console.log(e);
+    		}
+		}) 
+	})
+	
+	// 전체 조회 클릭
+	$("#selectAllIcon").on("click",function() {
+		console.log('hi');
+		location.href ="/shipManage.sh?curPage=1";
+	})
+	
+	// enterKey
+	function enterKey(){
+ 			$("#searchIcon").click();
+ 		}
+  	
+	// 페이지 네이션 action
+	let active = $(".page-link").text();
+	let activePage = '${curPage}';
+	console.log("active : " + active);
+	console.log("active.length : " + active.length);
+	console.log("activePage : " + activePage);
+	for (let i = 0; i < active.length; i++) {
+		console.log("asdasd : " + active[i]);
+		if (active[i] == activePage) {
+			console.log(active[i]);
+			console.log(activePage);
+			$(".pageActive"+(i+1)).css({
+				"background-color" : "#13213c",
+				"color" : "white"
+			});
+			break;
+		}
+	}
+	// select에서 선택된 해당 value를 이용해 페이지 이동
+        $(document).ready(function () {
+          $("#category-Selector").change(function () {
+            let selectedVal = $(this).val();
+            console.log(selectedVal);
+            location.href = "/selectedProc.sh?curPage=1&selectedVal="+selectedVal;
+          });
+        })
+	
+	
+	
+	
+	
+	
+
+</script>
 
 
 </body>

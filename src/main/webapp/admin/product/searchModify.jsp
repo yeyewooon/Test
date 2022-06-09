@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="EUC-KR">
-<title>문의 관리</title>
+<title>상품 조회</title>
 <script src="https://kit.fontawesome.com/f9358a6ceb.js"
 	crossorigin="anonymous"></script>
 <link
@@ -20,20 +20,17 @@
 <script src="https://code.jquery.com/jquery-3.6.0.js"
 	integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
 	crossorigin="anonymous"></script>
-
-
+<%-- <link href="<%=request.getContextPath()%>css/productModify.css"
+	rel="stylesheet"/> --%>
 <style>
-* {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-	font-family: "Poppins", sans-serif;
-}
-
 /* navbar & maincontainer */
 .adminContainer {
 	height: 100vh;
 	background-color: black;
+}
+
+.titleLogo {
+	cursor: pointer;
 }
 
 .adminNavbar {
@@ -65,6 +62,10 @@
 	color: #fff;
 }
 
+.adminMainContainer {
+	background-color: none;
+}
+
 ul {
 	list-style: none;
 }
@@ -83,6 +84,13 @@ ul {
 }
 
 /* sidebar navlink */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: "Poppins", sans-serif;
+}
+
 .adminSidebar {
 	height: 92%;
 	background: #fff;
@@ -93,14 +101,6 @@ ul {
 	display: flex;
 	align-items: center;
 	text-decoration: none;
-}
-
-.adminSidebarContainer {
-	padding: 0;
-}
-
-.adminMainContainer {
-	padding: 0;
 }
 
 .nav-linksContainer {
@@ -118,6 +118,9 @@ ul {
 }
 
 .icon-link {
+	display: flex;
+	align-items: center;
+	justify-content: space-evenly;
 	color: #fff;
 }
 
@@ -127,6 +130,7 @@ ul {
 
 .icon-link .icon-link-left i {
 	left: 0;
+	margin-right: 16px;
 	color: #fff;
 }
 
@@ -135,10 +139,9 @@ ul {
 }
 
 .sub-menu {
-	margin-left: 16%;
+	margin-left: 36px;
 	list-style: none;
 	display: none;
-	text-decoration-line: none;
 }
 
 .sub-menu li {
@@ -148,86 +151,42 @@ ul {
 .sub-menu li a {
 	font-size: 14px;
 	color: #fff;
-	text-decoration-line: none;
 }
 
 .sub-menu li:hover {
 	border-left: 3px solid #fff;
 }
-
-.firstTable {
-	background-color: #fff;
-	margin-bottom: 0;
+/* 메인 페이지 */
+.table>:not(:first-child) {
+	border-top: none;
 }
 
-/* 메인 페이지  */
-.firstTableTitle {
-	font-size: 24px;
-}
-
-.firstTable {
-	border: 0;
-}
-
-.MemberText, .searchMemberText {
-	font-size: 18px;
-	margin-left: 9px;
-	margin-bottom: 0;
-	border: 40px;
+.productModify {
+	cursor: pointer;
 }
 
 .searchMemberInput {
-	margin-left: 9px;
+	margin-left: auto;
 }
 
-tbody tr {
-	transition: 0.7s ease;
-}
-
-/* table hover시 color 변경 */
-#tableBox:hover tbody tr:hover td {
-	background-color: #7f7f7f;
-	color: #fff;
-}
-
-/* 이모티콘 cursor pointer */
-td span, .replyExit {
+#searchBtn {
 	cursor: pointer;
 }
 
-.selectAllIcon {
-	cursor: pointer;
+#tableBox>tbody>tr {
+	height: 41px;
 }
-
-a {
-	text-decoration: none;
-}
-
-a:link {
-	color: black;
-	text-decoration: none;
-}
-
-a:visited {
-	color: black;
-	text-decoration: none;
-}
-
-a:hover {
-	color: black;
-	text-decoration: underline;
+#textAllSelect{
+	cursor:pointer;
 }
 </style>
-
 </head>
-
-
 <body>
 	<div class="adminContainer">
 		<div class="row adminNavbar d-flex align-items-center">
 			<div
 				class="col-md-2 adminNavbar-left d-flex justify-content-center align-items-lg-center">
-				<i class="fa-brands fa-yahoo"></i> <span adminNavbar-left-text>LAND</span>
+				<i class="fa-brands fa-yahoo"></i><span adminNavbar-left-text id="logo">LAND</span>
 			</div>
 			<div class="col-md-10 adminNavbar-right d-flex justify-content-end">
 				<div class="adminIcon">
@@ -305,68 +264,50 @@ a:hover {
 					</ul>
 				</div>
 			</div>
-
-			<!-- 메인 부분 -->
 			<div class="col-md-10 adminMainContainer">
 				<div class="table firstTable">
-					<h2 class="text-center mt-5 firstTableTitle">문의 관리</h2>
-
-					<!-- 문의 고르기 -->
-					<div class="boardCategory d-flex justify-content-center mt-4"
-						style="border-top-width: 0px">
-						<select class="form-select w-25" id="category-Selector">
-							<option>문의 유형</option>
-							<option value="배송" class="category-Shipment" name="shipment">배송</option>
-							<option value="결제" class="category-Payment" name="payment">결제</option>
-						</select>
+					<h3 class="text-center mt-3 firstTableTitle">상품 조회</h3>
+					<div class="input-group rounded w-25 searchMemberInput mt-2 mb-3">
+						<input type="text" class="form-control rounded"
+							placeholder="상품코드 입력" aria-label="Search" id="searchWord"
+							name="searchWord" aria-describedby="search-addon" onKeypress="if(event.keyCode==13){enterKey()}"/> <span
+							class="input-group-text border-0" id="searchBtn"> <i
+							class="fas fa-search"></i>
+						</span>
 					</div>
-
-					<!-- 전체 조회 버튼 -->
 					<div class="selectAll ms-4" style="border-top-width: 0px">
-						<i class="fa-solid fa-folder-open"></i> <span
-							class="ms-2 selectAllIcon">전체조회</span>
+						<i class="fa-solid fa-folder-open"></i> <span class="ms-2" id="textAllSelect">전체조회</span>
 					</div>
-
-					<!-- 테이블 생성 -->
-					<div class="boardContainer" style="border-top-width: 0px">
-						<table class="table table-striped boardTable text-center mt-3"
+					<div class="MemberContainer" style="border-top-width: 0px">
+						<table class="table table-striped memberTable text-center mt-3"
 							id="tableBox">
 							<thead>
 								<tr>
-									<th scope="col">문의 번호</th>
-									<th scope="col">문의 유형</th>
-									<th scope="col">회원ID</th>
-									<th scope="col">제목</th>
-									<th scope="col">날짜</th>
-									<th scope="col">등록</th>
-									<th scope="col">답변유무</th>
+									<th scope="col">상품 번호</th>
+									<th scope="col">상품 카테고리</th>
+									<th scope="col">상품 코드</th>
+									<th scope="col">상품 이름</th>
+									<th scope="col">상품 가격</th>
+									<th scope="col">수정</th>
 								</tr>
 							</thead>
-							<tbody class="table-body">
+							<tbody class="productBoard">
 								<c:choose>
 									<c:when test="${list.size() == 0}">
 										<tr>
-											<td colspan=7>등록된 정보가 없습니다.</td>
+											<td colspan=6>등록된 상품이 없습니다.</td>
 										</tr>
 									</c:when>
 									<c:otherwise>
 										<c:forEach items="${list}" var="dto">
 											<tr>
-												<td class="align-middle">${dto.seq_qna}</td>
-												<td class="align-middle">${dto.qna_type}</td>
-												<td class="align-middle">${dto.user_id}</td>
-												<td class="align-middle">${dto.qna_title}</td>
-												<td class="align-middle">${dto.qna_date}</td>
-												<td><a
-													href="/boardQnaRegister.qna?seq_qna=${dto.seq_qna}"> <i
-														class="fa-solid fa-pen-to-square"></i>
-												</a></td>
-												<c:if test="${dto.qna_status eq '답변대기'}">
-													<td class="align-middle">답변대기</td>
-												</c:if>
-												<c:if test="${dto.qna_status eq '답변완료'}">
-													<td class="align-middle">답변완료</td>
-												</c:if>
+												<td>${dto.getSeq_product()}</td>
+												<td>${dto.getCategory()}</td>
+												<td>${dto.getProduct_code()}</td>
+												<td>${dto.getProduct_name()}</td>
+												<td>${dto.getProduct_price()}</td>
+												<td id="icon"><span class="productModify"><i
+														class="fa-solid fa-pencil"></i></span></td>
 											</tr>
 										</c:forEach>
 									</c:otherwise>
@@ -374,38 +315,33 @@ a:hover {
 							</tbody>
 						</table>
 					</div>
-
-					<!-- 페이지네이션 -->
-					<nav style="border-top-width: 0px;" class="PageNavigation">
+					<nav aria-label="Page navigation example">
 						<ul class="pagination justify-content-center">
-							<c:if test="${naviMap.needPrev eq true}">
-								<li class="page-item"><a class="page-link pageBtn1"
-									href="/boardQna.qna?curPage=${naviMap.startNavi-1}">Prev</a></li>
+							<c:if test="${naviMap.Prev eq true}">
+								<li class="page-item"><a class="page-link"
+									href="/search.pc?curPage=${naviMap.startNavi-1}"
+									aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+								</a></li>
 							</c:if>
-
 							<c:forEach var="pageNum" begin="${naviMap.startNavi}"
 								end="${naviMap.endNavi}" step="1">
-								<li class="page-item"><a
-									class="page-link pageActive${pageNum}"
-									href="/boardQna.qna?curPage=${pageNum}">${pageNum}</a></li>
+								<li class="page-item"><a class="page-link pageActive${pageNum}"
+									href="/search.pc?curPage=${pageNum}&&searchWord=${searchWord}">${pageNum}</a></li>
 							</c:forEach>
-
-							<c:if test="${naviMap.needNext eq true}">
-								<li class="page-item"><a class="page-link pageBtn3"
-									href="/boardQna.qna?curPage=${naviMap.endNavi+1}">Next</a></li>
+							<c:if test="${naviMap.Next eq true}">
+								<li class="page-item"><a class="page-link"
+									href="/search.pc?curPage=${naviMap.endNavi+1}"
+									aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+								</a></li>
 							</c:if>
 						</ul>
 					</nav>
-
 				</div>
-
 			</div>
 		</div>
 	</div>
-	</div>
-	</div>
+	<%--<script src="<%=request.getContextPath()%>script/productModify.js"></script>--%>
 	<script>
-		// 사이드 네브바
 		$(".arrow1").on("click", function() {
 			$(".sub-menu-first").toggle("4000ms");
 		});
@@ -417,11 +353,15 @@ a:hover {
 		$(".arrow3").on("click", function() {
 			$(".sub-menu-third").toggle("4000ms");
 		});
-
 		$(".arrow4").on("click", function() {
 			$(".sub-menu-fourth").toggle("4000ms");
 		});
-
+		$("#logo").on("click",function(){
+			location.href = "/admin.ad"
+		})
+		$("#textAllSelect").on("click",function(){
+			location.href="/modify.pc?curPage=1";
+		})
 		// 페이지 네이션 action
 		let active = $(".page-link").text();
 		let activePage = '${curPage}';
@@ -433,35 +373,29 @@ a:hover {
 			if (active[i] == activePage) {
 				console.log(active[i]);
 				console.log(activePage);
-				$(".pageActive" + (i + 1)).css({
+				$(".pageActive"+(i+1)).css({
 					"background-color" : "#13213c",
 					"color" : "white"
 				});
 				break;
 			}
 		}
-		// 전체조회 클릭시 이동
-		$(".selectAllIcon").on("click", function() {
-			location.href = "/boardQna.qna?curPage=1";
+		// 수정 클릭시
+	 	$(".productModify").on("click", function(){
+	 		let thisRow = $(this).closest('tr');
+	        let seq_product = thisRow.find('td:eq(0)').html();
+	        location.href="/productmodify.pc?seq_product="+seq_product;
+	 	});  
+		function enterKey(){
+ 			$("#searchBtn").click();
+ 		}
+		$("#searchBtn").on("click", function() {
+			let searchWord = $("#searchWord").val();
+			if(searchWord == ""){
+				location.href = "/modify.pc?curPage=1";
+				}
+			location.href = "/search.pc?&curPage=1&&searchWord="+searchWord;
 		})
-
-		// select에서 선택된 해당 value를 이용해 페이지 이동
-		$(document)
-				.ready(
-						function() {
-							$("#category-Selector")
-									.change(
-											function() {
-												let selectedVal = $(this).val();
-												console.log("hello");
-												console.log(selectedVal);
-												location.href = "/selectedProc.qna?curPage=1&selectedVal="
-														+ selectedVal;
-											});
-						})
 	</script>
-
-
-
 </body>
 </html>
