@@ -30,67 +30,62 @@ integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52n
    <div class="container MainBox">
         <!-- 네비바 -->
         <nav class="navbar navbar-light bg-light fixed">
-            <div class="container">
-                <a class="navbar-brand" href="/toPay.pay" id="logo">로고</a>
-                <div class="col-md-1  navbar-anchor"><a href="/">COMPANY</a></div>
-                <div class="dropdown ">
-                    <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-weight: bold;">
-                      CLOTHES
-                    </button>
-                    <ul class="dropdown-menu nav-category" aria-labelledby="dropdownMenuButton1">
-                      <li><a class="dropdown-item" href="#">Top</a></li>
-                      <li><a class="dropdown-item" href="#">Bottom</a></li>
-                      <li><a class="dropdown-item" href="#">Accessory</a></li>
+          <div class="container">
+            <a class="navbar-brand" href="/Tohome" id="logo"><img id="logo" src="/resources/images/Logo.png" alt="HypeFriend"></a>
+            <div class="col-md-1  navbar-anchor"><a href="/">COMPANY</a></div>
+            <div class="dropdown ">
+              <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"
+                style="font-weight: bold;">
+                CLOTHES
+              </button>
+              <ul class="dropdown-menu nav-category" aria-labelledby="dropdownMenuButton1">
+                <li><a class="dropdown-item" href="#">Top</a></li>
+                <li><a class="dropdown-item" href="#">Bottom</a></li>
+                <li><a class="dropdown-item" href="#">Accessory</a></li>
+              </ul>
+            </div>
+            <div class="col-md-1 navbar-anchor"><a href="/">Shop</a></div>
+            <div class="col-md-1 navbar-anchor"><a href="/toCs.mem">CS</a></div>
+            
+            <div class="col-md-4 navbar-anchor" id="userIcon">
+              <c:choose>
+                <c:when test="${not empty loginSession}">
+                  <!-- 로그인했으면 -->
+                  <a href="/toCart.mem"><i class="fa-solid fa-cart-plus"></i></a>
+                  <div class="dropdown" style="display: inline;">
+                    <i class="fa-solid fa-user" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                      <li><a class="dropdown-item" href="/toMypage.mem">마이페이지</a></li>
+                      <li><a class="dropdown-item" href="/logoutProc.mem">로그아웃</a></li>
                     </ul>
                   </div>
-                <div class="col-md-1 navbar-anchor"><a href="/">매장찾기</a></div>
-                <div class="col-md-1 navbar-anchor"><a href="/toCs.mem">고객센터</a></div>
-            <!-- 네비바 검색창 -->
-                <div class="col-md-4 navbar-anchor" id="navbar-search">
-                    <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-                        <div class="input-group">
-                            <button class="btn btn-link" style="border: 1px solid lightgrey;" id="btnSearch" type="button"><i id="searchIcon" class="fas fa-search"></i></button>
-                            <input class="form-control" type="text" aria-describedby="btnNavbarSearch" />
-                        </div>
-                    </form>
-                </button></div>
-                <div class="col-md-2 navbar-anchor" id="userIcon">
-                    <c:choose>
-						<c:when test="${not empty loginSession}"><!-- 로그인했으면 -->
-							<a href="/toCart.mem"><i class="fa-solid fa-cart-plus"></i></a>
-								<div class="dropdown" style="display: inline;">
-									<i class="fa-solid fa-user" data-bs-toggle="dropdown" aria-expanded="false" ></i>
-					                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-					                      <li><a class="dropdown-item" href="/toMypage.mem">마이페이지</a></li>
-					                      <li><a class="dropdown-item" href="/logoutProc.mem">로그아웃</a></li>	                     
-					                    </ul>
-					             </div>
-                  			<span style="font-size: 10px;">${loginSession.user_id}님</span>
-						</c:when>
-						
-						<c:otherwise><!-- 로그인 안하면 -->
-							<i id="loginIcon" class="fa-solid fa-cart-plus"></i></a>
-							<i id="loginIcon2" class="fa-solid fa-user"></i>
-							<script>
-							document.getElementById("loginIcon2").onclick = function(){
-								let url = "/toLogin.mem";
-								let name = "로그인";
-								let option = "width=500, height=500, left=700, top=300";
-								window.open(url, name, option);
-								}
-							document.getElementById("loginIcon").onclick = function(){
-								let url = "/toLogin.mem";
-								let name = "로그인";
-								let option = "width=500, height=500, left=700, top=300";
-								window.open(url, name, option);
-								}
-							</script>
-						</c:otherwise>
-					</c:choose>
-                </div>
+                  <span style="font-size: 10px;">${loginSession.user_id}님</span>
+                </c:when>
+
+                <c:otherwise>
+                  <!-- 로그인 안하면 -->
+                  <i id="loginIcon" class="fa-solid fa-cart-plus"></i></a>
+                  <i id="loginIcon2" class="fa-solid fa-user"></i>
+                  <script>
+                    document.getElementById("loginIcon2").onclick = function () {
+                      let url = "/toLogin.mem";
+                      let name = "로그인";
+                      let option = "width=600, height=700, left=700, top=300";
+                      window.open(url, name, option);
+                    }
+                    document.getElementById("loginIcon").onclick = function () {
+                      let url = "/toLogin.mem";
+                      let name = "로그인";
+                      let option = "width=600, height=700, left=700, top=300";
+                      window.open(url, name, option);
+                    }
+                  </script>
+                </c:otherwise>
+              </c:choose>
             </div>
+          </div>
         </nav>
-    </div>
+      </div>
 
         <!-- 바디-->
     <header class="masthead w-100" >
@@ -102,7 +97,7 @@ integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52n
                 </div>
                 <div class="row">
                     <div class="col">
-                        <h6 class="info">>총 주문금액: ${totalPrice}원</h6>
+                        <h6 class="info mb-4" id="totalPrice">누적 구매 금액: </h6>
                     </div>
                 </div>
             </div>
@@ -110,7 +105,7 @@ integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52n
             <div class="container" id="contentBox2">
                 <div class="row">
                     <div class="col-12 col-sm-12" style="border-bottom: 1px solid lightgrey; height: auto; " >
-                        <h3 class="header">나의 주문 처리현황</h3>
+                        <h5 class="orderInfo">나의 주문 처리현황</h5>
                     </div>
                 </div>
                 <div class="row">
@@ -135,7 +130,7 @@ integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52n
                             수정하실 수 있습니다.
                         </p>
                     </div>
-                    <div class="col-12 col-sm-6 mp_info_right" onclick="location.href='/'">
+                    <div class="col-12 col-sm-6 mp_info_right" onclick="location.href='/toCart.mem'">
                         <p class="infoTextHeader d-inline-block" style="font-size: 25px ;"><Strong>Cart</Strong></p><span style="margin-left: 20px;"> 장바구니</span>
                         <p class="infoText" style="font-size: 15px ;">
                             고객님께서 장바구니에 담은 상품을 확인<br>
@@ -151,7 +146,7 @@ integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52n
                             한눈에 관리하실 수 있습니다.
                         </p>
                     </div>
-                    <div class="col-12 col-sm-6 mp_info" style="border-bottom: none; border-right: 1px solid lightgray;" onclick="location.href='/'">
+                    <div class="col-12 col-sm-6 mp_info" style="border-bottom: none; border-right: 1px solid lightgray;" onclick="location.href='/toOrderList.pay'">
                         <p class="infoTextHeader d-inline-block" style="font-size: 25px ;"><Strong>OrderList</Strong></p><span style="margin-left: 20px;"> 구매내역</span>
                         <p class="infoText" style="font-size: 15px ;">
                             고객님께서 구매하신 제품의 목록을<br>
@@ -205,5 +200,9 @@ integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52n
         }
         alert("카카오 계정은 접근 할 수 없습니다.");
     })
+
+    const total = Number(${totalPrice}).toLocaleString('en-US');
+    document.getElementById('totalPrice').innerHTML += total+'원';
+
 </script>
 </html>

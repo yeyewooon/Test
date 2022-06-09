@@ -6,13 +6,11 @@ public class CartDTO {
    private String user_id;
    private String cart_name;
    private int cart_quantity;
-   private String cart_price;
-   private String cart_total;
+   private int cart_price;
    
    public CartDTO() {}
    
-   public CartDTO(int seq_cart, int seq_product, String user_id, String cart_name, int cart_quantity, String cart_price,
-         String cart_total) {
+   public CartDTO(int seq_cart, int seq_product, String user_id, String cart_name, int cart_quantity, int cart_price) {
       super();
       this.seq_cart = seq_cart;
       this.seq_product = seq_product;
@@ -20,7 +18,6 @@ public class CartDTO {
       this.cart_name = cart_name;
       this.cart_quantity = cart_quantity;
       this.cart_price = cart_price;
-      this.cart_total = cart_total;
    }
 
    public int getSeq_cart() {
@@ -63,26 +60,19 @@ public class CartDTO {
       this.cart_quantity = cart_quantity;
    }
 
-   public String getCart_price() {
+   public int getCart_price() {
       return cart_price;
    }
 
-   public void setCart_price(String cart_price) {
+   public void setCart_price(int cart_price) {
       this.cart_price = cart_price;
    }
 
-   public String getCart_total() {
-      return cart_total;
-   }
-
-   public void setCart_total(String cart_total) {
-      this.cart_total = cart_total;
-   }
 
    @Override
    public String toString() {
       return seq_cart + " : " + seq_product + " : " + user_id
-            + " : " + cart_name + " : " + cart_quantity + " : " + cart_price + " : " + cart_total;
+            + " : " + cart_name + " : " + cart_quantity + " : " + cart_price;
    }
    
    

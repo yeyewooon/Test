@@ -28,6 +28,10 @@ i{
 #searchIcon{
     color: lightgrey;
 }
+#logo{
+    width: 60px;
+    height: 50px;
+}
  /* 네비바 드롭다운 */
  .dropdown-toggle:hover{color: #83bf7b; border-color: aliceblue;}
 .dropdown:hover .nav-category {
@@ -110,12 +114,16 @@ font-weight: bold;
 .header{
     margin: 30px;
     margin-bottom: 20px;
-    font-size: 45px;
+    /* font-size: 2rem; */
 }
 .info{
     margin: 15px;
     margin-left: 30px;
-    font-size: 20px;
+    font-size: 1rem;
+}
+.orderInfo{
+    margin: 20px 20px;
+    font-weight: bold;
 }
 h3{ margin-bottom: 30px;}
 
