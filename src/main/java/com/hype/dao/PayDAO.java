@@ -15,8 +15,10 @@ import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 import com.hype.dto.BuyDTO;
 import com.hype.dto.CartDTO;
 import com.hype.dto.DeliveryDTO;
+import com.hype.dto.ImageDTO;
 import com.hype.dto.MemberDTO;
 import com.hype.dto.PayListDTO;
+import com.hype.dto.ProductDTO;
 
 public class PayDAO {
 	private BasicDataSource bds;
@@ -334,6 +336,31 @@ public class PayDAO {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         return sdf.format(date);
     }
+	
+	public ProductDTO selectByName(String name) throws Exception {
+		String sql = "select * from tbl_product where product_name =? ";
+
+		try (Connection con = bds.getConnection(); PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+			pstmt.setString(1, name);
+			
+			ResultSet rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				int seq_product = rs.getInt(1);
+				String product_code = rs.getString(2);
+				String category = rs.getString(3);
+				String product_name = rs.getString(4);
+				int product_price = rs.getInt(5);
+				String product_content = rs.getString(6);
+				
+				return new ProductDTO(seq_product, product_code, category, product_name, product_price, product_content);
+			}
+			return null;
+
+		}
+	}
+	
 	
 	
 	

@@ -15,30 +15,30 @@ import javax.naming.InitialContext;
 import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 
 import com.hype.dto.CartDTO;
+import com.hype.dto.ImageDTO;
 import com.hype.dto.MemberDTO;
 import com.hype.dto.OrderDTO;
 import com.hype.dto.QnaDTO;
 import com.hype.dto.ReplyDTO;
 
 public class MemberDAO {
-private BasicDataSource bds;
-	
+	private BasicDataSource bds;
+
 	public MemberDAO() {
 		try {
 			Context iCtx = new InitialContext();
-			Context envCtx = (Context)iCtx.lookup("java:comp/env");
-			bds = (BasicDataSource)envCtx.lookup("jdbc/bds");
-		}catch(Exception e) {
+			Context envCtx = (Context) iCtx.lookup("java:comp/env");
+			bds = (BasicDataSource) envCtx.lookup("jdbc/bds");
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
-	public int signup(MemberDTO dto) throws Exception{
+
+	public int signup(MemberDTO dto) throws Exception {
 		String sql = "insert into tbl_member values(?, ?, ?, ?, ?, ?, ?, ?, ?, default)";
-		
-		try(Connection con = bds.getConnection();
-			PreparedStatement pstmt = con.prepareStatement(sql)){
-			
+
+		try (Connection con = bds.getConnection(); PreparedStatement pstmt = con.prepareStatement(sql)) {
+
 			pstmt.setString(1, dto.getUser_id());
 			pstmt.setString(2, dto.getUser_password());
 			pstmt.setString(3, dto.getUser_name());
@@ -48,29 +48,28 @@ private BasicDataSource bds;
 			pstmt.setString(7, dto.getUser_detailAddr());
 			pstmt.setString(8, dto.getUser_phone());
 			pstmt.setString(9, dto.getUser_email());
-			
+
 			int rs = pstmt.executeUpdate();
 			return rs;
 		}
-		
+
 	}
-	
-	public boolean checkId(String id) throws Exception{
+
+	public boolean checkId(String id) throws Exception {
 		String sql = "select count(*) from tbl_member where user_id = ?";
-		
-		try(Connection con = bds.getConnection();
-			PreparedStatement pstmt = con.prepareStatement(sql)){
-			
+
+		try (Connection con = bds.getConnection(); PreparedStatement pstmt = con.prepareStatement(sql)) {
+
 			pstmt.setString(1, id);
 			ResultSet rs = pstmt.executeQuery();
-			
+
 			int result = 0;
-			if(rs.next()) {
+			if (rs.next()) {
 				result = rs.getInt(1);
 			}
-			if(result == 0) {
+			if (result == 0) {
 				return true;
-			}else {
+			} else {
 				return false;
 			}
 		}
@@ -114,7 +113,7 @@ private BasicDataSource bds;
 				String user_detailAddr = rs.getString("user_detailAddr");
 				String user_phone = rs.getString("user_phone");
 				String user_email = rs.getString("user_email");
-				String user_blacklist = rs.getString("user_blacklist");
+				String user_blacklist = rs.getString("user_blackList");
 
 				return new MemberDTO(id, null, user_name, user_date, user_postCode, user_rodAddr, user_detailAddr,
 						user_phone, user_email, user_blacklist);
@@ -207,6 +206,26 @@ private BasicDataSource bds;
 
 		}
 	}
+	
+	public ImageDTO selectAllImg(int num) throws Exception {
+		String sql = "select * from tbl_image where seq_product=? and image_name like 'main%'";
+
+		try (Connection con = bds.getConnection(); PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+			pstmt.setInt(1, num);
+			ResultSet rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				int seq_product = rs.getInt(1);
+				String image_name = rs.getString(2);
+				String image_path = rs.getString(3);
+				
+				return new ImageDTO(seq_product, image_name, image_path);
+			}
+			return null;
+
+		}
+	}
 
 	public int deleteCart(int num) throws Exception {
 		String sql = "delete from tbl_cart where seq_cart = ?";
@@ -265,16 +284,15 @@ private BasicDataSource bds;
 			return rs;
 		}
 	}
-	
-	public int modifyPw(String pw, String id) throws Exception{
+
+	public int modifyPw(String pw, String id) throws Exception {
 		String sql = "update tbl_member set user_password = ? where user_id = ?";
-		
-		try(Connection con = bds.getConnection();
-			PreparedStatement pstmt = con.prepareStatement(sql)){
-			
+
+		try (Connection con = bds.getConnection(); PreparedStatement pstmt = con.prepareStatement(sql)) {
+
 			pstmt.setString(1, pw);
 			pstmt.setString(2, id);
-			
+
 			int rs = pstmt.executeUpdate();
 			return rs;
 		}
@@ -619,7 +637,6 @@ private BasicDataSource bds;
 			return list;
 		}
 	}
-
 	
 	
 	
@@ -644,3 +661,4 @@ private BasicDataSource bds;
 	
 	
 }
+

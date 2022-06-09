@@ -20,6 +20,7 @@ import com.hype.dao.QnaDAO;
 import com.hype.dto.BuyDTO;
 import com.hype.dto.CartDTO;
 import com.hype.dto.DeliveryDTO;
+import com.hype.dto.ImageDTO;
 import com.hype.dto.MemberDTO;
 import com.hype.dto.OrderDTO;
 import com.hype.dto.PayListDTO;
@@ -130,22 +131,37 @@ public class MemberController extends HttpServlet {
 
 			MemberDAO dao = new MemberDAO();
 			try {
-				pw = EncryptionUtils.getSHA512(pw);// 암호화
+//				if(id.equals("admin") && pw.equals("admin")) {
+//					System.out.println("관리자 로그인");
+//					response.sendRedirect("/admin.ad");
+//				}
+				if(!pw.equals("admin")) {
+					pw = EncryptionUtils.getSHA512(pw);// 암호화
+				}
 				System.out.println("암호화" + pw); // 지워야함
-
 				MemberDTO dto = dao.login(id, pw);
-
-				if (dto != null) { // 로그인 성공
+				System.out.println(dto);
+				
+				if(dto.getUser_blacklist().equals("Y")) {
+					System.out.println("블랙리스트로 등록된 사용자입니다.");
+					response.getWriter().append("blacklist");
+				}else if (dto != null) { // 로그인 성공
 					System.out.println("로그인 성공");
 					response.setCharacterEncoding("utf-8");
 					HttpSession session = request.getSession();
 					session.setAttribute("loginSession", dto);
-
-					response.getWriter().append("loginSuccess");
+					if(id.equals("admin")) {
+						System.out.println("관리자 로그인");
+					}else {
+						response.getWriter().append("loginSuccess");
+					}
+					
 				} else {// 로그인 실패
 					System.out.println("로그인 실패");
 					response.getWriter().append("loginFail");
 				}
+				
+				
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -299,7 +315,15 @@ public class MemberController extends HttpServlet {
 			try {
 				ArrayList<CartDTO> list = dao.selectAllCart(dto.getUser_id());
 				System.out.println(list);
+				
+				ArrayList<ImageDTO> imageList = new ArrayList<>(); // 사진뽑기
+				for(int i = 0; i < list.size(); i++) {
+					ImageDTO imageDto = dao.selectAllImg(list.get(i).getSeq_product());
+					imageList.add(imageDto);
+				}
+				System.out.println(imageList);
 
+				request.setAttribute("imageList", imageList);
 				request.setAttribute("list", list);
 				request.getRequestDispatcher("/member/cart.jsp").forward(request, response);
 
@@ -388,14 +412,24 @@ public class MemberController extends HttpServlet {
 					.toArray(); // 장바구니에서 넘긴 tbl_cart 배열
 			HttpSession session = request.getSession();
 			String user_id = ((MemberDTO) session.getAttribute("loginSession")).getUser_id();
-
+			
+			MemberDAO memberDao = new MemberDAO();
 			PayDAO dao = new PayDAO();
 			try {
+				
 				ArrayList<DeliveryDTO> deliList = dao.deliSelectById(user_id);
 				request.setAttribute("deli_list", deliList);
 				ArrayList<PayListDTO> payList = dao.selectBySeq_cart(seq_cart, user_id);
 				request.setAttribute("pay_list", payList);
 				System.out.println(payList);
+				
+				ArrayList<ImageDTO> imageList = new ArrayList<>();
+				for(int i = 0; i < payList.size(); i++) {
+					ImageDTO imageDto = memberDao.selectAllImg(payList.get(i).getSeq_product());
+					imageList.add(imageDto);
+				}
+				System.out.println(imageList);
+				request.setAttribute("imageList", imageList);
 				
 				int totalPrice = 0;
 				int qty = 0;

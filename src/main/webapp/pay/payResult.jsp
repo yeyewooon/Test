@@ -294,10 +294,10 @@
           </tr>
         </thead>
         <tbody>
-          <c:forEach items="${pay_list}" var="payList">
+          <c:forEach items="${pay_list}" var="payList" varStatus="status">
             <c:set var="name" value="${name + 1}" />
             <tr>
-              <td class="col-1"><img class="productImg" src="${payList.image_path}" alt=""></td>
+              <td class="col-1"><img class="productImg" src="/resources/images/${imageList[status.index].image_name}" alt=""></td>
               <td>
                 <div class="row">
                   <div class="col-12">

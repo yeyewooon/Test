@@ -43,6 +43,7 @@ public class BuyDTO {
 	public void setBuy_name(String buy_name) {
 		this.buy_name = buy_name;
 	}
+	
 
 	public int getBuy_qty() {
 		return buy_qty;

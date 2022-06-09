@@ -11,6 +11,7 @@ public class PayListDTO {
 	private int cart_quantity;
 	private String image_path;
 	
+	
 	public PayListDTO() {}
 	
 	public PayListDTO(int seq_product, String product_name, String product_code, int product_price, String category,
