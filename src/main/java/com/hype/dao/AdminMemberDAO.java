@@ -172,7 +172,7 @@ public class AdminMemberDAO {
 
 	// 날짜 타입 변경
 	public String getStringDate(Date date) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일 HH시 mm분 ss초");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일");
 		return sdf.format(date);
 	}
 

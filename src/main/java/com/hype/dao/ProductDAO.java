@@ -78,11 +78,10 @@ public class ProductDAO {
 			ResultSet rs = pstmt.executeQuery();
 			ArrayList<ImageDTO> list = new ArrayList<>();
 			while (rs.next()) {
-				int seq_image = rs.getInt("seq_image");
 				int seq_product = rs.getInt("seq_product");
 				String image_name = rs.getString("image_name");
 				String image_path = rs.getString("image_path");
-				list.add(new ImageDTO(seq_image, seq_product, image_name, image_path));
+				list.add(new ImageDTO(image_name, seq_product,image_path));
 			}
 			return list;
 		}
@@ -132,11 +131,10 @@ public class ProductDAO {
 			ResultSet rs = pstmt.executeQuery();
 			ArrayList<ImageDTO> list = new ArrayList<>();
 			while (rs.next()) {
-				int seq_image = rs.getInt("seq_image");
 				int seq_product = rs.getInt("seq_product");
 				String image_name = rs.getString("image_name");
 				String image_path = rs.getString("image_path");
-				list.add(new ImageDTO(seq_image, seq_product, image_name, image_path));
+				list.add(new ImageDTO(image_name, seq_product,image_path));
 			}
 			return list;
 		}
@@ -204,10 +202,9 @@ public class ProductDAO {
 			ResultSet rs = pstmt.executeQuery();
 			ArrayList<ImageDTO> list = new ArrayList<>();
 			while (rs.next()) {
-				int seq_image = rs.getInt("seq_image");
 				String image_name = rs.getString("image_name");
 				String image_path = rs.getString("image_path");
-				list.add(new ImageDTO(seq_image, seq_product, image_name, image_path));
+				list.add(new ImageDTO(image_name, seq_product,image_path));
 			}
 			return list;
 		}

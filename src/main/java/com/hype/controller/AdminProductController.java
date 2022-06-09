@@ -3,6 +3,7 @@ package com.hype.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import javax.servlet.ServletException;
@@ -154,15 +155,16 @@ public class AdminProductController extends HttpServlet {
 				String product_code = multi.getParameter("product_code");
 				String product_content = multi.getParameter("product_content");
 
-				String ori_name = multi.getOriginalFileName("product_file");
-
-				System.out.println(category + " : " + product_price + " : " + product_name + " : " + product_code
-						+ " : " + product_content + " : " + filepath + " : " + ori_name);
+				String[] imageName = multi.getParameterValues("imageName");
+				
 				try {
 					int rs = dao.modify(new ProductDTO(seq_product, product_code, category, product_name, product_price,
 							product_content));
-					int rsImage = daoImage.insert(new ImageDTO(0, seq_product, ori_name, filepath));
-					System.out.println(rs);
+					int rsImage=0;
+					for(String image_name : imageName) {
+						daoImage.insert(new ImageDTO(image_name, seq_product, filepath));
+						rsImage++;
+					}
 					if (rs > 0 && rsImage > 0) {
 						response.sendRedirect("/modify.pc?curPage=1");
 					}

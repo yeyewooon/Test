@@ -94,7 +94,7 @@ public class AdminBoardReviewDAO {
 			while(rs.next()) {
 				String image_name = rs.getString("image_name");
 				String image_path = rs.getString("image_path");
-				imageList.add(new ImageDTO(0,seq_product,image_name,image_path));
+				imageList.add(new ImageDTO(image_name, seq_product,image_path));
 			}
 			return imageList;
 		}
@@ -146,7 +146,7 @@ public class AdminBoardReviewDAO {
 	// 날짜 타입 변경
 	public String getStringDate(Date date) {
 			// 1900년 02월 02일 00시 00분 00초
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일 HH시 mm분 ss초");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 			return sdf.format(date);
 	}
 	

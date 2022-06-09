@@ -31,6 +31,11 @@
 }
 
 /* navbar & maincontainer */
+.logoImg{
+      	width:100px;
+      	height : 55px;
+      	cursor:pointer;
+      }
 .adminContainer {
 	height: 100vh;
 	background-color: black;
@@ -268,8 +273,7 @@ td span {
 		<div class="row adminNavbar d-flex align-items-center">
 			<div
 				class="col-md-2 adminNavbar-left d-flex justify-content-center align-items-lg-center">
-				<i class="fa-brands fa-yahoo"></i> <span adminNavbar-left-text
-					id="logo">LAND</span>
+				<img class="logoImg" src="./resources/images/Logo3.png">
 			</div>
 			<div class="col-md-10 adminNavbar-right d-flex justify-content-end">
 				<div class="adminIcon">
@@ -478,9 +482,12 @@ td span {
 		$("#textAllSelect").on("click", function() {
 			location.href = "/select.amem?curPage=1";
 		});
-		$("#logo").on("click", function() {
-			location.href = "/admin.ad"
-		})
+		 $(".logoImg").on("click",function(){
+          location.href = "/admin.ad"
+       })
+       $(".adminIconLogout").on("click",function(){
+         location.href = "/Tohome";
+      })
 		// 수정 클릭시
 		$(".memberModify").on("click", function() {
 			let thisRow = $(this).closest('tr');

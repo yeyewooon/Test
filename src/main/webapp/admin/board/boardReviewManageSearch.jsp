@@ -22,6 +22,11 @@
 	crossorigin="anonymous"></script>
 
 <style>
+.logoImg{
+      	width:100px;
+      	height : 55px;
+      	cursor:pointer;
+      }
 * {
 	margin: 0;
 	padding: 0;
@@ -298,7 +303,7 @@ a:hover {
 		<div class="row adminNavbar d-flex align-items-center">
 			<div
 				class="col-md-2 adminNavbar-left d-flex justify-content-center align-items-lg-center">
-				<i class="fa-brands fa-yahoo"></i> <span adminNavbar-left-text>LAND</span>
+				<img class="logoImg" src="./resources/images/Logo3.png">
 			</div>
 			<div class="col-md-10 adminNavbar-right d-flex justify-content-end">
 				<div class="adminIcon">
@@ -536,7 +541,12 @@ a:hover {
       $("#selectAllIcon").on("click",function(){
     	  location.href = "/review.rv?curPage=1";
       })
-      
+      $(".logoImg").on("click",function(){
+          location.href = "/admin.ad"
+       })
+       $(".adminIconLogout").on("click",function(){
+         location.href = "/Tohome";
+      })
 
      // 상세 내용보기 아이콘 버튼 클릭시 
      $(".reviewDetailIcon").on("click",function(){
