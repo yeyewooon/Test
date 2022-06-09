@@ -15,6 +15,7 @@ import javax.naming.InitialContext;
 import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 
 import com.hype.dto.CartDTO;
+import com.hype.dto.ImageDTO;
 import com.hype.dto.MemberDTO;
 import com.hype.dto.OrderDTO;
 import com.hype.dto.QnaDTO;
@@ -112,7 +113,7 @@ public class MemberDAO {
 				String user_detailAddr = rs.getString("user_detailAddr");
 				String user_phone = rs.getString("user_phone");
 				String user_email = rs.getString("user_email");
-				String user_blacklist = rs.getString("user_blacklist");
+				String user_blacklist = rs.getString("user_blackList");
 
 				return new MemberDTO(id, null, user_name, user_date, user_postCode, user_rodAddr, user_detailAddr,
 						user_phone, user_email, user_blacklist);
@@ -202,6 +203,26 @@ public class MemberDAO {
 				list.add(new CartDTO(seq_cart, seq_product, user_id, cart_name, cart_quantity, cart_price));
 			}
 			return list;
+
+		}
+	}
+	
+	public ImageDTO selectAllImg(int num) throws Exception {
+		String sql = "select * from tbl_image where seq_product=? and image_name like 'main%'";
+
+		try (Connection con = bds.getConnection(); PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+			pstmt.setInt(1, num);
+			ResultSet rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				int seq_product = rs.getInt(1);
+				String image_name = rs.getString(2);
+				String image_path = rs.getString(3);
+				
+				return new ImageDTO(seq_product, image_name, image_path);
+			}
+			return null;
 
 		}
 	}

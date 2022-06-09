@@ -332,7 +332,7 @@ prefix="c"%>
           <div class="adminIcon">
             <span class="adminIconSpan">Admin</span>
             <i class="fa-solid fa-user-check"></i>
-            <span class="adminIconLogout">로그아웃</span>
+            <span class="adminIconLogout" id="adminIconLogout">로그아웃</span>
           </div>
         </div>
       </div>
@@ -516,6 +516,10 @@ prefix="c"%>
     </div>
 
     <script>
+      document.getElementById('adminIconLogout').addEventListener('click', function() {
+                location.href = "/logoutProc.mem";
+              })
+
       $(".arrow1").on("click", function() {
       	$(".sub-menu-first").toggle("4000ms");
       });
@@ -718,6 +722,8 @@ prefix="c"%>
       						}
       					} ]
       				});
+
+              
     </script>
   </body>
 </html>

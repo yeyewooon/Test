@@ -5,8 +5,6 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
-<meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Favicon-->
@@ -37,7 +35,7 @@
 <!-- fontAwessome-->
 <script src="https://kit.fontawesome.com/241134516c.js" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-<title>매장찾기</title>
+<title>Shop</title>
 <style>
 i {
    margin: 5px;
@@ -173,15 +171,11 @@ footer.footer {
       </nav>
    </div>
    <div class="body">
-      <div class="container-body">
-         <div class="row">
-            <div class="col">
-				<img src="/resources/images/map.png" style="width:100%;">
-			</div>
-         </div>
+      <div class="container-body mb-5">
+				<img src="/resources/images/map.png" style="width:100%; height: 100%;">
       </div>
 
-      <div class="container-content">
+      <div class="container-content mt-5">
          <div class="row">
             <div class="col-12 d-flex justify-content-center">
                <h2>오시는길</h2>

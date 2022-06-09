@@ -8,11 +8,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.hype.dao.ProductDAO;
 import com.hype.dao.ReviewDAO;
 import com.hype.dto.CartDTO;
 import com.hype.dto.ImageDTO;
+import com.hype.dto.MemberDTO;
 import com.hype.dto.ProductDTO;
 import com.hype.dto.RankingDTO;
 import com.hype.dto.ReviewDTO;
@@ -83,7 +85,9 @@ public class PageController extends HttpServlet {
 
 		// 김형석
 		else if(uri.equals("/reviewWrite.page")) { // 리뷰 등록하기
-			String user_id = "aaa";
+			HttpSession session = request.getSession();
+			String user_id = ((MemberDTO) session.getAttribute("loginSession")).getUser_id();
+			
 			int seq_product = Integer.parseInt(request.getParameter("seq_product"));
 			 String review_content = request.getParameter("review_content");
 	         int review_rate = Integer.parseInt(request.getParameter("review_rate"));
@@ -128,7 +132,9 @@ public class PageController extends HttpServlet {
 			request.getRequestDispatcher("user/product/detailPage.jsp").forward(request, response);
 		} else if (uri.equals("/addToCart.page")) {
 			// 장바구니 담기
-			String user_id = "aaa";
+			HttpSession session = request.getSession();
+			String user_id = ((MemberDTO) session.getAttribute("loginSession")).getUser_id();
+			
 			int seq_product = Integer.parseInt(request.getParameter("seq_product"));
 			int cart_quantity = Integer.parseInt(request.getParameter("cart_quantity"));
 			ProductDAO productDAO = new ProductDAO();

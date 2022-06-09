@@ -292,10 +292,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <c:forEach items="${buyList}" var="buyList">
+                            <c:forEach items="${buyList}" var="buyList" varStatus="status">
                                 <c:set var="name" value="${name + 1}" />
                                 <tr>
-                                    <td class="col-1"><img class="productImg" src="" alt=""></td>
+                                    <td class="col-1"><a href="/detailPage.page?seq_product=${productList[status.index].seq_product}"><img class="productImg" src="/resources/images/${imageList[status.index].image_name}" ></a></td>
                                     <td>
                                         <div class="row">
                                             <div class="col-12">

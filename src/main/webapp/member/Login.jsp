@@ -303,8 +303,14 @@
                             opener.document.location.href = url;
                             self.close();
 
-                        } else {
+                        } else if(resultData === "loginFail"){
                             alert("로그인 실패!");
+                        } else if(resultData === "blacklist"){
+                            alert("차단 된 사용자 입니다. CS로 문의바랍니다.");
+                        } else {
+                            alert("관리자 로그인 성공");
+                            window.opener.location.href = "/admin.ad";
+                            self.close();
                         }
 
                     }, error: function (e) {
@@ -312,17 +318,6 @@
                     }
                 })
             });
-
-            console.log('${rs}');
-            if ('${rs}' === 'ok') {
-                console.log('${rs}');
-                alert('로그인 성공!');
-                opener.document.location.href = url;
-                self.close();
-            } else if ('${rs}' === 'no') {
-                console.log('${rs}');
-                alert('로그인 실패!');
-            }
 
             $('#btnFindID').on('click', function () {
                 if (

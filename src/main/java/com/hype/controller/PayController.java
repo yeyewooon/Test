@@ -16,8 +16,10 @@ import com.hype.dao.MemberDAO;
 import com.hype.dao.PayDAO;
 import com.hype.dto.BuyDTO;
 import com.hype.dto.CartDTO;
+import com.hype.dto.ImageDTO;
 import com.hype.dto.MemberDTO;
 import com.hype.dto.PayListDTO;
+import com.hype.dto.ProductDTO;
 
 
 @WebServlet("*.pay")
@@ -77,6 +79,7 @@ public class PayController extends HttpServlet {
       }else if (uri.equals("/toOrderRegist.pay")) { //tbl_order, buy테이블 생성
             
          String[] seq_cart = request.getParameterValues("seq_cart"); // 시퀀스
+         
          int[] seq_cart2 = new int[seq_cart.length];
          for(int i = 0 ;  i < seq_cart.length ; i++) {
             seq_cart2[i] = Integer.parseInt(seq_cart[i]);
@@ -122,11 +125,11 @@ public class PayController extends HttpServlet {
          HttpSession session = request.getSession();
          String user_id = ((MemberDTO) session.getAttribute("loginSession")).getUser_id();
          
+         MemberDAO memberDao = new MemberDAO(); 
          PayDAO dao = new PayDAO();
          try {
             ArrayList<PayListDTO> payList = dao.selectBySeq_cart(seq_cart, user_id);
             request.setAttribute("pay_list", payList);
-            System.out.println(payList);
             
             int totalPrice = 0;
             int qty = 0;
@@ -137,6 +140,14 @@ public class PayController extends HttpServlet {
                qty += pay.getCart_quantity();
                pay_list_seq_cart.add(pay.getSeq_cart());
             }
+            
+            ArrayList<ImageDTO> imageList = new ArrayList<>();
+			for(int i = 0; i < payList.size(); i++) {
+				ImageDTO imageDto = memberDao.selectAllImg(payList.get(i).getSeq_product());
+				imageList.add(imageDto);
+			}
+			System.out.println(imageList);
+			request.setAttribute("imageList", imageList);
             
             request.setAttribute("seq_cart", pay_list_seq_cart);
             request.setAttribute("total_price", totalPrice);
@@ -155,17 +166,43 @@ public class PayController extends HttpServlet {
           String user_id = ((MemberDTO)session.getAttribute("loginSession")).getUser_id();
           System.out.println(user_id);
           PayDAO dao = new PayDAO();
+          MemberDAO memberDao = new MemberDAO();
 
           try {
               ArrayList<BuyDTO> buyList = dao.selectTblbuyid(user_id);
               
-              int totalPrice = 0;
+	        int totalPrice = 0;
 			int qty = 0;
 			
 			for(BuyDTO buy :  buyList) {
 				totalPrice +=  buy.getBuy_qty()*buy.getBuy_price();
 				qty += buy.getBuy_qty();
 			}
+			String[] str = new String[buyList.size()];
+			
+			
+			for(int i = 0; i < buyList.size(); i++) {
+				str[i] = buyList.get(i).getBuy_name();
+			}
+			
+			ArrayList<ProductDTO> productList = new ArrayList<>();
+			
+			for(int i = 0; i < buyList.size(); i++) {
+				ProductDTO productDto = dao.selectByName(str[i]);
+				productList.add(productDto);
+			}
+			
+			ArrayList<ImageDTO> imageList = new ArrayList<>();
+			
+			for(int i = 0; i < buyList.size(); i++) {
+				ImageDTO imageDto = memberDao.selectAllImg(productList.get(i).getSeq_product());
+				imageList.add(imageDto);
+			}
+			
+			System.out.println(imageList);
+	
+			request.setAttribute("imageList", imageList);
+			request.setAttribute("productList", productList);
 			request.setAttribute("total_price", totalPrice);
 			request.setAttribute("qty", qty);
 			request.setAttribute("buyList", buyList);
