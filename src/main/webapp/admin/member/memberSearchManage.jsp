@@ -4,8 +4,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
-<title>문의 관리</title>
+<meta charset="UTF-8">
+<title>회원 목록</title>
 <script src="https://kit.fontawesome.com/f9358a6ceb.js"
 	crossorigin="anonymous"></script>
 <link
@@ -20,8 +20,8 @@
 <script src="https://code.jquery.com/jquery-3.6.0.js"
 	integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
 	crossorigin="anonymous"></script>
-
-
+<script
+	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <style>
 * {
 	margin: 0;
@@ -135,7 +135,7 @@ ul {
 }
 
 .sub-menu {
-	margin-left: 16%;
+	margin-left: 32px;
 	list-style: none;
 	display: none;
 	text-decoration-line: none;
@@ -161,6 +161,10 @@ ul {
 }
 
 /* 메인 페이지  */
+.table>:not(:first-child) {
+	border-top: none;
+}
+
 .firstTableTitle {
 	font-size: 24px;
 }
@@ -177,11 +181,16 @@ ul {
 }
 
 .searchMemberInput {
-	margin-left: 9px;
+	margin-left: auto;
+}
+
+#tableBox>thead>tr>th:nth-child(1) {
+	width: 340px;
 }
 
 tbody tr {
 	transition: 0.7s ease;
+	height: 41px;
 }
 
 /* table hover시 color 변경 */
@@ -191,43 +200,76 @@ tbody tr {
 }
 
 /* 이모티콘 cursor pointer */
-td span, .replyExit {
+td span {
 	cursor: pointer;
 }
 
-.selectAllIcon {
+#searchBtn {
 	cursor: pointer;
 }
-
-a {
-	text-decoration: none;
+/* 페이지 네이션*/
+#pageNum {
+	margin-left: 10px;
+	margin-right: 10px;
+}
+/* 삭제 모달 */
+.boardDeleteModal {
+	position: fixed;
+	top: 50%;
+	left: 65%;
+	transform: translate(-50%, -50%);
+	border-radius: 5px;
+	height: 120px;
+	width: 300px;
+	display: none;
+	border: 1px solid black;
+	background-color: #e8ecef;
+}
+/* 블랙리스트 상세 내용 모달*/
+.blacklistDetailModal {
+	width: 360px;
+	height: 300px;
+	background-color: gray;
+	position: fixed;
+	top: 50%;
+	left: 80%;
+	transform: translate(-50%, -50%);
+	border-radius: 5px;
+	color: #e8ecef;
+	word-break: break-all;
+	display: none;
 }
 
-a:link {
-	color: black;
-	text-decoration: none;
+.blacklistReviewModalBox {
+	padding: 20px;
+	height: 100%;
 }
 
-a:visited {
-	color: black;
-	text-decoration: none;
+.blacklistDetailModalTitle {
+	height: 20%;
 }
 
-a:hover {
-	color: black;
-	text-decoration: underline;
+.blacklistDetailModalTitle p {
+	font-size: 18px;
+}
+
+.blacklistDetailModalContent {
+	height: 70%;
+	word-break: break-all;
+}
+
+#textAllSelect {
+	cursor: pointer;
 }
 </style>
-
 </head>
-
-
 <body>
 	<div class="adminContainer">
 		<div class="row adminNavbar d-flex align-items-center">
 			<div
 				class="col-md-2 adminNavbar-left d-flex justify-content-center align-items-lg-center">
-				<i class="fa-brands fa-yahoo"></i> <span adminNavbar-left-text>LAND</span>
+				<i class="fa-brands fa-yahoo"></i> <span adminNavbar-left-text
+					id="logo">LAND</span>
 			</div>
 			<div class="col-md-10 adminNavbar-right d-flex justify-content-end">
 				<div class="adminIcon">
@@ -305,68 +347,63 @@ a:hover {
 					</ul>
 				</div>
 			</div>
-
-			<!-- 메인 부분 -->
 			<div class="col-md-10 adminMainContainer">
 				<div class="table firstTable">
-					<h2 class="text-center mt-5 firstTableTitle">문의 관리</h2>
+					<h3 class="text-center mt-3 firstTableTitle">회원 조회</h3>
 
-					<!-- 문의 고르기 -->
-					<div class="boardCategory d-flex justify-content-center mt-4"
-						style="border-top-width: 0px">
-						<select class="form-select w-25" id="category-Selector">
-							<option>문의 유형</option>
-							<option value="배송" class="category-Shipment" name="shipment">배송</option>
-							<option value="결제" class="category-Payment" name="payment">결제</option>
-						</select>
+					<div class="input-group rounded w-25 searchMemberInput mt-2 mb-3">
+						<input type="search" class="form-control rounded"
+							placeholder="ID 입력" aria-label="Search" id="searchWord"
+							aria-describedby="search-addon"
+							onKeypress="if(event.keyCode==13){enterKey()}" /> <span
+							class="input-group-text border-0" id="searchBtn"> <i
+							class="fas fa-search"></i>
+						</span>
 					</div>
 
-					<!-- 전체 조회 버튼 -->
 					<div class="selectAll ms-4" style="border-top-width: 0px">
-						<i class="fa-solid fa-folder-open"></i> <span
-							class="ms-2 selectAllIcon">전체조회</span>
+						<i class="fa-solid fa-folder-open"></i> <span class="ms-2"
+							id="textAllSelect">전체조회</span>
 					</div>
 
-					<!-- 테이블 생성 -->
-					<div class="boardContainer" style="border-top-width: 0px">
-						<table class="table table-striped boardTable text-center mt-3"
+					<div class="MemberContainer" style="border-top-width: 0px">
+						<table class="table table-striped memberTable text-center mt-3"
 							id="tableBox">
 							<thead>
 								<tr>
-									<th scope="col">문의 번호</th>
-									<th scope="col">문의 유형</th>
 									<th scope="col">회원ID</th>
-									<th scope="col">제목</th>
-									<th scope="col">날짜</th>
-									<th scope="col">등록</th>
-									<th scope="col">답변유무</th>
+									<th scope="col">생년월일</th>
+									<th scope="col">전화번호</th>
+									<th scope="col">블랙리스트</th>
+									<th scope="col">수정</th>
 								</tr>
 							</thead>
-							<tbody class="table-body">
+							<tbody class="memberBoard">
 								<c:choose>
 									<c:when test="${list.size() == 0}">
 										<tr>
-											<td colspan=7>등록된 정보가 없습니다.</td>
+											<td colspan=5>등록된 회원이 없습니다.</td>
 										</tr>
 									</c:when>
 									<c:otherwise>
 										<c:forEach items="${list}" var="dto">
 											<tr>
-												<td class="align-middle">${dto.seq_qna}</td>
-												<td class="align-middle">${dto.qna_type}</td>
-												<td class="align-middle">${dto.user_id}</td>
-												<td class="align-middle">${dto.qna_title}</td>
-												<td class="align-middle">${dto.qna_date}</td>
-												<td><a
-													href="/boardQnaRegister.qna?seq_qna=${dto.seq_qna}"> <i
-														class="fa-solid fa-pen-to-square"></i>
-												</a></td>
-												<c:if test="${dto.qna_status eq '답변대기'}">
-													<td class="align-middle">답변대기</td>
+												<td>${dto.getUser_id()}</td>
+												<td class="d-none"><input value="${dto.getUser_id()}"></td>
+												<td>${dto.getUser_date()}</td>
+												<td>${dto.getUser_phone()}</td>
+												<c:if test="${dto.getUser_blacklist() eq 'N' }">
+													<td><span class="memberBlackList"><i
+															class="fa-solid fa-user"></i></span></td>
 												</c:if>
-												<c:if test="${dto.qna_status eq '답변완료'}">
-													<td class="align-middle">답변완료</td>
+												<c:if test="${dto.getUser_blacklist() eq 'Y' }">
+													<td><span class="memberBlackList"><i
+															class="fa-solid fa-user-slash"></i></span></td>
 												</c:if>
+												<td class="d-none"><input
+													value="${dto.getUser_blacklist()}"></td>
+												<td id="icon"><span class="memberModify"><i
+														class="fa-solid fa-pencil"></i></span></td>
 											</tr>
 										</c:forEach>
 									</c:otherwise>
@@ -374,38 +411,55 @@ a:hover {
 							</tbody>
 						</table>
 					</div>
-
-					<!-- 페이지네이션 -->
-					<nav style="border-top-width: 0px;" class="PageNavigation">
-						<ul class="pagination justify-content-center">
-							<c:if test="${naviMap.needPrev eq true}">
-								<li class="page-item"><a class="page-link pageBtn1"
-									href="/boardQna.qna?curPage=${naviMap.startNavi-1}">Prev</a></li>
-							</c:if>
-
-							<c:forEach var="pageNum" begin="${naviMap.startNavi}"
-								end="${naviMap.endNavi}" step="1">
-								<li class="page-item"><a
-									class="page-link pageActive${pageNum}"
-									href="/boardQna.qna?curPage=${pageNum}">${pageNum}</a></li>
-							</c:forEach>
-
-							<c:if test="${naviMap.needNext eq true}">
-								<li class="page-item"><a class="page-link pageBtn3"
-									href="/boardQna.qna?curPage=${naviMap.endNavi+1}">Next</a></li>
-							</c:if>
-						</ul>
-					</nav>
-
 				</div>
-
+				<nav aria-label="Page navigation example">
+					<ul class="pagination justify-content-center">
+						<c:if test="${naviMap.Prev eq true}">
+							<li class="page-item"><a class="page-link"
+								href="/search.amem?curPage=${naviMap.startNavi-1}"
+								aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+							</a></li>
+						</c:if>
+						<c:forEach var="pageNum" begin="${naviMap.startNavi}"
+							end="${naviMap.endNavi}" step="1">
+							<li class="page-item"><a
+								class="page-link pageActive${pageNum}" id="pageNum"
+								href="/search.amem?curPage=${pageNum}&&searchWord=${searchWord}">${pageNum}</a></li>
+						</c:forEach>
+						<c:if test="${naviMap.Next eq true}">
+							<li class="page-item"><a class="page-link"
+								href="/search.amem?curPage=${naviMap.endNavi+1}"
+								aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+							</a></li>
+						</c:if>
+					</ul>
+				</nav>
 			</div>
 		</div>
 	</div>
+	<!-- 블랙리스트 모달 -->
+	<div class="blacklistDetailModal">
+		<div class="blacklistReviewModalBox">
+			<div class="row blacklistDetailModalTitle d-flex">
+				<div class="col-8">
+					<p>블랙리스트 사유</p>
+				</div>
+				<div class="col-4 d-flex justify-content-end">
+					<i class="fa-solid fa-xmark closeBtn"></i>
+				</div>
+			</div>
+			<div class="row blacklistDetailModalContent d-flex flex-column w-100">
+				<div class="blacklistDetailModalText w-100"></div>
+			</div>
+			<div class="row blacklistDetailModalDate">
+				<div class="col d-flex justify-content-center blacklistDetailDate">
+
+				</div>
+			</div>
+		</div>
 	</div>
-	</div>
+
 	<script>
-		// 사이드 네브바
 		$(".arrow1").on("click", function() {
 			$(".sub-menu-first").toggle("4000ms");
 		});
@@ -421,7 +475,34 @@ a:hover {
 		$(".arrow4").on("click", function() {
 			$(".sub-menu-fourth").toggle("4000ms");
 		});
+		$("#textAllSelect").on("click", function() {
+			location.href = "/select.amem?curPage=1";
+		});
+		$("#logo").on("click", function() {
+			location.href = "/admin.ad"
+		})
+		// 수정 클릭시
+		$(".memberModify").on("click", function() {
+			let thisRow = $(this).closest('tr');
+			let user_id = thisRow.find('td:eq(0)').html();
+			location.href = "/membermodify.amem?user_id=" + user_id;
+		});
+		function enterKey() {
+			$("#searchBtn").click();
+		}
+		$("#searchBtn").on(
+				"click",
+				function() {
+					let searchWord = $("#searchWord").val();
+					console.log(searchWord);
+					if (searchWord == "") {
+						location.href = "/select.amem?curPage=1";
+					} else if (searchWord != "") {
+						location.href = "/search.amem?&curPage=1&&searchWord="
+								+ searchWord;
 
+					}
+				});
 		// 페이지 네이션 action
 		let active = $(".page-link").text();
 		let activePage = '${curPage}';
@@ -440,26 +521,54 @@ a:hover {
 				break;
 			}
 		}
-		// 전체조회 클릭시 이동
-		$(".selectAllIcon").on("click", function() {
-			location.href = "/boardQna.qna?curPage=1";
-		})
 
-		// select에서 선택된 해당 value를 이용해 페이지 이동
-		$(document)
-				.ready(
-						function() {
-							$("#category-Selector")
-									.change(
-											function() {
-												let selectedVal = $(this).val();
-												console.log("hello");
-												console.log(selectedVal);
-												location.href = "/selectedProc.qna?curPage=1&selectedVal="
-														+ selectedVal;
-											});
+		// 블랙리스트 사유
+		$(".memberBlackList").on(
+				"click",
+				function() {
+					let thisRow = $(this).closest('tr');
+					let user_id = thisRow.find('td:eq(1)').find('input').val();
+
+					// 블랙리스트 유무 가져오기 
+					let getBlacklistMember = thisRow.find('td:eq(5)').find(
+							'input').val();
+					console.log(getBlacklistMember);
+
+					// 블랙리스트 일때만 ajax 작동
+					if (getBlacklistMember == "Y") {
+						console.log("블랙리스트 입니다");
+
+						$.ajax({
+							url : "/memberBlacklist.amem?user_id=" + user_id,
+							type : "get",
+							dataType : "json",
+							success : function(data) {
+								console.log(data);
+								// 데이터 값 받아오기 
+								let black_reason = data[0].black_reason;
+								let black_date = data[0].black_date;
+
+								$(".blacklistDetailModalText").html(
+										black_reason);
+								$(".blacklistDetailDate").html(black_date);
+								// 모달 창 띄우기
+								$(".blacklistDetailModal").fadeIn();
+
+								$(".closeBtn").off().on("click", function() {
+									$(".blacklistDetailModal").fadeOut();
+								})
+
+							},
+							error : function(e) {
+								console.log(e);
+							}
 						})
-	</script>
 
+					} else { // 블랙리스트가 아니라면 alert로 띄워주기
+						alert("해당 회원은 블랙리스트가 아닙니다");
+					}
+
+				})
+	</script>
 </body>
 </html>

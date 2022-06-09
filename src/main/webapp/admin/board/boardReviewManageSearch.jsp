@@ -160,6 +160,10 @@ ul {
 }
 
 /* 메인 페이지  */
+.firstTableTitle {
+	font-size: 24px;
+}
+
 .firstTable {
 	border: 0;
 }
@@ -234,8 +238,8 @@ a:hover {
 
 /* 상세 내용 모달*/
 .reviewDetailModal {
-	width: 400px;
-	height: 500px;
+	width: 360px;
+	height: 400px;
 	background-color: gray;
 	position: fixed;
 	top: 50%;
@@ -247,33 +251,24 @@ a:hover {
 }
 
 .reviewModalBox {
-	padding: 10px;
+	padding: 20px;
 	height: 100%;
 }
 
 .reviewDetailModalTitle {
-	height: 10%;
-}
-
-.reviewDetailImg {
-	text-align: center;
-}
-
-.reviewDetailText {
-	margin-left: 13px;
-	word-break: break-all;
+	height: 20%;
 }
 
 .reviewDetailModalTitle p {
 	font-size: 18px;
 }
 
-.reviewDetailModalImg {
-	height: 47%;
+.reviewDetailModalContent {
+	height: 70%;
 }
 
-.reviewDetailModalText {
-	height: 38%
+.reviewDetailText {
+	word-break: break-all;
 }
 
 .reviewDetailModalFooter {
@@ -294,6 +289,9 @@ a:hover {
 	display: none;
 }
 </style>
+
+
+
 </head>
 <body>
 	<div class="adminContainer">
@@ -380,7 +378,7 @@ a:hover {
 			</div>
 			<div class="col-md-10 adminMainContainer">
 				<div class="table firstTable">
-					<h2 class="text-center mt-5 firstTableTitle">리뷰 관리</h2>
+					<h2 class="text-center mt-3 firstTableTitle">리뷰 관리</h2>
 
 					<!-- 검색 버튼 -->
 					<form id="searchForm" action="/searchProc.rv" method="post"
@@ -396,10 +394,12 @@ a:hover {
 							</span>
 						</div>
 					</form>
+
+
 					<!-- 전체 조회 -->
 					<div class="selectAll ms-4" style="border-top-width: 0px">
-						<i class="fa-solid fa-folder-open" id="selectAllIcon"></i> <span
-							class="ms-1">전체조회</span>
+						<i class="fa-solid fa-folder-open"></i> <span class="ms-1"
+							id="selectAllIcon">전체조회</span>
 					</div>
 
 					<!-- 테이블 -->
@@ -469,54 +469,53 @@ a:hover {
 							</c:if>
 						</ul>
 					</nav>
+
+
+
 					<!-- 리뷰 내용 상세보기 -->
 					<div class="reviewDetailModal">
 						<div class="reviewModalBox">
 							<div class="row reviewDetailModalTitle d-flex">
-								<div class="col-10">
+								<div class="col">
 									<h4>내용</h4>
 								</div>
-								<div class="col-2 d-flex justify-content-end">
+								<div class="col d-flex justify-content-end">
 									<i class="fa-solid fa-xmark closeBtn"></i>
 								</div>
 							</div>
-							<div
-								class="row reviewDetailModalImg d-flex justify-content-center ">
-								<div class="col reviewDetailImg "></div>
-							</div>
-							<div
-								class="row reviewDetailModalText d-flex justify-content-center ">
+							<div class="row reviewDetailModalContent d-flex flex-column ">
 								<div class="col reviewDetailText w-100"></div>
+								<div class="col reviewDetailImg bg-primary w-100"></div>
 							</div>
-
 							<div class="row reviewDetailModalFooter ">
 								<div class="col d-flex justify-content-center reviewDetailDate">
 									2022,07월 08일</div>
 							</div>
 						</div>
 					</div>
-				</div>
 
-				<!-- 리뷰 삭제하기 -->
-				<div class="reviewDeleteModal">
-					<div class="text-center mt-4">해당 리뷰를 정말로 삭제 하시겠습니까?</div>
-					<div class="row mt-3">
-						<div class="col-md-6 d-flex justify-content-end">
-							<button type="button" class="btn btn-primary btn-sm"
-								id="reviewDeleteCancelBtn">취소</button>
-						</div>
-						<div class="col-md-6">
-							<button type="button" class="btn btn-danger btn-sm"
-								id="reviewDeleteBtn">삭제</button>
+					<!-- 리뷰 삭제하기 -->
+					<div class="reviewDeleteModal">
+						<div class="text-center mt-4">해당 리뷰를 정말로 삭제 하시겠습니까?</div>
+						<div class="row mt-3">
+							<div class="col-md-6 d-flex justify-content-end">
+								<button type="button" class="btn btn-primary btn-sm"
+									id="reviewDeleteCancelBtn">취소</button>
+							</div>
+							<div class="col-md-6">
+								<button type="button" class="btn btn-danger btn-sm"
+									id="reviewDeleteBtn">삭제</button>
+							</div>
 						</div>
 					</div>
+
+
 				</div>
-
-
 			</div>
 		</div>
-	</div>
-	<script>
+
+
+		<script>
 	$(".arrow1").on("click", function () {
         $(".sub-menu-first").toggle("4000ms");
       });
@@ -537,40 +536,29 @@ a:hover {
       $("#selectAllIcon").on("click",function(){
     	  location.href = "/review.rv?curPage=1";
       })
+      
+
      // 상세 내용보기 아이콘 버튼 클릭시 
-     $(".reviewDetailIcon").off().on("click",function(){
+     $(".reviewDetailIcon").on("click",function(){
     	 let thisRow = $(this).closest('tr'); 
     	 let seq_review = thisRow.find('td:eq(8)').find('input').val();
-    	 let seq_product = thisRow.find('td:eq(1)').text();
     	 
     	$.ajax({
-    		url:"/checkReviewDetail.rv?&seq_review="+seq_review+"&seq_product="+seq_product,
+    		url:"/checkReviewDetail.rv?seq_review="+seq_review,
 			type: "get",
     		dataType: "json",
     		success: function(data) {
-    			$(".reviewDetailImg").empty("");
-				console.log(data[1].image_path);
-				console.log(data[1].image_name);
-    			// 저장된 경로 값 가져오기
     			
-    			const img = document.createElement('img');
-    			img.src = "./resource/imagesClothes/" + data[1].image_name;
-    			img.setAttribute("width","350");
-    			img.setAttribute("height","200");
-    			console.log(img.src); 
-    			$(".reviewDetailImg").append(img);
-
+    			console.log(data);
     			// 데이터 값 받아오기 
     			let review_content = data[0].review_content;
     			let review_date = data[0].review_date;
-    			let image_name = data[1].image_name;
-    			let image_path = data[1].image_path;
     			$(".reviewDetailText").html(review_content);
     			$(".reviewDetailDate").html(review_date);
     			
-    			// 모달 창 띄우기
+    			// 모달 창 띄우기 
     			$(".reviewDetailModal").fadeIn();
-				
+
     	  		$(".closeBtn").off().on("click",function() {
     	    		$(".reviewDetailModal").fadeOut();
     	  		})
@@ -579,7 +567,11 @@ a:hover {
     			console.log(e);
     		}
     	})
-      })   
+      })
+      
+      
+      
+      
       // 리뷰 삭제 버튼 클릭시 
      $(".reviewDeleteIcon").on("click",function(){
     	 
@@ -606,13 +598,13 @@ a:hover {
     	    			console.log(e);
     	    		}
     	    	})
-    	 })  	 
+    	 })
+    	 
       })
       // enterKey
 		function enterKey(){
  			$("#searchIcon").click();
  		}
-  	
    // 페이지 네이션 action
 		let active = $(".page-link").text();
 		let activePage = '${curPage}';
