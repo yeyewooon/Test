@@ -105,17 +105,6 @@ public class MemberDTO {
 	public void setUser_blacklist(String user_blacklist) {
 		this.user_blacklist = user_blacklist;
 	}
-<<<<<<< HEAD
-
-	@Override
-	public String toString() {
-		return "MemberDTO [user_id=" + user_id + ", user_password=" + user_password + ", user_name=" + user_name
-				+ ", user_date=" + user_date + ", user_postCode=" + user_postCode + ", user_roadAddr=" + user_roadAddr
-				+ ", user_detailAddr=" + user_detailAddr + ", user_phone=" + user_phone + ", user_email=" + user_email
-				+ ", user_blacklist=" + user_blacklist + "]";
-	}
-	
-=======
 	@Override
 	public String toString() {
 		return user_id + " : " + user_password + " : " + user_name
@@ -124,5 +113,4 @@ public class MemberDTO {
 	}
 	
 	
->>>>>>> 5cdbaa6b886ec178fb325e3f5801d72e14163064
 }

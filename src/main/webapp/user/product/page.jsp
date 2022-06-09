@@ -280,13 +280,13 @@ footer.footer {
 
 	<!-- 헤더 사진 -->
 	<div class="header-img" id="header">
-		<c:if test="${category eq 'top' }">
+		<c:if test="${category eq 'TOP' }">
 			<img src="./resources/images/header-image-top.jpg" class="header-image">
 		</c:if>
-		<c:if test="${category eq 'bt' }">
+		<c:if test="${category eq 'BOTTOM' }">
 			<img src="./resources/images/header-image_bottom.jpg" class="header-image">
 		</c:if>
-		<c:if test="${category eq 'acc' }">
+		<c:if test="${category eq 'ACCESSORY' }">
 			<img src="./resources/images/header-image-acc.jpg" class="header-image">
 		</c:if>
 		<c:if test="${category eq 'BAG' }">
