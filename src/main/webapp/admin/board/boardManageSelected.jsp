@@ -195,7 +195,7 @@ td span, .replyExit {
 	cursor: pointer;
 }
 
-.selectAllIcon {
+.selectAll:hover {
 	cursor: pointer;
 }
 
@@ -219,9 +219,12 @@ a:hover {
 }
 </style>
 
+
+
+
+
+
 </head>
-
-
 <body>
 	<div class="adminContainer">
 		<div class="row adminNavbar d-flex align-items-center">
@@ -305,11 +308,10 @@ a:hover {
 					</ul>
 				</div>
 			</div>
-
 			<!-- 메인 부분 -->
 			<div class="col-md-10 adminMainContainer">
 				<div class="table firstTable">
-					<h2 class="text-center mt-5 firstTableTitle">문의 관리</h2>
+					<h3 class="text-center mt-3 firstTableTitle">문의 관리</h3>
 
 					<!-- 문의 고르기 -->
 					<div class="boardCategory d-flex justify-content-center mt-4"
@@ -339,7 +341,6 @@ a:hover {
 									<th scope="col">제목</th>
 									<th scope="col">날짜</th>
 									<th scope="col">등록</th>
-									<th scope="col">답변유무</th>
 								</tr>
 							</thead>
 							<tbody class="table-body">
@@ -354,19 +355,12 @@ a:hover {
 											<tr>
 												<td class="align-middle">${dto.seq_qna}</td>
 												<td class="align-middle">${dto.qna_type}</td>
-												<td class="align-middle">${dto.user_id}</td>
-												<td class="align-middle">${dto.qna_title}</td>
+												<td class="align-middle">${dto.user_id }</td>
+												<td class="align-middle">${dto.qna_title }</td>
 												<td class="align-middle">${dto.qna_date}</td>
 												<td><a
-													href="/boardQnaRegister.qna?seq_qna=${dto.seq_qna}"> <i
-														class="fa-solid fa-pen-to-square"></i>
-												</a></td>
-												<c:if test="${dto.qna_status eq '답변대기'}">
-													<td class="align-middle">답변대기</td>
-												</c:if>
-												<c:if test="${dto.qna_status eq '답변완료'}">
-													<td class="align-middle">답변완료</td>
-												</c:if>
+													href="/boardQnaRegister.qna?seq_qna=${dto.seq_qna}"><i
+														class="fa-solid fa-pen-to-square"></i></a></td>
 											</tr>
 										</c:forEach>
 									</c:otherwise>
@@ -380,19 +374,19 @@ a:hover {
 						<ul class="pagination justify-content-center">
 							<c:if test="${naviMap.needPrev eq true}">
 								<li class="page-item"><a class="page-link pageBtn1"
-									href="/boardQna.qna?curPage=${naviMap.startNavi-1}">Prev</a></li>
+									href="/selectedProc.qna?curPage=${naviMap.startNavi-1}&selectedVal=${list[0].getQna_type()}">Prev</a></li>
 							</c:if>
 
 							<c:forEach var="pageNum" begin="${naviMap.startNavi}"
 								end="${naviMap.endNavi}" step="1">
 								<li class="page-item"><a
 									class="page-link pageActive${pageNum}"
-									href="/boardQna.qna?curPage=${pageNum}">${pageNum}</a></li>
+									href="/selectedProc.qna?curPage=${pageNum}&selectedVal=${list[0].getQna_type()}">${pageNum}</a></li>
 							</c:forEach>
 
 							<c:if test="${naviMap.needNext eq true}">
 								<li class="page-item"><a class="page-link pageBtn3"
-									href="/boardQna.qna?curPage=${naviMap.endNavi+1}">Next</a></li>
+									href="/selectedProc.qna?curPage=${naviMap.endNavi+1}&selectedVal=${list[0].getQna_type()}">Next</a></li>
 							</c:if>
 						</ul>
 					</nav>
@@ -422,6 +416,10 @@ a:hover {
 			$(".sub-menu-fourth").toggle("4000ms");
 		});
 
+		// 전체조회 클릭시 이동
+		$(".selectAllIcon").on("click", function() {
+			location.href = "/boardQna.qna?curPage=1";
+		})
 		// 페이지 네이션 action
 		let active = $(".page-link").text();
 		let activePage = '${curPage}';
@@ -440,10 +438,6 @@ a:hover {
 				break;
 			}
 		}
-		// 전체조회 클릭시 이동
-		$(".selectAllIcon").on("click", function() {
-			location.href = "/boardQna.qna?curPage=1";
-		})
 
 		// select에서 선택된 해당 value를 이용해 페이지 이동
 		$(document)
@@ -453,13 +447,15 @@ a:hover {
 									.change(
 											function() {
 												let selectedVal = $(this).val();
-												console.log("hello");
-												console.log(selectedVal);
+
 												location.href = "/selectedProc.qna?curPage=1&selectedVal="
 														+ selectedVal;
+
 											});
 						})
 	</script>
+
+
 
 </body>
 </html>

@@ -89,9 +89,12 @@ public class MemberDTO {
 	public void setUser_blacklist(String user_blacklist) {
 		this.user_blacklist = user_blacklist;
 	}
+	@Override
+	public String toString() {
+		return user_id + " : " + user_password + " : " + user_name
+				+ " : " + user_date + " : " + user_postCode + " : " + user_roadAddr
+				+ " : " + user_detailAddr + " : " + user_phone + " : " + user_email+ " : " + user_blacklist;
+	}
 	
-
+	
 }
-	
-	
-

@@ -8,6 +8,10 @@ public class ProductDTO {
 	private String product_name;
 	private int product_price;
 	private String product_content;
+
+	public ProductDTO() {
+		super();
+	}
 	public ProductDTO(int seq_product, String product_code, String category, String product_name, int product_price,
 			String product_content) {
 		super();
@@ -54,8 +58,12 @@ public class ProductDTO {
 	public void setProduct_content(String product_content) {
 		this.product_content = product_content;
 	}
+	@Override
+	public String toString() {
+		return "ProductDTO [seq_product=" + seq_product + ", product_code=" + product_code + ", category=" + category
+				+ ", product_name=" + product_name + ", product_price=" + product_price + ", product_content="
+				+ product_content + "]";
+	}
 
-	
-	
-	
+
 }

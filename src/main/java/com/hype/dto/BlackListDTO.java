@@ -1,13 +1,13 @@
 package com.hype.dto;
 
-public class BlacklistDTO {
+public class BlackListDTO {
 
 	private String reg_date;
 	private String user_id;
 	private String content;
 	
-	public BlacklistDTO() {}
-	public BlacklistDTO(String reg_date, String user_id, String content) {
+	public BlackListDTO() {}
+	public BlackListDTO(String reg_date, String user_id, String content) {
 		super();
 		this.reg_date = reg_date;
 		this.user_id = user_id;
