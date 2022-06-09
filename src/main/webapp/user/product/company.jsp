@@ -81,7 +81,7 @@ body {
 
 .comimg {
 	width: 100%;
-	height: 100%;
+	height: 900px;
 }
 
 /*컨텐츠*/
@@ -91,14 +91,16 @@ body {
 }
 
 .menubar {
-	font-weight: 150px;
+	font-weight: bold;
 	font-size: 60px;
+	color:white;
 }
 
 .detail {
 	text-align: center;
-	font-weight: 60px;
+	font-weight: bold;
 	font-size: 20px;
+	color:white;
 }
 
 /* 네비바 드롭다운 */

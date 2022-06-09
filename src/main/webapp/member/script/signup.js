@@ -92,6 +92,9 @@ checkAll.addEventListener('click', e => {
   toggleSubmitButton();
 });
 
+const total = document.getElementById('total');
+const total2 = document.getElementById('total2');
+
 $('#checkId').on('click', function () {
   if ($('#user_id').val() === '') {
     alert('아이디를 입력해주세요.');
@@ -117,18 +120,16 @@ $('#checkId').on('click', function () {
         return;
       }
       alert('사용가능한 아이디입니다.');
-      $('#submitBtn').attr('disabled', false);
+      total.value = '1';
+      if (total.value == '1' && total2.value == '1') {
+        $('#submitBtn').attr('disabled', false);
+      }
       return;
     },
     error: function (e) {
       console.log(e);
     }
   });
-});
-
-$('#user_id').keyup(function () {
-  $('#submitBtn').attr('disabled', true);
-  return;
 });
 
 function emailOptionBox(e) {
@@ -144,6 +145,15 @@ function emailOptionBox(e) {
     email = $('#emailAdress').val() + '@' + e.options[e.selectedIndex].text;
     $('#user_email').val(email);
   }
+  e.addEventListener('change', function () {
+    if (document.getElementById('emailAdress').value !== '') {
+      if (total2.value == '1') {
+        $('#submitBtn').attr('disabled', true);
+        total2.value = '';
+        return;
+      }
+    }
+  });
 }
 
 $('#emailAdress2').focusout(function () {
@@ -154,7 +164,78 @@ $('#emailAdress2').focusout(function () {
   }
 });
 
+$('#checkEmail').on('click', function () {
+  if ($('#emailAdress').val() === '') {
+    alert('이메일을 입력해주세요.');
+    return;
+  } else if (
+    $('#selectEmail option:selected').val() == 99 &&
+    $('#emailAdress2').val() === ''
+  ) {
+    alert('도메인을 입력해주세요.');
+    return;
+  } else if ($('#selectEmail option:selected').val() == 1) {
+    alert('도메인을 선택해주세요.');
+    return;
+  }
+
+  $.ajax({
+    url: '/checkEmail.mem',
+    type: 'post',
+    data: { user_email: $('#user_email').val() },
+    dataType: 'text',
+    success: function (data) {
+      console.log(data);
+      if (data == 'false') {
+        alert('이미 사용중인 이메일입니다.');
+        return;
+      }
+      alert('사용가능한 이메일입니다.');
+      total2.value = '1';
+      if (total.value == '1' && total2.value == '1') {
+        $('#submitBtn').attr('disabled', false);
+      }
+      return;
+    },
+    error: function (e) {
+      console.log(e);
+    }
+  });
+});
+
+$('#user_id').change(function () {
+  if (document.getElementById('user_id').value !== '') {
+    if (total.value == '1') {
+      $('#submitBtn').attr('disabled', true);
+      total.value = '';
+      return;
+    }
+  }
+});
+
+$('#emailAdress').change(function () {
+  if (document.getElementById('emailAdress').value !== '') {
+    if (total2.value == '1') {
+      $('#submitBtn').attr('disabled', true);
+      total2.value = '';
+      return;
+    }
+  }
+});
+
+$('#emailAdress2').change(function () {
+  if (document.getElementById('emailAdress2').value !== '') {
+    if (total2.value == '1') {
+      $('#submitBtn').attr('disabled', true);
+      total2.value = '';
+      return;
+    }
+  }
+});
+
 $('#submitBtn').on('click', function () {
+  const termsOfService = document.getElementById('termsOfService');
+  const privacyPolicy = document.getElementById('privacyPolicy');
   let regexId = /^[a-zA-Z0-9_]{6,}$/;
   let regexPw = /^[a-z0-9~!@#$%^&]{5,19}$/;
   let regexPhone = /^[0-9]{11}$/;
@@ -204,14 +285,19 @@ $('#submitBtn').on('click', function () {
   } else if (!regexDate.test($('#user_date').val())) {
     alert('생년월일 형식에 맞지 않습니다.');
     return;
-  } else if ($('#postCode').val() === '' || $('#roadAddr').val() === '') {
-    alert('주소를 입력해 주세요.');
-    return;
   } else if ($('#user_id').val() == $('#user_password').val()) {
     alert('아이디와 다른 비밀번호를 입력해주세요.');
     return;
+  } else if (!termsOfService.checked && !privacyPolicy.checked) {
+    alert('필수 약관에 동의하셔야 가입이 가능합니다.');
+    return;
+  } else if ($('#postCode').val() === '' || $('#roadAddr').val() === '') {
+    alert('주소를 입력해 주세요.');
+    return;
   }
-
-  //form 제출
-  document.getElementById('signupForm').submit();
+  const check = confirm('입력하신 정보로 회원가입하시겠습니까?');
+  if (check) {
+    //form 제출
+    document.getElementById('signupForm').submit();
+  }
 });

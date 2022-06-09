@@ -78,9 +78,8 @@ body {
 
 /*로고*/
 .container-body {
-   border: 1px solid black;
    width: 100%;
-   height: 300px;
+   height: 700px;
 }
 
 /*컨텐츠*/
@@ -165,21 +164,7 @@ footer.footer {
             <div class="col-md-1 navbar-anchor">
                <a href="/">고객센터</a>
             </div>
-            <!-- 네비바 검색창 -->
-            <div class="col-md-4 navbar-anchor" id="navbar-search">
-               <form
-                  class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-                  <div class="input-group">
-                     <button class="btn btn-link" style="border: 1px solid lightgrey;"
-                        id="btnSearch" type="button">
-                        <i id="searchIcon" class="fas fa-search"></i>
-                     </button>
-                     <input class="form-control" type="text"
-                        aria-describedby="btnNavbarSearch" />
-                  </div>
-               </form>
-               </button>
-            </div>
+            
             <div class="col-md-2 navbar-anchor" id="userIcon">
                <a href=""><i class="fa-solid fa-cart-plus"></i></a> <a href=""><i
                   class="fa-solid fa-user"></i></a>
@@ -190,7 +175,9 @@ footer.footer {
    <div class="body">
       <div class="container-body">
          <div class="row">
-            <div class="col">로고</div>
+            <div class="col">
+				<img src="/resources/images/map.png" style="width:100%;">
+			</div>
          </div>
       </div>
 

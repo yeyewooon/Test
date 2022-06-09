@@ -61,11 +61,9 @@ public class MemberDTO {
 	public void setUser_date(String user_date) {
 		this.user_date = user_date;
 	}
-
 	public String getUser_postCode() {
 		return user_postCode;
 	}
-
 	public void setUser_postCode(String user_postCode) {
 		this.user_postCode = user_postCode;
 	}
@@ -85,11 +83,9 @@ public class MemberDTO {
 	public void setUser_detailAddr(String user_detailAddr) {
 		this.user_detailAddr = user_detailAddr;
 	}
-
 	public String getUser_phone() {
 		return user_phone;
 	}
-
 	public void setUser_phone(String user_phone) {
 		this.user_phone = user_phone;
 	}

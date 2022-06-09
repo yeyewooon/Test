@@ -289,6 +289,9 @@ footer.footer {
 		<c:if test="${category eq 'acc' }">
 			<img src="./resources/images/header-image-acc.jpg" class="header-image">
 		</c:if>
+		<c:if test="${category eq 'BAG' }">
+			<img src="./resources/images/header-image-bag.jpg" class="header-image">
+		</c:if>
 	</div>
 
 	<!-- 상품 캐러셀 -->

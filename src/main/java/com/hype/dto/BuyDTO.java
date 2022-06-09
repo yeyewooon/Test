@@ -2,14 +2,14 @@ package com.hype.dto;
 
 public class BuyDTO {
 	private int seq_buy;
-	private int seq_order; 
+	private int seq_order;
 	private String buy_name;
-	private int buy_price;
 	private int buy_qty;
+	private int buy_price;
 	private String buy_create;
 	
 	public BuyDTO() {}
-
+	
 	public BuyDTO(int seq_buy, int seq_order, String buy_name, int buy_qty, int buy_price, String buy_create) {
 		super();
 		this.seq_buy = seq_buy;
@@ -51,6 +51,14 @@ public class BuyDTO {
 		this.buy_qty = buy_qty;
 	}
 
+	public int getBuy_qty() {
+		return buy_qty;
+	}
+
+	public void setBuy_qty(int buy_qty) {
+		this.buy_qty = buy_qty;
+	}
+
 	public int getBuy_price() {
 		return buy_price;
 	}
@@ -58,7 +66,6 @@ public class BuyDTO {
 	public void setBuy_price(int buy_price) {
 		this.buy_price = buy_price;
 	}
-
 
 	public String getBuy_create() {
 		return buy_create;
@@ -70,10 +77,15 @@ public class BuyDTO {
 
 	@Override
 	public String toString() {
-		return "BuyDTO [seq_buy=" + seq_buy + ", seq_order=" + seq_order + ", buy_name=" + buy_name + ", buy_price="
-				+ buy_price + ", buy_qty=" + buy_qty + ", buy_create=" + buy_create + "]";
+		return seq_buy + " : " + seq_order + " : " + buy_name + " : "
+				+ buy_qty + " : " + buy_price + " : " + buy_create;
 	}
+	
 
+	
+	
+	
+	
 	
 	
 }
