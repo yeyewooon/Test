@@ -131,10 +131,6 @@ public class MemberController extends HttpServlet {
 
 			MemberDAO dao = new MemberDAO();
 			try {
-//				if(id.equals("admin") && pw.equals("admin")) {
-//					System.out.println("관리자 로그인");
-//					response.sendRedirect("/admin.ad");
-//				}
 				if(!pw.equals("admin")) {
 					pw = EncryptionUtils.getSHA512(pw);// 암호화
 				}
@@ -148,13 +144,15 @@ public class MemberController extends HttpServlet {
 				}else if (dto != null) { // 로그인 성공
 					System.out.println("로그인 성공");
 					response.setCharacterEncoding("utf-8");
-					HttpSession session = request.getSession();
-					session.setAttribute("loginSession", dto);
 					if(id.equals("admin")) {
 						System.out.println("관리자 로그인");
 					}else {
+						HttpSession session = request.getSession();
+						session.setAttribute("loginSession", dto);
 						response.getWriter().append("loginSuccess");
 					}
+					
+					
 					
 				} else {// 로그인 실패
 					System.out.println("로그인 실패");

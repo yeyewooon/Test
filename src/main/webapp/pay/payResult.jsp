@@ -194,76 +194,68 @@
 
 <body>
   <c:set var="user_phone" value="${loginSession.user_phone}" />
-  <div class="container MainBox mb-5">
-    <!-- 네비바 -->
-    <nav class="navbar navbar-light bg-light fixed">
-      <div class="container">
-        <a class="navbar-brand" href="/Tohome" id="logo"><img id="logo" src="/resources/images/Logo.png"
-            alt="HypeFriend"></a>
-        <div class="col-md-1  navbar-anchor"><a href="/">COMPANY</a></div>
-        <div class="dropdown ">
-          <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"
-            style="font-weight: bold;">
-            CLOTHES
-          </button>
-          <ul class="dropdown-menu nav-category" aria-labelledby="dropdownMenuButton1">
-            <li><a class="dropdown-item" href="#">Top</a></li>
-            <li><a class="dropdown-item" href="#">Bottom</a></li>
-            <li><a class="dropdown-item" href="#">Accessory</a></li>
-          </ul>
-        </div>
-        <div class="col-md-1 navbar-anchor"><a href="/">Shop</a></div>
-        <div class="col-md-1 navbar-anchor"><a href="/toCs.mem">CS</a></div>
-        <!-- 네비바 검색창 -->
-        <%-- <div class="col-md-4 navbar-anchor" id="navbar-search">
-          <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-            <div class="input-group">
-              <button class="btn btn-link" style="border: 1px solid lightgrey;" id="btnSearch" type="button"><i
-                  id="searchIcon" class="fas fa-search"></i></button>
-              <input class="form-control" type="text" aria-describedby="btnNavbarSearch" />
-            </div>
-          </form>
-          </button>
-      </div> --%>
-      <div class="col-md-4 navbar-anchor" id="userIcon">
-        <c:choose>
-          <c:when test="${not empty loginSession}">
-            <!-- 로그인했으면 -->
-            <a href="/toCart.mem"><i class="fa-solid fa-cart-plus"></i></a>
-            <div class="dropdown" style="display: inline;">
-              <i class="fa-solid fa-user" data-bs-toggle="dropdown" aria-expanded="false"></i>
-              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                <li><a class="dropdown-item" href="/toMypage.mem">마이페이지</a></li>
-                <li><a class="dropdown-item" href="/logoutProc.mem">로그아웃</a></li>
+  <div class="container MainBox">
+        <!-- 네비바 -->
+        <nav class="navbar navbar-light bg-light fixed">
+          <div class="container">
+            <a class="navbar-brand" href="/Tohome" id="logo"><img id="logo" src="/resources/images/Logo3.png" alt="HypeFriend"></a>
+            <div class="col-md-1  navbar-anchor"><a href="/ToCompany.page">COMPANY</a></div>
+            <div class="dropdown ">
+              <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"
+                style="font-weight: bold;">
+                CLOTHES
+              </button>
+              <ul class="dropdown-menu nav-category" aria-labelledby="dropdownMenuButton1">
+                <li><a class="dropdown-item" href="/ToPage.page?category=TOP">TOP</a></li>
+				<li><a class="dropdown-item" href="/ToPage.page?category=BOTTOM">BOTTOM</a></li>
+				<li><a class="dropdown-item" href="/ToPage.page?category=ACCESSORY">ACCESSORY</a></li>
+				<li><a class="dropdown-item" href="/ToPage.page?category=BAG">BAG</a></li>
               </ul>
             </div>
-            <span style="font-size: 10px;">${loginSession.user_id}님</span>
-          </c:when>
+            <div class="col-md-1 navbar-anchor"><a href="/TosearchMap.page">Shop</a></div>
+            <div class="col-md-1 navbar-anchor"><a href="/toCs.mem">CS</a></div>
+            
+            <div class="col-md-4 navbar-anchor" id="userIcon">
+              <c:choose>
+                <c:when test="${not empty loginSession}">
+                  <!-- 로그인했으면 -->
+                  <a href="/toCart.mem"><i class="fa-solid fa-cart-plus"></i></a>
+                  <div class="dropdown" style="display: inline;">
+                    <i class="fa-solid fa-user" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                      <li><a class="dropdown-item" href="/toMypage.mem">마이페이지</a></li>
+                      <li><a class="dropdown-item" href="/logoutProc.mem">로그아웃</a></li>
+                    </ul>
+                  </div>
+                  <span style="font-size: 10px;">${loginSession.user_id}님</span>
+                </c:when>
 
-          <c:otherwise>
-            <!-- 로그인 안하면 -->
-            <i id="loginIcon" class="fa-solid fa-cart-plus"></i></a>
-            <i id="loginIcon2" class="fa-solid fa-user"></i>
-            <script>
-              document.getElementById("loginIcon2").onclick = function () {
-                let url = "/toLogin.mem";
-                let name = "로그인";
-                let option = "width=600, height=700, left=700, top=300";
-                window.open(url, name, option);
-              }
-              document.getElementById("loginIcon").onclick = function () {
-                let url = "/toLogin.mem";
-                let name = "로그인";
-                let option = "width=600, height=700, left=700, top=300";
-                window.open(url, name, option);
-              }
-            </script>
-          </c:otherwise>
-        </c:choose>
+                <c:otherwise>
+                  <!-- 로그인 안하면 -->
+                  <i id="loginIcon" class="fa-solid fa-cart-plus"></i></a>
+                  <i id="loginIcon2" class="fa-solid fa-user"></i>
+                  <script>
+                    document.getElementById("loginIcon2").onclick = function () {
+                      let url = "/toLogin.mem";
+                      let name = "로그인";
+                      let option = "width=600, height=700, left=700, top=300";
+                      window.open(url, name, option);
+                    }
+                    document.getElementById("loginIcon").onclick = function () {
+                      let url = "/toLogin.mem";
+                      let name = "로그인";
+                      let option = "width=600, height=700, left=700, top=300";
+                      window.open(url, name, option);
+                    }
+                  </script>
+                </c:otherwise>
+              </c:choose>
+            </div>
+          </div>
+        </nav>
       </div>
-  </div>
-  </nav>
-  </div>
+
+      <input id="url" name="url" type="hidden" value="/Tohome">
 
   <div class="container" style="border: 1px solid lightgray; margin-top: 150px;">
     <div class="row">
