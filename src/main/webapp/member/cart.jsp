@@ -133,7 +133,7 @@
                     <tr>
                       <th scope="row">${status.count}</th>
                       <td><input type="checkbox" name="seq_cart" class="check" value="${dto.seq_cart}"></td>
-                      <td class="col-1"><a href="/detailPage.page?seq_product=${dto.seq_product}"><img class="productImg" src="/resources/images/${imageList[status.index].image_name}" ></a></td>
+                      <td class="col-1"><a href="/detailPage.page?seq_product=${dto.seq_product}"><img class="productImg" src="/resource/imagesClothes/${imageList[status.index].image_name}" ></a></td>
                       <td class="detailItem">
                         <div class="row">
                           <div class="col-12">
