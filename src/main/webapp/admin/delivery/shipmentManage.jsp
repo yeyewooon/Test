@@ -489,7 +489,6 @@ prefix="c"%>
       // 검색 했을 때 출력
       $("#searchIcon").on("click", function () {
         let searchKeyword = $("#searchKeyword").val();
-        console.log(searchKeyword);
 
         $.ajax({
           url: "/searchProc.sh?searchKeyword=" + searchKeyword,
@@ -537,7 +536,6 @@ prefix="c"%>
 
       // 전체 조회 클릭
       $("#selectAllIcon").on("click", function () {
-        console.log("hi");
         location.href = "/shipManage.sh?curPage=1";
       });
 
@@ -549,14 +547,8 @@ prefix="c"%>
       // 페이지 네이션 action
       let active = $(".page-link").text();
       let activePage = "${curPage}";
-      console.log("active : " + active);
-      console.log("active.length : " + active.length);
-      console.log("activePage : " + activePage);
       for (let i = 0; i < active.length; i++) {
-        console.log("asdasd : " + active[i]);
         if (active[i] == activePage) {
-          console.log(active[i]);
-          console.log(activePage);
           $(".pageActive" + (i + 1)).css({
             "background-color": "#13213c",
             color: "white",
@@ -568,7 +560,6 @@ prefix="c"%>
       $(document).ready(function () {
         $("#category-Selector").change(function () {
           let selectedVal = $(this).val();
-          console.log(selectedVal);
           location.href =
             "/selectedProc.sh?curPage=1&selectedVal=" + selectedVal;
         });

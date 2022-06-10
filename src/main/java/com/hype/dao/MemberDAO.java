@@ -220,7 +220,7 @@ public class MemberDAO {
 				String image_name = rs.getString(2);
 				String image_path = rs.getString(3);
 				
-				return new ImageDTO(seq_product, image_name, image_path);
+				return new ImageDTO(image_name,seq_product, image_path);
 			}
 			return null;
 

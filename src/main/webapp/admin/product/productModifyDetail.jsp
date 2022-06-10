@@ -439,9 +439,8 @@ td span {
 									</c:if>
 									<c:if test="${not empty list}">
 										<c:forEach items="${list}" var="dtoImage">
-											<p name="${dtoImage.image_name}">${dtoImage.image_name}</p></tab> /
+											<p name="${dtoImage.image_name}">${dtoImage.image_name}</p> /
 										</c:forEach>
-
 									</c:if>
 								</div>
 							</div>
@@ -513,9 +512,6 @@ td span {
 				let imageClass = $(".imgText22").children("input:last-child").addClass('hello'+(i+1));
 				
 				$(".imgText22").append(imageClass);
-				/* let a = imageClass.html("asdsasd");
-				console.log(a);
-				 */
 				imageClass.attr("value",list[i]); 
 				
 			}

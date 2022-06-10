@@ -521,15 +521,12 @@ td span {
 		// 삭제 클릭시
 		$(".productDelete").on("click", function() {
 			let user_id = $("#user_id").val();
-			console.log(user_id);
 			let answer = confirm("정말 상품을 삭제하시겠습니까?");
-			console.log(answer);
 			if (answer) {
 				location.href = "memberdelete.amem?user_id=" + user_id;
 			} 
 		})
 		$("#submitBtn").on("click", function() {
-			console.log($(".form-select").val());
 			$("#insertForm").submit();
 		})
 		$("#submitBtn").on("click", function() {
