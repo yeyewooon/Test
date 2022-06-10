@@ -226,5 +226,39 @@ public class ProductDAO {
 			return rs;
 		}
 	}
+	
+	public boolean selectAllCart(String user_id, int seq_product) throws Exception{
+        String sql = "select * from tbl_cart where user_id=? and seq_product=?";
+
+        try(Connection con = bds.getConnection();
+           PreparedStatement pstmt = con.prepareStatement(sql)){
+
+            pstmt.setString(1, user_id);
+            pstmt.setInt(2, seq_product);
+
+            ResultSet rs = pstmt.executeQuery();
+
+           if (rs.next()) {
+               return true;
+           }
+           return false;
+        }
+    }
+	
+	// 해당 유저 장바구니에 상품이 이미 존재할때 수량 업데이트 해주기
+    public int updateCart(CartDTO CartDto) throws Exception{
+       String sql = "update tbl_cart set cart_quantity = cart_quantity + ? where user_id = ? and seq_product = ?";
+
+       try(Connection con = bds.getConnection();
+          PreparedStatement pstmt = con.prepareStatement(sql)){
+
+          pstmt.setInt(1, CartDto.getCart_quantity());
+          pstmt.setString(2, CartDto.getUser_id());
+          pstmt.setInt(3, CartDto.getSeq_product());
+
+          int rs = pstmt.executeUpdate();
+          return rs;
+       }
+    }
 
 }
