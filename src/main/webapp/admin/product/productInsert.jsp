@@ -516,11 +516,13 @@ pageEncoding="UTF-8"%>
       });
 
       $("#submitBtn").on("click", function () {
+    	  let check = /^[0-9]+$/; 
+    	  let price = $("#product_price").val();
         if ($("#product_name").val() === "") {
           alert("상품 이름을 기입해주세요");
           return;
-        } else if ($("#product_price").val() === "") {
-          alert("상품 가격을 기입해주세요");
+        } else if ($("#product_price").val() === "" || !check.test(price)) {
+          alert("상품 가격을 제대로 기입해주세요(숫자만 가능)");
           return;
         } else if ($("#product_code").val() === "") {
           alert("상품 코드을 기입해주세요");
@@ -528,7 +530,7 @@ pageEncoding="UTF-8"%>
         } else if ($("#product_content").val() === "") {
           alert("상품 설명을 기입해주세요");
           return;
-        }
+        } 
         if (confirm == 1) {
           $("#insertForm").submit();
         } else {

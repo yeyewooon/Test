@@ -446,8 +446,6 @@ $("#qnaReplySubmitBtn").on("click", function(){
 	
 	let adminReply = $("#adminReply").val();
 	let seq_qna =$("#registerContentInput").val();
-	console.log(seq_qna);
-	console.log(adminReply);
 	
 	if(adminReply === ""){ // 댓글 입력창이 비어있다면
 		alert("댓글을 입력하세요")
@@ -512,7 +510,6 @@ $("#qnaReplyDeleteModal").on("click",function(){
 			data : {seq_qna: "${list[0].getSeq_qna()}"},
 			success : function(data){
 				alert("게시글 삭제 완료");
-				console.log("json에서 게시글 삭제완료");
 				location.href = "/boardQna.qna?curPage=1";
 			}, 
 			error : function(e){

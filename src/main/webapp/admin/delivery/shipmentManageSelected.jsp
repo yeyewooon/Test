@@ -489,7 +489,6 @@ a:hover {
   	
 	// 전체 조회 클릭
 	$("#selectAllIcon").on("click",function() {
-		console.log('hi');
 		location.href ="/shipManage.sh?curPage=1";
 	})
 	
@@ -500,7 +499,6 @@ a:hover {
         $(document).ready(function () {
           $("#category-Selector").change(function () {
             let selectedVal = $(this).val();
-            console.log(selectedVal);
             location.href = "/selectedProc.sh?curPage=1&selectedVal="+selectedVal;
           });
         })

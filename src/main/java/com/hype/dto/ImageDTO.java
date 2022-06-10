@@ -4,6 +4,8 @@ public class ImageDTO {
 	private String image_name;
 	private int seq_product;
 	private String image_path;
+	
+	public ImageDTO() {};
 	public ImageDTO(String image_name, int seq_product, String image_path) {
 		super();
 		this.image_name = image_name;

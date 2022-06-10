@@ -504,14 +504,8 @@ td span {
 		// 페이지네이션 action
 		let active = $(".page-link").text();
 		let activePage = '${curPage}';
-		console.log("active : " + active);
-		console.log("active.length : " + active.length);
-		console.log("activePage : " + activePage);
 		for (let i = 0; i < active.length; i++) {
-			console.log("asdasd : " + active[i]);
 			if (active[i] == activePage) {
-				console.log(active[i]);
-				console.log(activePage);
 				$(".pageActive"+(i+1)).css({
 					"background-color" : "#13213c",
 					"color" : "white"
@@ -529,7 +523,6 @@ td span {
                // 블랙리스트 유무 가져오기 
                let getBlacklistMember = thisRow.find('td:eq(5)').find(
                      'input').val();
-               console.log(getBlacklistMember);
 
                // 블랙리스트 일때만 ajax 작동
                if (getBlacklistMember == "Y") {
