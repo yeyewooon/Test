@@ -78,11 +78,11 @@
                     </div>
 
                     <!-- 카카오 로그인 -->
-                        <div class="row">
-                            <div class="col-12  d-flex justify-content-center kakaoLogin">
-                                <a href="javascript:kakaoLogin();"><img src="/resources/images/kakao_login.png"></a>
-                            </div>
+                    <div class="row">
+                        <div class="col-12  d-flex justify-content-center kakaoLogin" id="kakaoLogin">
+                            <a href="javascript:kakaoLogin();"><img src="/resources/images/kakao_login.png"></a>
                         </div>
+                    </div>
                     <!-- 아이디, 비밀번호 찾기-->
                     <div class="row m-3">
                         <div class="col-12 d-flex justify-content-center kakaoLogin">
@@ -302,22 +302,27 @@
                             alert("로그인 성공");
                             opener.document.location.href = url;
                             self.close();
-
-                        } else if(resultData === "loginFail"){
+                            return;
+                        } else if (resultData === "loginFail") {
                             alert("로그인 실패!");
-                        } else if(resultData === "blacklist"){
+                            return;
+                        } else if (resultData === "blacklist") {
                             alert("차단 된 사용자 입니다. CS로 문의바랍니다.");
-                        } else {
+                            return;
+                        } else if(resultData === "admin"){
                             alert("관리자 로그인 성공");
                             window.opener.location.href = "/admin.ad";
                             self.close();
+                            return;
                         }
+                        
 
                     }, error: function (e) {
                         console.log(e);
                     }
                 })
             });
+
 
             $('#btnFindID').on('click', function () {
                 if (
@@ -482,7 +487,7 @@
                             success: (res) => {
                                 const email = res.kakao_account.email;
                                 console.log(email);
-                                window.opener.location.href = "/toKakao.mem?email=" + email+"&url="+url;
+                                window.opener.location.href = "/toKakao.mem?email=" + email + "&url=" + url;
                                 self.close();
                             }
                         });
@@ -492,6 +497,7 @@
                     }
                 });
             }
+
         </script>
 
         </html>

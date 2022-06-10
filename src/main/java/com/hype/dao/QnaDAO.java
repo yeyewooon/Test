@@ -70,7 +70,7 @@ private BasicDataSource bds;
    
    public int qnaInsert(int seq_order, String id, String type, String title, String content) throws Exception{ //문의글 작성
 	      String sql = "insert into tbl_qna "
-	            + "values(seq_qna.nextval, ?, ?, ?, ?, ?,sysdate, default)";
+	            + "values(seq_qna.nextval, ?, ?, ?, ?, ?, default, sysdate)";
 	      
 	      
 	      try(Connection con = bds.getConnection();

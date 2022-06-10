@@ -56,11 +56,10 @@ public class AdminMainController extends HttpServlet {
 				System.out.println(productCnt);
 
 				// 카테고리 갯수
-				int cntCategoryTop = dao.cntCategory("top");
-				int cntCategoryBottom = dao.cntCategory("bottom");
-				int cntCategorySocks = dao.cntCategory("socks");
-				int cntCategoryBag = dao.cntCategory("bag");
-				int cntCategoryCap = dao.cntCategory("cap");
+				int cntCategoryTop = dao.cntCategory("TOP");
+				int cntCategoryBottom = dao.cntCategory("BOTTOM");
+				int cntCategoryAcc = dao.cntCategory("ACCESSORY");
+				int cntCategoryBag = dao.cntCategory("BAG");
 
 				// 전체 구매수
 				int allBuyQty = dao.allBuyQty();
@@ -73,9 +72,8 @@ public class AdminMainController extends HttpServlet {
 				// 원형 그래프.
 				request.setAttribute("cntCategoryTop", cntCategoryTop);
 				request.setAttribute("cntCategoryBottom", cntCategoryBottom);
-				request.setAttribute("cntCategorySocks", cntCategorySocks);
+				request.setAttribute("cntCategoryAcc", cntCategoryAcc);
 				request.setAttribute("cntCategoryBag", cntCategoryBag);
-				request.setAttribute("cntCategoryCap", cntCategoryCap);
 				request.setAttribute("allBuyQty", allBuyQty);
 
 				

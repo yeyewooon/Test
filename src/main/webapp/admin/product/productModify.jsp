@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core"
 prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
   <head>
@@ -352,7 +353,7 @@ prefix="c"%>
                           <td>${dto.getCategory()}</td>
                           <td>${dto.getProduct_code()}</td>
                           <td>${dto.getProduct_name()}</td>
-                          <td>${dto.getProduct_price()}</td>
+                          <td><fmt:formatNumber value="${dto.getProduct_price()}" pattern="#,###" /></td>
                           <td id="icon">
                             <span class="productModify"
                               ><i class="fa-solid fa-pencil"></i

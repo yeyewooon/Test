@@ -82,7 +82,12 @@ public class AdminMemberController extends HttpServlet {
 		}else if(uri.equals("/membermodifydetail.amem")) {
 			String user_id = request.getParameter("user_id");
 			String user_blacklist = request.getParameter("user_blacklist");
-			 String black_reason = request.getParameter("black_reason");
+			String black_reason;
+	         if(request.getParameter("black_reason") == "" ) {
+	            black_reason = "블랙리스트에서 해방";
+	         }else {
+	            black_reason = request.getParameter("black_reason");
+	         }
 			AdminMemberDAO dao = new AdminMemberDAO();
 			try {
 				// 블랙리스트 넣기 
