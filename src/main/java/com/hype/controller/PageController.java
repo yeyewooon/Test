@@ -15,6 +15,7 @@ import com.hype.dao.ReviewDAO;
 import com.hype.dto.CartDTO;
 import com.hype.dto.ImageDTO;
 import com.hype.dto.MemberDTO;
+import com.hype.dto.OrderReviewDTO;
 import com.hype.dto.ProductDTO;
 import com.hype.dto.RankingDTO;
 import com.hype.dto.ReviewDTO;
@@ -85,22 +86,32 @@ public class PageController extends HttpServlet {
 
 		// 김형석
 		else if(uri.equals("/reviewWrite.page")) { // 리뷰 등록하기
-			HttpSession session = request.getSession();
-			String user_id = ((MemberDTO) session.getAttribute("loginSession")).getUser_id();
-			
-			int seq_product = Integer.parseInt(request.getParameter("seq_product"));
-			 String review_content = request.getParameter("review_content");
-	         int review_rate = Integer.parseInt(request.getParameter("review_rate"));
-	         
-	         System.out.println(seq_product);
-	         ReviewDAO ReviewDao = new ReviewDAO();
-	         try {
-	            int rs = ReviewDao.insertReview(new ReviewDTO(0, seq_product, user_id, review_content, null, review_rate));
+	         HttpSession session = request.getSession();
+	         String user_id = ((MemberDTO) session.getAttribute("loginSession")).getUser_id();
+	      
+	         int seq_product = Integer.parseInt(request.getParameter("seq_product"));
+	         String review_content = request.getParameter("review_content");
+	           int review_rate = Integer.parseInt(request.getParameter("review_rate"));
 	            
-	         }catch(Exception e) {
-	            e.printStackTrace();
-	         }
-	         request.getRequestDispatcher("user/product/detailPage.jsp").forward(request, response);
+	           System.out.println(seq_product);
+	           ReviewDAO ReviewDao = new ReviewDAO();
+	           ProductDAO productDAO = new ProductDAO();
+	           try {
+	        	  ArrayList<ProductDTO> product = productDAO.selectAll(seq_product); 
+	              System.out.println("product : "+product);
+	              ArrayList<OrderReviewDTO> checkId = ReviewDao.checkId(user_id, product.get(0).getProduct_name());
+	              
+	              if(checkId.size() != 0) {
+	                 int rs = ReviewDao.insertReview(new ReviewDTO(0, seq_product, user_id, review_content, null, review_rate));
+	                 response.getWriter().append("true");
+	              }else {
+	                 response.getWriter().append("false");
+	              }
+	               
+	            }catch(Exception e) {
+	               e.printStackTrace();
+	            }
+//	            request.getRequestDispatcher("user/product/detailPage.jsp").forward(request, response);
 	      } else if (uri.equals("/detailPage.page")) { // 상세페이지 정보 및 사진 불러오기
 			int seq_product = Integer.parseInt(request.getParameter("seq_product"));
 			/* int curPage = Integer.parseInt(request.getParameter("curPage")); */

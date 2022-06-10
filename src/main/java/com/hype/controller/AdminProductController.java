@@ -132,7 +132,7 @@ public class AdminProductController extends HttpServlet {
 		} else if (uri.equals("/productmodifyDetail.pc")) {
 			System.out.println("요청완료");
 
-			String filepath = "C:\\test_workspace\\Test1\\src\\main\\webapp\\resource\\imagesClothes\\";
+			String filepath = "\\resource\\imagesClothes\\";
 			System.out.println(filepath);
 			File dir = new File(filepath);
 			if (dir.mkdirs()) {

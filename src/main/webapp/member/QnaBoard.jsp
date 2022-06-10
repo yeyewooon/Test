@@ -415,9 +415,9 @@
             const reply = document.getElementsByClassName('reply');
             let j = 0;
             for (let i = 0; i < status.length; i++) {
-                if (status[i].innerText == '답변 대기') {
+                if (status[i].innerText == '답변대기') {
                     answer[i].style.display = "none";
-                } else if (status[i].innerText == '답변 완료') {
+                } else if (status[i].innerText == '답변완료') {
                     status[i].style.color = 'blue';
                     replyContent[i].innerHTML = reply[j].value;
                     j++;

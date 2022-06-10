@@ -36,7 +36,7 @@
 <script src="https://kit.fontawesome.com/241134516c.js"
 	crossorigin="anonymous"></script>
 <link href="user/product/css/page.css" rel="stylesheet" />
-<title>Document</title>
+<title>Clothes</title>
 <style>
 *{
 	/*background-color:#f9f5ea;*/
@@ -328,11 +328,11 @@ footer.footer {
 					<div class="carousel-inner">
 						<div class="carousel-item active">
 							<div class="row">
-								<c:forEach items="${rimgList }" var="rimgList"
+								<c:forEach items="${rimgList}" var="rimgList"
 									varStatus="status">
 									<c:if test="${status.index<4}">
 										<div class="col-lg-3">
-											<a href="">
+											<a href="/detailPage.page?seq_product=${rimgList.seq_product}">
 												<div class="card">
 													<div class="row">
 														<div class="col-2 ranknum d-flex justify-content-center">
@@ -361,11 +361,11 @@ footer.footer {
 						</div>
 						<div class="carousel-item">
 							<div class="row">
-								<c:forEach items="${rimgList }" var="rimgList"
+								<c:forEach items="${rimgList}" var="rimgList"
 									varStatus="status">
 									<c:if test="${status.index>=4}">
 										<div class="col-lg-3">
-											<a href="">
+											<a href="/detailPage.page?seq_product=${rimgList.seq_product}">
 												<div class="card">
 													<div class="row">
 														<div class="col-2 ranknum d-flex justify-content-center">
@@ -382,7 +382,7 @@ footer.footer {
 													</div>
 													<div class="row card-text">
 														<div class="col-12 productName">
-															<span>${proList[status.index].product_name }</span>
+															<span>${pList[status.index].product_name }</span>
 														</div>
 													</div>
 												</div>
@@ -425,7 +425,7 @@ footer.footer {
 										<a
 											href="detailPage.page?seq_product=${proList[status.index].seq_product }">
 											<div class="imgBox">
-												<img src="../resource/imagesClothes/${imgList.image_name}"
+												<img src="./resource/imagesClothes/${imgList.image_name}"
 													id="Cimg">
 											</div>
 											<div class="imgText">
@@ -496,9 +496,9 @@ footer.footer {
 
 
 		<!-- 맨위로 올라가기 -->
-		<div class="top" style="position: fixed; bottom: 30px; right: 40px;">
-			<a href="#header"><img src="" title="위로 가기"></a>
-		</div>
+        <div class="top" style="position: fixed; bottom: 30px; left: 95%;">
+            <a href="#header"><i class="fa-solid fa-circle-arrow-up fa-3x"></i></a>
+        </div>
 
 		<!-- Footer-->
 		<footer class="footer bg-light">

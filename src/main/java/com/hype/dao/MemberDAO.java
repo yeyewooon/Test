@@ -602,14 +602,14 @@ public class MemberDAO {
 		}
 	}
 	
-	public ArrayList<ReplyDTO> replyByQna(String id, int[] num) throws Exception {
+	public ArrayList<ReplyDTO> replyByQna(int[] num) throws Exception {
 		String[] str = new String[num.length];
 
 		for (int i = 0; i < num.length; i++) {
 			str[i] = "?";
 		}
 		String allStr = String.join(",", str);
-		String sql = "select * from tbl_reply where user_id = ? and seq_qna in ";
+		String sql = "select * from tbl_reply where seq_qna in ";
 		String sql2 = "order by seq_qna desc ";
 		sql += "(" + allStr + ") " + sql2;
 		
@@ -617,9 +617,8 @@ public class MemberDAO {
 		
 		try (Connection con = bds.getConnection(); PreparedStatement pstmt = con.prepareStatement(sql)) {
 			
-			pstmt.setString(1, id);
 			for (int i = 0; i < num.length; i++) {
-				pstmt.setInt(i + 2, num[i]);
+				pstmt.setInt(i + 1, num[i]);
 			}
 			
 			ResultSet rs = pstmt.executeQuery();

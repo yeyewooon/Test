@@ -290,7 +290,7 @@
                                     <td class="col-1"><a
                                             href="/detailPage.page?seq_product=${productList[status.index].seq_product}"><img
                                                 class="productImg"
-                                                src="/resources/images/${imageList[status.index].image_name}"></a></td>
+                                                src="/resource/imagesClothes/${imageList[status.index].image_name}"></a></td>
                                     <td>
                                         <div class="row">
                                             <div class="col-12">
