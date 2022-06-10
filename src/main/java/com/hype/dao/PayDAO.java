@@ -160,51 +160,51 @@ public class PayDAO {
       }
 	
 	public ArrayList<PayListDTO> selectBySeq_cart(int[] cart_list,String id) throws Exception{ //장바구니 번호, 유저 아이디로 결제창에 뿌리기
-		String[] str  = new String[cart_list.length];
-		
-		for(int i = 0 ; i <cart_list.length; i ++) {
-			str[i] = "?";
-		}
-		String allStr = String.join(",", str);
-		
-		String sql = "select a.* ,b.seq_cart ,b.cart_quantity ,c.image_path from tbl_product a inner join tbl_cart b on b.seq_product = a.seq_product inner join tbl_image c on c.seq_product = a.seq_product where b.seq_cart in ";
-		
-		String sql_where = "and b.user_id = ?";
-		sql += "(" + allStr + ") " +sql_where;
-		
-		ArrayList<PayListDTO> pay_list = new ArrayList<>();
-		
-		try(Connection con = bds.getConnection();
-			PreparedStatement pstmt = con.prepareStatement(sql)){
-			
-			
-			for (int i = 0; i < cart_list.length; i++) {
-				pstmt.setInt(i + 1, cart_list[i]);
-				
-				if(i == cart_list.length-1) {
-					pstmt.setString(i+2, id);
-				}
-			}
-			
-			ResultSet rs = pstmt.executeQuery();
-			while(rs.next()) {
-				int seq_product = rs.getInt("seq_product");
-				String product_name = rs.getString("product_name");
-				String product_code = rs.getString("product_code");
-				int product_price = rs.getInt("product_price");
-				String category = rs.getString("category");
-				String product_content = rs.getString("product_content");
-				int seq_cart = rs.getInt("seq_cart");
-				int cart_quantity = rs.getInt("cart_quantity");
-				String image_path = rs.getString("image_path");
-				
-				pay_list.add(new PayListDTO (seq_product, product_name, product_code, product_price
-						, category , product_content,seq_cart, cart_quantity, image_path));
-			}
-			return pay_list;
-		}
-		
-	}
+	      String[] str  = new String[cart_list.length];
+	      
+	      for(int i = 0 ; i <cart_list.length; i ++) {
+	         str[i] = "?";
+	      }
+	      String allStr = String.join(",", str);
+	      
+	      String sql = "select a.* ,b.seq_cart ,b.cart_quantity  \r\n"
+	            + "from tbl_product a inner join tbl_cart b on b.seq_product = a.seq_product where b.seq_cart in ";
+	      
+	      String sql_where = "and b.user_id = ?";
+	      sql += "(" + allStr + ") " +sql_where;
+	      
+	      ArrayList<PayListDTO> pay_list = new ArrayList<>();
+	      
+	      try(Connection con = bds.getConnection();
+	         PreparedStatement pstmt = con.prepareStatement(sql)){
+	         
+	         
+	         for (int i = 0; i < cart_list.length; i++) {
+	            pstmt.setInt(i + 1, cart_list[i]);
+	            
+	            if(i == cart_list.length-1) {
+	               pstmt.setString(i+2, id);
+	            }
+	         }
+	         
+	         ResultSet rs = pstmt.executeQuery();
+	         while(rs.next()) {
+	            int seq_product = rs.getInt("seq_product");
+	            String product_name = rs.getString("product_name");
+	            String product_code = rs.getString("product_code");
+	            int product_price = rs.getInt("product_price");
+	            String category = rs.getString("category");
+	            String product_content = rs.getString("product_content");
+	            int seq_cart = rs.getInt("seq_cart");
+	            int cart_quantity = rs.getInt("cart_quantity");
+	            
+	            pay_list.add(new PayListDTO (seq_product, product_name, product_code, product_price
+	                  , category , product_content,seq_cart, cart_quantity));
+	         }
+	         return pay_list;
+	      }
+	      
+	   }
 	public ArrayList<CartDTO> selectBySeq_cart(int[] seq ) throws Exception{ // cartDTO 수정해야함
 		String[] str = new String[seq.length];
 

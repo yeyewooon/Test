@@ -575,7 +575,7 @@ public class MemberController extends HttpServlet {
 					number[i] = list.get(i).getSeq_qna();
 				}
 				if(number.length != 0) {
-					ArrayList<ReplyDTO> reply = dao.replyByQna(dto.getUser_id(),number);
+					ArrayList<ReplyDTO> reply = dao.replyByQna(number);
 					request.setAttribute("reply", reply);
 				}
 				
@@ -607,7 +607,7 @@ public class MemberController extends HttpServlet {
 				for(int i = 0; i < list.size(); i++) {
 					number[i] = list.get(i).getSeq_qna();
 				}
-				ArrayList<ReplyDTO> reply = dao.replyByQna(dto.getUser_id(),number);
+				ArrayList<ReplyDTO> reply = dao.replyByQna(number);
 //				System.out.println(reply);
 				request.setAttribute("list", list);
 				request.setAttribute("reply", reply);

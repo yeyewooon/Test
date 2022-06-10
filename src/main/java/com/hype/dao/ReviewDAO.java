@@ -4,13 +4,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 
 import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 
+import com.hype.dto.OrderReviewDTO;
 import com.hype.dto.ReviewDTO;
 
 public class ReviewDAO {
@@ -98,5 +98,27 @@ public class ReviewDAO {
          return 0;
       }
    }
+   
+   public ArrayList<OrderReviewDTO> checkId(String user_id, String buy_name) throws Exception{
+	      String sql = "select * from tbl_order where seq_order = (select seq_order from tbl_buy where buy_name = ?) and user_id = ?";
+	      
+	      try(Connection con = bds.getConnection();
+	         PreparedStatement pstmt = con.prepareStatement(sql)){
+	         
+	         pstmt.setString(1, user_id);
+	         pstmt.setString(2, buy_name);
+	         
+	         ResultSet rs = pstmt.executeQuery();
+	         ArrayList<OrderReviewDTO> list = new ArrayList<>();
+	         
+	         while(rs.next()) {
+	            int seq_order = rs.getInt("seq_order");
+	              list.add(new OrderReviewDTO(seq_order, null, null));
+	         }
+	         return list;
+	      }
+	   
+	   
+	   }
 
 }

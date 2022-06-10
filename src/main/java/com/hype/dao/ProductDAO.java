@@ -122,7 +122,7 @@ public class ProductDAO {
 
 	// 데이터베이스에서 상품이름으로 tbl_image에서 사진 불러오기
 	public ArrayList<ImageDTO> getTblImgbyProName(String product_name) throws Exception {
-		String sql = "select * from tbl_image where seq_product in (select seq_product from tbl_product where product_name=?) order by 2 desc";
+		String sql = "select * from tbl_image where seq_product in (select seq_product from tbl_product where product_name=?) and image_name like '%main%' order by 2 desc";
 		// and image_name like '%main%' order by 1 desc 이거 추가
 
 		try (Connection con = bds.getConnection(); PreparedStatement pstmt = con.prepareStatement(sql);) {
@@ -167,25 +167,25 @@ public class ProductDAO {
 
 	////////////////////////////////////////////
 	// 상품 정보 가져오기
-	public ArrayList<ProductDTO> selectAll(int seq_product) throws Exception {
+	public ArrayList<ProductDTO> selectAll(int num) throws Exception {
 		String sql = "select * from tbl_product where seq_product = ?";
 
 		try (Connection con = bds.getConnection(); PreparedStatement pstmt = con.prepareStatement(sql)) {
 
-			pstmt.setInt(1, seq_product);
+			pstmt.setInt(1, num);
 
 			ResultSet rs = pstmt.executeQuery();
 
 			ArrayList<ProductDTO> list = new ArrayList<>();
 			while (rs.next()) {
-
+				int seq_product = rs.getInt("seq_product");
 				String product_code = rs.getString("product_code");
 				String category = rs.getString("category");
 				String product_name = rs.getString("product_name");
 				int product_price = rs.getInt("product_price");
 				String product_content = rs.getString("product_content");
 
-				list.add(new ProductDTO(0, product_code, category, product_name, product_price, product_content));
+				list.add(new ProductDTO(seq_product, product_code, category, product_name, product_price, product_content));
 
 			}
 			return list;
@@ -226,5 +226,39 @@ public class ProductDAO {
 			return rs;
 		}
 	}
+	
+	public boolean selectAllCart(String user_id, int seq_product) throws Exception{
+        String sql = "select * from tbl_cart where user_id=? and seq_product=?";
+
+        try(Connection con = bds.getConnection();
+           PreparedStatement pstmt = con.prepareStatement(sql)){
+
+            pstmt.setString(1, user_id);
+            pstmt.setInt(2, seq_product);
+
+            ResultSet rs = pstmt.executeQuery();
+
+           if (rs.next()) {
+               return true;
+           }
+           return false;
+        }
+    }
+	
+	// 해당 유저 장바구니에 상품이 이미 존재할때 수량 업데이트 해주기
+    public int updateCart(CartDTO CartDto) throws Exception{
+       String sql = "update tbl_cart set cart_quantity = cart_quantity + ? where user_id = ? and seq_product = ?";
+
+       try(Connection con = bds.getConnection();
+          PreparedStatement pstmt = con.prepareStatement(sql)){
+
+          pstmt.setInt(1, CartDto.getCart_quantity());
+          pstmt.setString(2, CartDto.getUser_id());
+          pstmt.setInt(3, CartDto.getSeq_product());
+
+          int rs = pstmt.executeUpdate();
+          return rs;
+       }
+    }
 
 }
