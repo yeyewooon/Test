@@ -140,7 +140,7 @@ public class AdminProductController extends HttpServlet {
 			} else {
 				System.out.println("데렉토리 생성 실패");
 			}
-
+			
 			int maxSize = 1024 * 1024 * 10;
 			AdminProductDAO dao = new AdminProductDAO();
 			AdminImageDAO daoImage = new AdminImageDAO();
@@ -157,17 +157,27 @@ public class AdminProductController extends HttpServlet {
 
 				String[] imageName = multi.getParameterValues("imageName");
 				
+	            if(imageName != null) {
+	               imageName = multi.getParameterValues("imageName");
+	            }else {
+	               imageName = multi.getParameterValues("bye");
+	            }
 				try {
 					int rs = dao.modify(new ProductDTO(seq_product, product_code, category, product_name, product_price,
 							product_content));
 					int rsImage=0;
-					for(String image_name : imageName) {
-						daoImage.insert(new ImageDTO(image_name, seq_product, filepath));
-						rsImage++;
+						for(String image_name : imageName) {
+							daoImage.insert(new ImageDTO(image_name, seq_product, filepath));
+							rsImage++;			
 					}
 					if (rs > 0 && rsImage > 0) {
 						response.sendRedirect("/modify.pc?curPage=1");
 					}
+					// 카트 update 
+		               int cartRs = dao.updateCart(seq_product, product_name, product_price);
+		               if(cartRs > 0) {
+		                  System.out.println("카트 업데이트 완료");
+		               }
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

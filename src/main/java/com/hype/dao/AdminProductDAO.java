@@ -170,7 +170,22 @@ public class AdminProductDAO {
 			return rs;	
 		}
 	}
-		
+	// 수정된 가격 카트테이블에 업데이트
+	public int updateCart(int seq_product, String product_name, int product_price) throws Exception {
+	      String sql = "update tbl_cart set cart_name = ?, cart_price = ? where seq_product=?";
+	      
+	      try(Connection con = bds.getConnection();
+	         PreparedStatement pstmt = con.prepareStatement(sql)) {
+	         
+	         pstmt.setString(1, product_name);
+	         pstmt.setInt(2, product_price);
+	         pstmt.setInt(3, seq_product);
+	         
+	         
+	         int rs = pstmt.executeUpdate();
+	         return rs;
+	      }
+	   }
 	public int delete(int seq_product) throws Exception{
 		String sql = "delete from tbl_product where seq_product = ?";
 		try(Connection con = bds.getConnection();

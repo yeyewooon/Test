@@ -194,7 +194,7 @@ public class ProductDAO {
 
 	// 상품상세페이지 이미지 가져오기
 	public ArrayList<ImageDTO> selectAllImgBySeq(int seq_product) throws Exception {
-		String sql = "select * from tbl_image where seq_product=?";
+		String sql = "select * from tbl_image where seq_product=? and image_name not in ('bye','bye1')";
 
 		try (Connection con = bds.getConnection(); PreparedStatement pstmt = con.prepareStatement(sql);) {
 

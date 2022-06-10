@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -40,52 +42,36 @@
 <title>상세페이지</title>
 <style>
 
-i {
-	margin: 5px;
+i{	cursor: pointer;
+  margin: 5px;
 }
-
-.navbar-light {
-	width: 100%;
-	position: fixed;
-	top: 0;
-	z-index: 1;
-	left: 0%;
+.navbar-light{
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 99;
+  left: 0%;
 }
-
-body {
-	padding-top: 100px;
+.navbar-anchor a{
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
 }
-
-/*네비바 속성*/
-.navbar-anchor a {
-	text-decoration: none;
-	color: black;
-	font-weight: bold;
-}
-
 #userIcon {
-	text-align: right;
-	font-size: 25px;
-	padding: 5px;
+  text-align: center;
+  font-size: 25px;
+  padding: 5px;
 }
-
-#navbar-search {
-	text-align: right;
-}
-
-#searchIcon {
-	color: lightgrey;
+#logo{
+  width: 60px;
+  height: 50px;
 }
 /* 네비바 드롭다운 */
-.dropdown-toggle:hover {
-	color: #83bf7b;
-	border-color: aliceblue;
-}
-
-.dropdown:hover .dropdown-menu {
-	display: block;
-	margin-top: 0;
-	font-weight: bold;
+.dropdown-toggle:hover{color: #83bf7b; border-color: aliceblue;}
+.dropdown:hover .nav-category {
+display: block;
+margin-top: 0;
+font-weight: bold;
 }
 
 /*상품 사진 및 설명*/
@@ -98,9 +84,10 @@ body {
 	height: 450px;
 }
 
-img {
+img:not(#logo) {
 	background-color: lightblue;
 	width: 700px;
+	height: 700px;
 	border: 1px solid gainsboro;
 }
 
@@ -155,7 +142,7 @@ img {
 .btnCount {
 	width:40px;
 	height:40px;
-	radius:0;
+	/* radius:0; */
 	border:none;
 	
 }
@@ -168,22 +155,17 @@ img {
 }
 
 .btnOrder {
-	background-color: #666666;
-	border-color: #666666;
+	background-color: #f1f2ed;
+	border-color: #f1f2ed;
+	width: 150px;
 }
 
 .btnCart {
-	background-color: #666666;
-	border-color: #666666;
+	background-color: #c9192f;
+	border-color: #ae3039;
 	margin-left: 10px;
-}
-
-.h2, .h5 {
-	border: none;
-	border-right: 0px;
-	border-top: 0px;
-	boder-left: 0px;
-	boder-bottom: 0px;
+	width: 150px;
+	height: 50px;
 }
 
 .body {
@@ -205,52 +187,61 @@ img {
 	margin: auto;
 	width: 1000px;
 	margin-top: 100px;
+	border: 2px solid black;
 }
-
-.brand_detail {
+p{margin:revert;}
+.brand_detail1, .brand_detail2, .brand_detail3 {
+	margin:auto;
 	border-bottom: 1px solid black;
 }
 
 .brand_title {
-	border-bottom: 2px solid black;
+	margin:auto;
 	font-size: 20px;
+	border-bottom: 1px solid black;
+	background-color: lightgray;
 }
-
+b{padding-left: 10px;}
 .brand_info {
+	margin:auto;
 	font-weight: bold;
 	font-size: 15px;
+	border-right:1px solid black;
 }
 
 .info_detail {
+	margin:auto;
 	font-size: 13px;
+	border-right:1px solid black;
+	height:52.5px;
 }
 
 /* 판매자 정보 */
 .seller {
-	background-color: gainsboro;
+	background-color: lightgray;
 	width: 100%;
+	height:60px;
 	margin: auto;
 }
 
 .detail {
-	border: 1px solid black;
+	border: 2px solid black;
 	width: 1000px;
 	margin: auto;
 	margin-top: 100px;
+	background-color: ghostwhite;
 }
-
+[class*="detail_info"]{margin:auto; border-bottom:1px solid black;}
+.detail_title{border-right:1px solid black; font-weight:bold;}
 .seller-detail {
 	font-size: 13px;
-	color: darkgray;
+	color: darkblue;
 }
 
-b {
-	padding-left: 10px;
+p{
+	font-size: 0.8rem;
 }
 
-.info_detail {
-	padding-left: 15px;
-}
 
 /* 리뷰 영역 */
 .review {
@@ -319,44 +310,72 @@ footer.footer {
 </style>
 </head>
 <body>
-	<div class="container MainBox" id="header">
-		<!-- 네비바 -->
-		<nav class="navbar navbar-light bg-light fixed">
-			<div class="container navbar-head">
-				<a class="navbar-brand" href="#!" id="logo">로고</a>
-				<div class="col-md-1 navbar-anchor">
-					<a href="/ToCompany.page">COMPANY</a>
-				</div>
+	<div class="container MainBox">
+        <!-- 네비바 -->
+        <nav class="navbar navbar-light bg-light fixed">
+          <div class="container">
+            <a class="navbar-brand" href="/Tohome" id="logo"><img id="logo" src="/resources/images/Logo3.png" alt="HypeFriend"></a>
+            <div class="col-md-1  navbar-anchor"><a href="/ToCompany.page">COMPANY</a></div>
+            <div class="dropdown ">
+              <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"
+                style="font-weight: bold;">
+                CLOTHES
+              </button>
+              <ul class="dropdown-menu nav-category" aria-labelledby="dropdownMenuButton1">
+                <li><a class="dropdown-item" href="/ToPage.page?category=TOP">TOP</a></li>
+				<li><a class="dropdown-item" href="/ToPage.page?category=BOTTOM">BOTTOM</a></li>
+				<li><a class="dropdown-item" href="/ToPage.page?category=ACCESSORY">ACCESSORY</a></li>
+				<li><a class="dropdown-item" href="/ToPage.page?category=BAG">BAG</a></li>
+              </ul>
+            </div>
+            <div class="col-md-1 navbar-anchor"><a href="/TosearchMap.page">Shop</a></div>
+            <div class="col-md-1 navbar-anchor"><a href="/toCs.mem">CS</a></div>
+            
+            <div class="col-md-4 navbar-anchor" id="userIcon">
+              <c:choose>
+                <c:when test="${not empty loginSession}">
+                  <!-- 로그인했으면 -->
+                  <a href="/toCart.mem"><i class="fa-solid fa-cart-plus"></i></a>
+                  <div class="dropdown" style="display: inline;">
+                    <i class="fa-solid fa-user" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                      <li><a class="dropdown-item" href="/toMypage.mem">마이페이지</a></li>
+                      <li><a class="dropdown-item" href="/logoutProc.mem">로그아웃</a></li>
+                    </ul>
+                  </div>
+                  <span style="font-size: 10px;">${loginSession.user_id}님</span>
+                </c:when>
 
-				<div class="dropdown ">
-					<button class="btn dropdown-toggle" type="button"
-						data-bs-toggle="dropdown" aria-expanded="false"
-						style="font-weight: bold;">CLOTHES</button>
-					<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-						<li><a class="dropdown-item" href="/ToPage.page?category=TOP">Top</a></li>
-						<li><a class="dropdown-item" href="/ToPage.page?category=bt">Bottom</a></li>
-						<li><a class="dropdown-item"
-							href="/ToPage.page?category=ACCESSORY">Accessory</a></li>
-						<li><a class="dropdown-item" href="/ToPage.page?category=BAG">Bag</a></li>
-					</ul>
-				</div>
+                <c:otherwise>
+                  <!-- 로그인 안하면 -->
+                  <i id="loginIcon" class="fa-solid fa-cart-plus"></i></a>
+                  <i id="loginIcon2" class="fa-solid fa-user"></i>
+                  <script>
+                    document.getElementById("loginIcon2").onclick = function () {
+                      let url = "/toLogin.mem";
+                      let name = "로그인";
+                      let option = "width=600, height=700, left=700, top=300";
+                      window.open(url, name, option);
+                    }
+                    document.getElementById("loginIcon").onclick = function () {
+                      let url = "/toLogin.mem";
+                      let name = "로그인";
+                      let option = "width=600, height=700, left=700, top=300";
+                      window.open(url, name, option);
+                    }
+                  </script>
+                </c:otherwise>
+              </c:choose>
+            </div>
+          </div>
+        </nav>
+      </div>
 
-				<div class="col-md-1 navbar-anchor">
-					<a href="/TosearchMap.page">Shop</a>
-				</div>
-				<div class="col-md-1 navbar-anchor">
-					<a href="/">CS</a>
-				</div>
-				<div class="col-md-2 navbar-anchor" id="userIcon">
-					<a href=""><i class="fa-solid fa-cart-plus"></i></a> <a href=""><i
-						class="fa-solid fa-user"></i></a>
-				</div>
-			</div>
-		</nav>
-	</div>
+      <input id="url" name="url" type="hidden" value="/Tohome">
+
 	<!-- 옷 사진 및 설명 -->
 	<form id="detailPageForm" action="/detailPage.page" method="post">
-		<div class="body">
+		<div class="body" style="margin-top: 100px;">
 			<div class="row clothesMain m-5 d-flex justify-content-center">
 				<div class="col-md-9 imgBox">
 					<div id="carouselExampleIndicators" class="carousel slide"
@@ -367,13 +386,13 @@ footer.footer {
 								<c:choose>
 									<c:when test="${status.index eq 0}">
 										<div class="carousel-item active">
-											<img src="../resource/imagesClothes/${image.image_name}"
+											<img src="./resource/imagesClothes/${image.image_name}"
 												class="d-block w-100" alt="...">
 										</div>
 									</c:when>
 									<c:otherwise>
 										<div class="carousel-item">
-											<img src="../resource/imagesClothes/${image.image_name}"
+											<img src="./resource/imagesClothes/${image.image_name}"
 												class="d-block w-100" alt="...">
 										</div>
 									</c:otherwise>
@@ -396,28 +415,32 @@ footer.footer {
 
 				<div class="col-md-3 clothesContent">
 					<div class="row clothesName p-3 m-2">
-						<h2>${productDTO.getProduct_name()}</h5>
+						<span style = "font-size:30px; font-weight:bold;">${productDTO.getProduct_name()}</span>
 					</div>
 					<div class="row clothesPrice p-3 m-2">
 						<div class="col-md-12 d-flex justify-content-start">
-							<h6>
-								판매가 : ${productDTO.getProduct_price()}원
-								</h2>
+							<span style="color:#D9760E; font-size:15px; font-weight:bold;">판매가 : </span>
+							<span style="color:#D9760E; font-size:15px;">&nbsp;<fmt:formatNumber value="${productDTO.getProduct_price()}" pattern="#,###"/>원</span>			
 						</div>
 					</div>
 
 					<div class="row clothesDelivery p-3 m-2">
 						<div class="col-md-12 d-flex justify-content-start">
-							<h6>배송비 : 무료배송</h6>
+							<span>배송비 :</span><span style="font-weight:bold;">&nbsp;&nbsp;무료배송</span>
 						</div>
 						<div class="col-md-12 d-flex justify-content-start">
-							<h6>배송유형 : 국내배송상품</h6>
+							<span>배송유형 : </span><span style="font-weight:bold;">&nbsp;&nbsp;국내배송상품</span>
+						</div>
+					</div>
+					<div class="row clothesDelivery p-3 m-2">
+						<div class="col-md-12 d-flex justify-content-start">
+							<span>사이즈 :</span><span style="font-weight:bold;">&nbsp;&nbsp;Free</span>
 						</div>
 					</div>
 
 					<div class="row countTextBox">
 						<div class="col-md-12 d-flex justify-content-center">
-							<h6>수량</h6>
+							<span>수량</span>
 						</div>
 					</div>
 					<div class="row countBox p-3">
@@ -434,9 +457,9 @@ footer.footer {
 					<div class="row orderBox p-3 m-3">
 						<div class="col-md-12 d-flex justify-content-center">
 							<button type="button" class="btn btn-secondary btnOrder"
-								id="btnOrder">주문하기</button>
+								id="btnOrder"><span style="font-weight:bold; color:black;">주문하기</span></button>
 							<button type="button" class="btn btn-secondary btnCart"
-								id="btnCart">장바구니 담기</button>
+								id="btnCart"><span style="font-weight:bold; color:white;">장바구니 담기</span></button>
 						</div>
 					</div>
 
@@ -447,7 +470,7 @@ footer.footer {
 	<!-- 상품 메뉴바 -->
 	<div class="row detailNav">
 		<div class="col-12 d-flex justify-content-center">
-			<ul class="link">
+			<ul class="link p-0">
 				<span class="select"> <a href="#clothesDetail">Detail
 						View</a>
 				</span>
@@ -477,7 +500,7 @@ footer.footer {
 	<div class="row clothesDetail" id="clothesDetail">
 		<c:forEach items="${imageList}" var="image">
 			<div class="col-md-12 p-2">
-				<img src="../resource/imagesClothes/${image.image_name}">
+				<img src="./resource/imagesClothes/${image.image_name}">
 			</div>
 		</c:forEach>
 	</div>
@@ -486,13 +509,13 @@ footer.footer {
 	<!-- 상품 정보 -->
 	<div class="brand" id="brand">
 		<div class="row brand_title d-flex justify-content-center">
-			<div class="col-md-12">
+			<div class="col-md-12 p-0">
 				<p>
-					<b>상품 추가정보</b>
+					<b style="font-size: 20px; font-weight:bold;">상품 추가정보</b>
 				</p>
 			</div>
 		</div>
-		<div class="row brand_detail">
+		<div class="row brand_detail1">
 			<div class="col-md-2 brand_info">
 				<p>색상</p>
 			</div>
@@ -506,7 +529,7 @@ footer.footer {
 				<p>한국</p>
 			</div>
 		</div>
-		<div class="row brand_detail">
+		<div class="row brand_detail2">
 			<div class="col-md-2 brand_info">
 				<p>제조국</p>
 			</div>
@@ -520,7 +543,7 @@ footer.footer {
 				<p>드라이클리닝 추천</p>
 			</div>
 		</div>
-		<div class="row brand_detail">
+		<div class="row brand_detail3">
 			<div class="col-md-2 brand_info">
 				<p>수입여부</p>
 			</div>
@@ -538,85 +561,78 @@ footer.footer {
 
 	<!-- 브랜드 설명 -->
 	<div class="detail" id="detail">
-		<div class="row seller mb-3">
+		<div class="row seller">
+			<div class="col-md-12 m-auto">
+				<div style="font-size: 20px; font-weight:bold; padding: 14px 0 20px 0;">판매자정보</div>
+			</div>
+		</div>
+		<div class="row detail_info1">
+			<div class="col-md-4 detail_title">
+				<div>
+					<p>상호 / 대표자</p>
+				</div>
+			</div>
+			<div class="col-md-8 seller-detail">
+				<div><p>주식회사 HYPE / 이호준</p></div>
+			</div>
+		</div>
+		<div class="row detail_info2">
+			<div class="col-md-4 detail_title">
+					<p>브랜드</p>	
+			</div>
+			<div class="col-md-8 seller-detail">
+				<p>HYPE</p>
+			</div>
+		</div>
+		<div class="row detail_info3">
+			<div class="col-md-4 detail_title">
+					<p>사업자번호</p>
+			</div>
+			<div class="col-md-8 seller-detail">
+				<p>1111111111</p>
+			</div>
+		</div>
+		<div class="row detail_info4">
+			<div class="col-md-4 detail_title">
+					<p>통신판매업신고</p>
+			</div>
+			<div class="col-md-8 seller-detail">
+				<p>제2022-서울당산</p>
+			</div>
+		</div>
+		<div class="row detail_info5">
+			<div class="col-md-4 detail_title">
+					<p>연락처</p>
+			</div>
+			<div class="col-md-8 seller-detail">
+				<p>02-777-7777</p>
+			</div>
+		</div>
+		<div class="row detail_info6">
+			<div class="col-md-4 detail_title">
+					<p>E-mail</p>
+			</div>
+			<div class="col-md-8 seller-detail">
+				<p>HYPE@hype.co.kr</p>
+			</div>
+		</div>
+		<div class="row detail_info7">
+			<div class="col-md-4 detail_title">
+					<p>영업소재지</p>
+			</div>
+			<div class="col-md-8 seller-detail">
+				<p>서울 영등포구 선유동2로 57 이레빌딩딩</p>
+			</div>
+		</div>
+		<div class="row detail_info8">
 			<div class="col-md-12">
-				<div style="font-size: 30px;">판매자정보</div>
-			</div>
-		</div>
-		<div class="row mb-3">
-			<div class="col-md-4">
-				<div>
-					<b>상호 / 대표자</b>
-				</div>
-			</div>
-			<div class="col-md-8 seller-detail">
-				<div>주식회사 HYPE / 이호준</div>
-			</div>
-		</div>
-		<div class="row mb-3">
-			<div class="col-md-4">
-				<div>
-					<b>브랜드</b>
-				</div>
-			</div>
-			<div class="col-md-8 seller-detail">
-				<div>HYPE</div>
-			</div>
-		</div>
-		<div class="row mb-3">
-			<div class="col-md-4">
-				<div>
-					<b>사업자번호</b>
-				</div>
-			</div>
-			<div class="col-md-8 seller-detail">
-				<div>1111111111</div>
-			</div>
-		</div>
-		<div class="row mb-3">
-			<div class="col-md-4">
-				<div>
-					<b>통신판매업신고</b>
-				</div>
-			</div>
-			<div class="col-md-8 seller-detail">
-				<div>제2022-서울당산</div>
-			</div>
-		</div>
-		<div class="row mb-3">
-			<div class="col-md-4">
-				<div>
-					<b>연락처</b>
-				</div>
-			</div>
-			<div class="col-md-8 seller-detail">
-				<div>02-777-7777</div>
-			</div>
-		</div>
-		<div class="row mb-3">
-			<div class="col-md-4">
-				<div>
-					<b>E-mail</b>
-				</div>
-			</div>
-			<div class="col-md-8 seller-detail">
-				<div>HYPE@hype.co.kr</div>
-			</div>
-		</div>
-		<div class="row mb-3">
-			<div class="col-md-4">
-				<div>
-					<b>영업소재지</b>
-				</div>
-			</div>
-			<div class="col-md-8 seller-detail">
-				<div>서울 영등포구 선유동2로 57 이레빌딩딩</div>
-			</div>
-		</div>
-		<div class="row mb-3">
-			<div class="col-md-12">
-				<div class="info_detail" style="font-size: 11px;">본 상품 정보의 내용은
-					공정거래위원회 ‘상품정보제공고시’ 에 따라 판매자가 직접 등록한 것으로 해당 정보에 대한 책임은 판매자에게 있습니다.</div>
+				<ul style="font-size: 0.3rem; opacity: 0.6; margin-top: 1rem;">
+					<li>
+						본 상품 정보의 내용은
+						공정거래위원회 ‘상품정보제공고시’ 에 따라 판매자가 직접 등록한 것으로 해당 정보에 대한 책임은 판매자에게 있습니다.
+					</li>
+				</ul>
+				
 			</div>
 		</div>
 	</div>
@@ -748,7 +764,7 @@ footer.footer {
 
 	<!-- 맨위로 올라가기 -->
 	<div class="top" style="position: fixed; bottom: 30px; right: 40px;">
-		<a href="#header"><img src="" title="위로 가기"></a>
+		<a href="#header"><i class="fa-solid fa-circle-arrow-up fa-3x"></i></a>
 	</div>
 
 	<!-- Footer-->

@@ -517,8 +517,10 @@ prefix="c"%>
 
     <script>
       document.getElementById('adminIconLogout').addEventListener('click', function() {
+
                 location.href = "/logoutProc.mem";
               })
+
 
       $(".arrow1").on("click", function() {
       	$(".sub-menu-first").toggle("4000ms");

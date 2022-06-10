@@ -216,11 +216,11 @@ public class MemberDAO {
 			ResultSet rs = pstmt.executeQuery();
 
 			if (rs.next()) {
-				int seq_product = rs.getInt(1);
-				String image_name = rs.getString(2);
+				String image_name = rs.getString(1);
+				int seq_product = rs.getInt(2);
 				String image_path = rs.getString(3);
 				
-				return new ImageDTO(image_name,seq_product, image_path);
+				return new ImageDTO(image_name, seq_product, image_path);
 			}
 			return null;
 
@@ -363,9 +363,9 @@ public class MemberDAO {
 		String allStr = String.join(",", str);
 		
 		String sql1 = "select  \r\n"
-				+ "(select count(a.seq_order) from tbl_order a where a.order_status = '상품 준비중' and user_id= ?) as totalCnt,\r\n"
-				+ "(select count(b.seq_order) from tbl_order b where b.order_status = '배송 중' and user_id= ?) as deliveryCnt,\r\n"
-				+ "(select count(c.seq_order) from tbl_order c where c.order_status = '배송 완료' and user_id= ?) as deliveryCompleteCnt,";
+				+ "(select count(a.seq_order) from tbl_order a where user_id= ?) as totalCnt,\r\n"
+				+ "(select count(b.seq_order) from tbl_order b where b.order_status = '상품 출발' and user_id= ?) as deliveryCnt,\r\n"
+				+ "(select count(c.seq_order) from tbl_order c where c.order_status = '상품 도착' and user_id= ?) as deliveryCompleteCnt,";
 		String sql2 = "(select SUM(buy_price*buy_qty) from tbl_buy where seq_order in ";
 		sql2 += "(" + allStr + ")";
 		String sql3 = ") as totalPrice from dual";

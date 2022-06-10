@@ -102,16 +102,20 @@ public class AdminShipmentController extends HttpServlet {
 			
 			
 			// 주소를 하나로 합치는 작업 
-			String roadAddr = request.getParameter("roadAddr");
-			String jibunAddr = request.getParameter("jibunAddr");
-			String detailAddr = request.getParameter("detailAddr");
-			String order_address = roadAddr + " " + jibunAddr + " " + detailAddr;
-			
-			String order_status = request.getParameter("order_status");
-
-			System.out.println("전체주소, 배송상태 : " + order_address + " : " + order_status);
-			
-			AdminShipmentDAO dao = new AdminShipmentDAO();
+	         String roadAddr = request.getParameter("roadAddr");
+	         String order_address = "";
+	                  
+	         // 상세주소가 없을 때와 있을 때 구분
+	         if(request.getParameter("detailAddr").equals("")) { 
+	            order_address = roadAddr;
+	         }else {
+	            order_address = roadAddr + " " + request.getParameter("detailAddr");
+	         }
+	                  
+	         System.out.println("전체주소 : " + order_address);
+	         String order_status = request.getParameter("order_status");
+	         System.out.println("배송상태 : " + order_status);
+	         AdminShipmentDAO dao = new AdminShipmentDAO();
 
 			try { 
 				int rs = dao.modify(new OrderDTO(seq_order, null,order_name,order_phone,order_postCode,order_address,null,order_status));
@@ -170,11 +174,6 @@ public class AdminShipmentController extends HttpServlet {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
-			
 		}
 	}
-	
-	
-	
 }
