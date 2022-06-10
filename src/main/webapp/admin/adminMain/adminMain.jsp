@@ -590,17 +590,15 @@ prefix="c"%>
       // String을 int로
       let cntCategoryTop = parseInt("${cntCategoryTop}");
       let cntCategoryBottom = parseInt("${cntCategoryBottom}");
-      let cntCategorySocks = parseInt("${cntCategorySocks}");
       let cntCategoryBag = parseInt("${cntCategoryBag}");
-      let cntCategoryCap = parseInt("${cntCategoryCap}");
+      let cntCategoryAcc = parseInt("${cntCategoryAcc}");
       let allBuyQty = parseInt("${allBuyQty}");
 
       // 퍼센트로 변경
       let perCntCategoryTop = (cntCategoryTop / allBuyQty) * 100;
       let perCntCategoryBottom = (cntCategoryBottom / allBuyQty) * 100;
-      let perCntCategorySocks = (cntCategorySocks / allBuyQty) * 100;
+      let perCntCategoryAcc = (cntCategoryAcc / allBuyQty) * 100;
       let perCntCategoryBag = (cntCategoryBag / allBuyQty) * 100;
-      let perCntCategoryCap = (cntCategoryCap / allBuyQty) * 100;
 
       // highCharts circleCharts
       // circleCharts
@@ -650,7 +648,7 @@ prefix="c"%>
 
       		}, {
       			name : "악세서리",
-      			y : perCntCategorySocks,
+      			y : perCntCategoryAcc,
 
       		}, {
       			name : "가방",

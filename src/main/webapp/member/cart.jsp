@@ -188,41 +188,40 @@
       </div>
 
       <!-- Footer-->
-      <footer class="footer bg-light mt-5">
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-6 h-100 text-center text-lg-start my-auto">
-              <ul class="list-inline mb-2">
-                <li class="list-inline-item"><a href="#!">COMPANY</a></li>
-                <li class="list-inline-item">⋅</li>
-                <li class="list-inline-item"><a href="#!">매장찾기</a></li>
-                <li class="list-inline-item">⋅</li>
-                <li class="list-inline-item"><a href="#!">고객센터</a></li>
-                <li class="list-inline-item">⋅</li>
-                <li class="list-inline-item"><a href="#!" style="color: red; font-weight: bold;">개인정보처리방침</a></li>
+  <footer class="footer bg-light mt-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 h-100 text-center text-lg-start my-auto">
+          <ul class="list-inline mb-2">
+            <li class="list-inline-item"><a href="/ToCompany.page">COMPANY</a></li>
+            <li class="list-inline-item">⋅</li>
+            <li class="list-inline-item"><a href="/TosearchMap.page">매장찾기</a></li>
+            <li class="list-inline-item">⋅</li>
+            <li class="list-inline-item"><a href="/toCs.mem">고객센터</a></li>
+            <li class="list-inline-item">⋅</li>
+            <li class="list-inline-item"><p  style="color: red; font-weight: bold;">개인정보처리방침</p></li>
 
-              </ul>
-              <p class="text-muted small mb-4 mb-lg-0">하잇프랜드(주) 대표 : 이호준 | 개인정보관리책임자 : 김영완 | 사업자등록번호 :
-                22-02-22</p>
-              <p class="text-muted small mb-4 mb-lg-0">주소 : 서울특별시 영등포구 선유동2로 57 이레빌딩</p>
-              <p class="text-muted small mb-4 mb-lg-0">&copy; Your Website 2022. All Rights Reserved.</p>
-            </div>
-            <div class="col-lg-6 h-100 text-center text-lg-end my-auto">
-              <ul class="list-inline mb-0">
-                <li class="list-inline-item me-4">
-                  <a href="#!"><i class="bi-facebook fs-3"></i></a>
-                </li>
-                <li class="list-inline-item me-4">
-                  <a href="#!"><i class="bi-twitter fs-3"></i></a>
-                </li>
-                <li class="list-inline-item">
-                  <a href="#!"><i class="bi-instagram fs-3"></i></a>
-                </li>
-              </ul>
-            </div>
-          </div>
+          </ul>
+          <p class="text-muted small mb-4 mb-lg-0">하잇프랜드(주) 대표 : 이호준 | 개인정보관리책임자 : 김영완 | 사업자등록번호 : 22-02-22</p>
+          <p class="text-muted small mb-4 mb-lg-0">주소 : 서울특별시 영등포구 선유동2로 57 이레빌딩</p>
+          <p class="text-muted small mb-4 mb-lg-0">&copy; Your Website 2022. All Rights Reserved.</p>
         </div>
-      </footer>
+        <div class="col-lg-6 h-100 text-center text-lg-end my-auto">
+          <ul class="list-inline mb-0">
+            <li class="list-inline-item me-4">
+              <a href="https://ko-kr.facebook.com/" target="_blank"><i class="bi-facebook fs-3"></i></a>
+            </li>
+            <li class="list-inline-item me-4">
+              <a href="https://twitter.com/?lang=ko" target="_blank"><i class="bi-twitter fs-3"></i></a>
+            </li>
+            <li class="list-inline-item">
+              <a href="https://www.instagram.com/" target="_blank"><i class="bi-instagram fs-3"></i></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
 
     </body>
 

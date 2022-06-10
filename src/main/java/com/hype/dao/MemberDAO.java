@@ -141,6 +141,29 @@ public class MemberDAO {
 	public MemberDTO kakao(String email) {
 		return new MemberDTO(email, null, null, null, null, null, null, null, null, null);
 	}
+	
+	public MemberDTO kakaoBK(String id) throws Exception {
+		String sql = "select * from tbl_member where user_id = ?";
+		
+		try (Connection con = bds.getConnection(); PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+			pstmt.setString(1, id);
+
+			ResultSet rs = pstmt.executeQuery();
+			MemberDTO dto = new MemberDTO();
+
+			if (rs.next()) {
+				String user_name = rs.getString("user_name");
+				String user_email = rs.getString("user_email");
+				String user_blacklist = rs.getString("user_blackList");
+
+				return new MemberDTO(id, null, null, null, null, null, null,
+						null, user_email, user_blacklist);
+			}
+			return null;
+
+		}
+	}
 
 	public ArrayList<MemberDTO> findId(String name, String phone) throws Exception { // 아이디 찾기 메소드
 		String sql = "select user_id from tbl_member where user_name = ? and user_phone = ?";
@@ -421,10 +444,10 @@ public class MemberDAO {
 				String qna_type = rs.getString(4);
 				String qna_title = rs.getString(5);
 				String qna_content = rs.getString(6);
-				String qna_date = getStringDate(rs.getDate(7));
-				String qna_status = rs.getString(8);
+				String qna_status = rs.getString(7);
+				String qna_date = getStringDate(rs.getDate(8));
 				
-				list.add(new QnaDTO(seq_qna, seq_order, user_id, qna_type, qna_title, qna_content, qna_status,qna_date));
+				list.add(new QnaDTO(seq_qna, seq_order, user_id, qna_type, qna_title, qna_content,qna_status, qna_date));
 			}
 			return list;
 		}

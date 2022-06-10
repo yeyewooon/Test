@@ -105,8 +105,8 @@ public class ReviewDAO {
 	      try(Connection con = bds.getConnection();
 	         PreparedStatement pstmt = con.prepareStatement(sql)){
 	         
-	         pstmt.setString(1, user_id);
-	         pstmt.setString(2, buy_name);
+	         pstmt.setString(1, buy_name);
+	         pstmt.setString(2, user_id);
 	         
 	         ResultSet rs = pstmt.executeQuery();
 	         ArrayList<OrderReviewDTO> list = new ArrayList<>();

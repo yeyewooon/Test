@@ -301,41 +301,41 @@ footer.footer {
       </div>
    </div>
 
-   <footer class="footer bg-light">
-      <div class="container">
-         <div class="row">
-            <div class="col-lg-6 h-100 text-center text-lg-start my-auto">
-               <ul class="list-inline mb-2">
-                  <li class="list-inline-item"><a href="#!">COMPANY</a></li>
-                  <li class="list-inline-item">⋅</li>
-                  <li class="list-inline-item"><a href="#!">매장찾기</a></li>
-                  <li class="list-inline-item">⋅</li>
-                  <li class="list-inline-item"><a href="#!">고객센터</a></li>
-                  <li class="list-inline-item">⋅</li>
-                  <li class="list-inline-item"><a href="#!"
-                     style="color: red; font-weight: bold;">개인정보처리방침</a></li>
+   <!-- Footer-->
+  <footer class="footer bg-light mt-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 h-100 text-center text-lg-start my-auto">
+          <ul class="list-inline mb-2">
+            <li class="list-inline-item"><a href="/ToCompany.page">COMPANY</a></li>
+            <li class="list-inline-item">⋅</li>
+            <li class="list-inline-item"><a href="/TosearchMap.page">매장찾기</a></li>
+            <li class="list-inline-item">⋅</li>
+            <li class="list-inline-item"><a href="/toCs.mem">고객센터</a></li>
+            <li class="list-inline-item">⋅</li>
+            <li class="list-inline-item"><p  style="color: red; font-weight: bold;">개인정보처리방침</p></li>
 
-               </ul>
-               <p class="text-muted small mb-4 mb-lg-0">하잇프랜드(주) 대표 : 이호준 |
-                  개인정보관리책임자 : 김영완 | 사업자등록번호 : 22-02-22</p>
-               <p class="text-muted small mb-4 mb-lg-0">주소 : 서울특별시 영등포구 선유동2로
-                  57 이레빌딩</p>
-               <p class="text-muted small mb-4 mb-lg-0">&copy; Your Website
-                  2022. All Rights Reserved.</p>
-            </div>
-            <div class="col-lg-6 h-100 text-center text-lg-end my-auto">
-               <ul class="list-inline mb-0">
-                  <li class="list-inline-item me-4"><a href="#!"><i
-                        class="bi-facebook fs-3"></i></a></li>
-                  <li class="list-inline-item me-4"><a href="#!"><i
-                        class="bi-twitter fs-3"></i></a></li>
-                  <li class="list-inline-item"><a href="#!"><i
-                        class="bi-instagram fs-3"></i></a></li>
-               </ul>
-            </div>
-         </div>
+          </ul>
+          <p class="text-muted small mb-4 mb-lg-0">하잇프랜드(주) 대표 : 이호준 | 개인정보관리책임자 : 김영완 | 사업자등록번호 : 22-02-22</p>
+          <p class="text-muted small mb-4 mb-lg-0">주소 : 서울특별시 영등포구 선유동2로 57 이레빌딩</p>
+          <p class="text-muted small mb-4 mb-lg-0">&copy; Your Website 2022. All Rights Reserved.</p>
+        </div>
+        <div class="col-lg-6 h-100 text-center text-lg-end my-auto">
+          <ul class="list-inline mb-0">
+            <li class="list-inline-item me-4">
+              <a href="https://ko-kr.facebook.com/" target="_blank"><i class="bi-facebook fs-3"></i></a>
+            </li>
+            <li class="list-inline-item me-4">
+              <a href="https://twitter.com/?lang=ko" target="_blank"><i class="bi-twitter fs-3"></i></a>
+            </li>
+            <li class="list-inline-item">
+              <a href="https://www.instagram.com/" target="_blank"><i class="bi-instagram fs-3"></i></a>
+            </li>
+          </ul>
+        </div>
       </div>
-   </footer>
+    </div>
+  </footer>
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ceab26faabf0856bb87994f6fa56aaf7"></script>
    <script>
@@ -388,12 +388,57 @@ footer.footer {
       });
       
          //강남지점   
-         $('#post1').click(function(){
+                   $('#post1').click(function(){
             if($("#gangnam").css("display")=="none"){
                $("#gangnam").show();
                $("#jongno").hide();
                $("#dangsan").hide();
             }
+            var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+            mapOption = {
+                center: new kakao.maps.LatLng(37.49901442259218, 127.0385217285156), // 지도의 중심좌표
+                level: 3 // 지도의 확대 레벨
+            };
+        
+        // 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
+        var map = new kakao.maps.Map(mapContainer, mapOption);
+        
+        // 마커가 표시될 위치입니다 
+        var markerPosition = new kakao.maps.LatLng(37.49901442259218, 127.0385217285156);
+        
+        var imageSrc = '/resources/images/marker.png', // 마커이미지의 주소입니다    
+            imageSize = new kakao.maps.Size(30, 40), // 마커이미지의 크기입니다
+            imageOption = { offset: new kakao.maps.Point(27, 69) }; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+        
+        // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+        var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+        
+        // 마커를 생성합니다
+        var marker = new kakao.maps.Marker({
+            position: markerPosition,
+            image: markerImage
+        });
+        
+        // 마커가 지도 위에 표시되도록 설정합니다
+        marker.setMap(map);
+        
+        
+        var iwContent = '<div style="padding:5px;">HypeLand 강남</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+            iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
+        
+        // 인포윈도우를 생성합니다
+        var infowindow = new kakao.maps.InfoWindow({
+            content: iwContent,
+            removable: iwRemoveable
+        });
+        
+        // 마커에 클릭이벤트를 등록합니다
+        // kakao map 에서 제공하는 객체들한테 이벤트 등록을 하고싶을때에는
+        // kakao.maps.event.addListener(객체, "이벤트명", 콜백함수)
+        kakao.maps.event.addListener(marker, 'click', function () {
+            // 마커 위에 인포윈도우를 표시합니다
+            infowindow.open(map, marker);
+        });
             
          });
          
